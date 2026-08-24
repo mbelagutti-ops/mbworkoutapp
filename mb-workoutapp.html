@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Lean & Strong — 27-Week Training App</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#fafaf8;color:#1a1a18;font-size:15px;line-height:1.6;}
+.wrap{max-width:720px;margin:0 auto;padding:1.25rem 1rem 5rem;}
+h1{font-size:22px;font-weight:700;margin-bottom:3px;}
+.sub{font-size:13px;color:#777;margin-bottom:1rem;}
+.nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem;}
+.nav button{padding:8px 12px;border-radius:999px;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:12px;color:#555;font-family:inherit;min-height:38px;font-weight:500;}
+.nav button.on{background:#1a1a18;border-color:#1a1a18;color:#fff;font-weight:700;}
+.panel{display:none;}.panel.on{display:block;}
+.slabel{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#aaa;margin:1.25rem 0 6px;}
+.infobox{padding:11px 13px;border-radius:9px;margin-bottom:1rem;font-size:12px;line-height:1.55;}
+.infobox.green{background:#edfaf4;border:1px solid #b5e5ce;color:#1a5c3a;}
+.infobox.blue{background:#e6f1fb;border:1px solid #85B7EB;color:#0C447C;}
+.infobox.amber{background:#fffbef;border:1px solid #f5d890;color:#92600a;}
+
+.master-card{background:#fff;border:1px solid #e8e8e4;border-radius:12px;padding:14px;margin-bottom:1.25rem;box-shadow:0 1px 3px rgba(0,0,0,0.03);}
+.mp-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.mp-title{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#888;}
+.mp-pct{font-size:18px;font-weight:800;color:#1a1a18;}
+.mp-bar-wrap{height:8px;background:#f0f0ec;border-radius:999px;overflow:hidden;margin-bottom:10px;}
+.mp-bar-fill{height:100%;background:#1D9E75;border-radius:999px;transition:width .3s ease;}
+.eval-box{padding:10px 12px;border-radius:8px;font-size:12px;font-weight:600;line-height:1.45;}
+
+.habit-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1.1rem;}
+.habit-btn{padding:10px;border-radius:8px;border:1px solid #eee;background:#fff;cursor:pointer;text-align:center;font-size:11px;font-weight:600;color:#666;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.habit-btn.done{background:#edfaf4;border-color:#b5e5ce;color:#1a5c3a;}
+.h-chk{width:18px;height:18px;border-radius:50%;border:1.5px solid #ccc;display:flex;align-items:center;justify-content:center;}
+.habit-btn.done .h-chk{background:#1a5c3a;border-color:#1a5c3a;}
+
+.cwbar{display:flex;align-items:center;gap:7px;padding:8px 13px;background:#fff;border:1px solid #eee;border-radius:9px;margin-bottom:1.1rem;flex-wrap:wrap;}
+.cwbar.isdeload{background:#fffbef;border-color:#f5d890;}
+.cw-lbl{font-size:11px;color:#888;}
+.cwbtn{width:36px;height:36px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:18px;color:#555;display:flex;align-items:center;justify-content:center;font-family:inherit;flex-shrink:0;}
+.cwNum{font-size:14px;font-weight:700;min-width:16px;text-align:center;}
+.cwblock-name{font-size:11px;color:#aaa;font-weight:600;}
+.deload-badge{font-size:10px;font-weight:700;color:#92600a;background:#fef3c7;border:1px solid #f5d890;border-radius:999px;padding:2px 9px;}
+.prow{display:flex;align-items:center;gap:8px;margin-bottom:1.1rem;}
+.pbar{flex:1;height:4px;background:#e8e8e4;border-radius:999px;overflow:hidden;}
+.pfill{height:100%;background:#1a1a18;border-radius:999px;transition:width .2s;width:0%;}
+.ptxt{font-size:11px;color:#aaa;min-width:26px;text-align:right;font-weight:600;}
+.rstbtn{font-size:12px;color:#bbb;background:none;border:none;cursor:pointer;text-decoration:underline;font-family:inherit;margin-top:12px;display:block;min-height:36px;}
+.exlist{display:flex;flex-direction:column;gap:8px;}
+.exwrap{display:flex;flex-direction:column;}
+.exrow{display:grid;grid-template-columns:1fr auto;align-items:start;padding:12px 13px;background:#fff;border:1px solid #eee;border-bottom:none;border-radius:9px 9px 0 0;gap:10px;min-height:56px;}
+.exrow.tap{cursor:pointer;}
+.exrow.tap:hover{border-color:#ccc;}
+.exrow.done{opacity:.38;}
+.exrow.done .chk{background:#1a1a18;border-color:#1a1a18;}
+.exname{font-size:14px;font-weight:700;margin:0 0 2px;}
+.exnote{font-size:12px;color:#666;margin:0 0 6px;line-height:1.45;}
+.btnrow{display:flex;gap:5px;flex-wrap:wrap;}
+.vtag{display:inline-flex;align-items:center;gap:3px;font-size:11px;color:#c00;border:1px solid rgba(200,0,0,.2);background:rgba(200,0,0,.04);border-radius:5px;padding:4px 9px;text-decoration:none;min-height:34px;font-weight:500;}
+.exright{display:flex;flex-direction:column;align-items:flex-end;gap:5px;padding-top:2px;}
+.exsets{font-size:11px;color:#888;white-space:nowrap;font-weight:600;}
+.chk{width:26px;height:26px;border-radius:50%;border:2px solid #ddd;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.exrow-s{display:grid;grid-template-columns:1fr auto;align-items:start;padding:12px 13px;background:#fff;border:1px solid #eee;border-radius:9px;gap:10px;margin-bottom:6px;}
+.wlinline{background:#f8f8f6;border:1px solid #eee;border-radius:0 0 9px 9px;padding:8px 13px 10px;}
+.wlinline.isdeload{background:#fffdf5;border-color:#f5d890;}
+.wli-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:2px;}
+.wli-lbl{font-size:12px;color:#888;white-space:nowrap;min-width:52px;}
+.wli-inp{width:90px;border:1px solid #ddd;border-radius:6px;padding:7px 9px;font-size:15px;font-family:inherit;background:#fff;-webkit-appearance:none;min-height:40px;}
+.wli-inp:focus{outline:none;border-color:#1a1a18;}
+.wli-save{padding:7px 14px;border:none;border-radius:6px;background:#1a1a18;color:#fff;font-size:12px;cursor:pointer;font-family:inherit;min-height:40px;font-weight:600;}
+.wli-stat{font-size:11px;color:#bbb;}
+.wli-stat.pos{color:#1a5c3a;font-weight:700;}
+.hangbox{padding:12px 14px;background:#edfaf4;border:1px solid #b5e5ce;border-radius:999px;margin-top:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.hangtitle{font-size:13px;font-weight:700;color:#1a5c3a;}
+.hangbody{font-size:12px;color:#2d7a52;}
+.etog{display:flex;background:#eeede8;border-radius:999px;padding:3px;gap:2px;margin-bottom:1.1rem;}
+.etog button{flex:1;padding:8px;border-radius:999px;border:none;background:transparent;cursor:pointer;font-size:12px;color:#777;font-family:inherit;min-height:38px;}
+.etog button.on{background:#fff;color:#1a1a18;font-weight:700;}
+.subtabs{display:flex;gap:5px;margin-bottom:1.1rem;}
+.subtabs button{flex:1;padding:8px 4px;border-radius:8px;border:1px solid #eee;background:#fff;cursor:pointer;font-size:11px;color:#888;text-align:center;font-family:inherit;min-height:44px;}
+.subtabs button .dn{display:block;font-size:12px;font-weight:700;color:#1a1a18;margin-bottom:1px;}
+.subtabs button.on{background:#1a1a18;border-color:#1a1a18;color:#999;}
+.subtabs button.on .dn{color:#fff;}
+.weeksel{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap;}
+.weeksel label{font-size:12px;color:#888;}
+.weeksel input{flex:1;min-width:140px;accent-color:#1a1a18;min-height:28px;}
+.weeksel .wnum{font-size:14px;font-weight:700;min-width:65px;}
+.blockbadge{display:inline-block;padding:5px 14px;background:#1a1a18;color:#fff;border-radius:999px;font-size:12px;font-weight:600;margin-bottom:1rem;}
+.blockbadge.dl{background:#e8c84a;color:#6b4d00;}
+.blockinfo{padding:12px 14px;background:#fff;border:1px solid #eee;border-radius:999px;margin-top:1.25rem;}
+.bi-name{font-size:13px;font-weight:700;margin-bottom:3px;}
+.bi-desc{font-size:12px;color:#666;line-height:1.5;}
+.macgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem;}
+.maccard{padding:13px 15px;background:#fff;border:1px solid #eee;border-radius:999px;}
+.maclbl{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#aaa;margin-bottom:3px;}
+.macval{font-size:24px;font-weight:700;}
+.macunit{font-size:12px;color:#999;}
+.macnote{font-size:11px;color:#888;margin-top:2px;line-height:1.4;}
+.dayrow{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.daycard{padding:12px 14px;border-radius:9px;}
+.daycard.train{background:#edfaf4;border:1px solid #b5e5ce;}
+.daycard.rest{background:#fafaf8;border:1px solid #eee;}
+.daylbl{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#aaa;margin-bottom:6px;}
+.daylbl.g{color:#2d7a52;}
+.dayitem{font-size:12px;color:#555;margin-bottom:2px;}
+.dayitem b{color:#1a1a18;}
+.daycal{font-size:11px;color:#999;margin-top:5px;border-top:1px solid rgba(0,0,0,.07);padding-top:5px;}
+.iobox{padding:14px;background:#fff;border:1px solid #eee;border-radius:9px;margin-top:1.5rem;}
+.iobox p{font-size:12px;color:#666;margin-bottom:8px;}
+.iobtns{display:flex;gap:8px;}
+.iobtn{padding:8px 14px;border-radius:6px;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:12px;font-weight:600;color:#444;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Lean & Strong — 27 Wks</h1>
+  <p class="sub">3-Phase Periodization · TVA Alignment · Pull-Up Goal · 100g Protein Recomp</p>
+
+  <!-- MASTER PROGRESS & EVALUATION CARD -->
+  <div class="master-card">
+    <div class="mp-head">
+      <span class="mp-title">Overall 27-Week Program Progress</span>
+      <span class="mp-pct" id="masterPct">0.0%</span>
+    </div>
+    <div class="mp-bar-wrap">
+      <div class="mp-bar-fill" id="masterFill" style="width:0%;"></div>
+    </div>
+    <div id="evalBox" class="eval-box infobox blue" style="margin-bottom:0;"></div>
+  </div>
+  
+  <div class="nav">
+    <button onclick="go(0,this)" class="on">Day 1: Quads</button>
+    <button onclick="go(1,this)">Day 2: Push/Pull</button>
+    <button onclick="go(2,this)">Day 3: Posterior</button>
+    <button onclick="go(3,this)">Min Day</button>
+    <button onclick="go(4,this)">TVA Core</button>
+    <button onclick="go(5,this)">Hip Mobility</button>
+    <button onclick="go(6,this)">Cardio</button>
+    <button onclick="go(7,this)">Travel</button>
+    <button onclick="go(8,this)">Journey</button>
+    <button onclick="go(9,this)">Macros</button>
+  </div>
+
+  <!-- LIFTING DAYS 0, 1, 2 -->
+  <div id="p0" class="panel on"></div>
+  <div id="p1" class="panel"></div>
+  <div id="p2" class="panel"></div>
+
+  <!-- MIN DAY -->
+  <div id="p3" class="panel">
+    <div class="infobox blue">Your 1-Day Safety Net: Use this full-body session when travel or busy weeks only allow 1 workout. Keeps muscle, pull-up motor patterns, and TVA alignment alive.</div>
+    <div class="slabel">5 Core Compound Exercises + Dead Hang</div>
+    <div id="minList"></div>
+    <div class="hangbox">
+      <div><p class="hangtitle">Mandatory Finisher: Dead Hang</p><p class="hangbody">3 × 30 sec · Decompresses spine, locks grip strength.</p></div>
+      <a href="https://www.youtube.com/results?search_query=dead+hang+form+tutorial" target="_blank" class="vtag">▶ Tutorial</a>
+    </div>
+    <button class="rstbtn" onclick="resetMin()">reset status</button>
+  </div>
+
+  <!-- TVA CORE -->
+  <div id="p4" class="panel">
+    <div class="infobox green">Targeted TVA & Pelvic Alignment Protocol: Complete 3× per week. Pulls abdomen inward, corrects Anterior Pelvic Tilt, and eliminates standing back pain.</div>
+    <div class="slabel">Week <span class="curWkNum">1</span> Core Target (3x / Week)</div>
+    <div class="habit-grid" id="coreHabits"></div>
+    <div class="slabel">Deep Anti-Extension & Anti-Rotation Protocol</div>
+    <div id="tvaList"></div>
+  </div>
+
+  <!-- HIP MOBILITY -->
+  <div id="p5" class="panel">
+    <div class="infobox amber">Daily Hip Mobility & Glute-Unlocking Sequence: Complete 3× per week minimum. Unlocks rotation, opens tight hip flexors, and relieves sleeping hip pain.</div>
+    <div class="slabel">Week <span class="curWkNum">1</span> Mobility Target (3x / Week)</div>
+    <div class="habit-grid" id="hipHabits"></div>
+    <div class="slabel">Daily Hip Protocol</div>
+    <div id="hipList"></div>
+  </div>
+
+  <!-- CARDIO -->
+  <div id="p6" class="panel">
+    <div class="infobox blue">Steady-State Zone 2 Cardio: 30 minutes, 3x per week on non-lifting days. Keeps energy high and fat low without interfering with heavy lifting recovery.</div>
+    <div class="slabel">Week <span class="curWkNum">1</span> Cardio Target (3x / Week)</div>
+    <div class="habit-grid" id="cardioHabits"></div>
+    
+    <div class="slabel">Cardio Recommendations</div>
+    <div class="exrow-s"><div><p class="exname">Incline Treadmill Walk</p><p class="exnote">8–10% incline at 2.8–3.2 mph. Best glute-friendly Zone 2 stimulus.</p></div><div class="exright"><span class="exsets">30 min</span></div></div>
+    <div class="exrow-s"><div><p class="exname">Stationary Cycling</p><p class="exnote">Easy on knee joints on off-days after heavy squat sessions.</p></div><div class="exright"><span class="exsets">30 min</span></div></div>
+    <div class="exrow-s"><div><p class="exname">Rowing Machine</p><p class="exnote">Engages upper and lower body with zero joint impact.</p></div><div class="exright"><span class="exsets">30 min</span></div></div>
+  </div>
+
+  <!-- TRAVEL (UPDATED WITH NO-GYM BAND ROUTINE) -->
+  <div id="p7" class="panel">
+    <div class="infobox" style="background:#f8f8f6;border:1px solid #eee;color:#666;">Maintenance program for travel abroad without gym access. Uses loop bands + chair/bed.</div>
+    <div class="slabel">No-Gym Band & Bodyweight Routine</div>
+    <div id="travelContent"></div>
+  </div>
+
+  <!-- JOURNEY & BACKUP -->
+  <div id="p8" class="panel">
+    <div class="slabel">27-Week Phase & Week Selector</div>
+    <div class="weeksel">
+      <label>Current Week:</label>
+      <input type="range" min="1" max="27" value="1" id="wkSlider" oninput="sliderMove()">
+      <span class="wnum" id="wkNum">Week 1</span>
+    </div>
+    <div id="blockBadge" class="blockbadge">Phase 1 — Hypertrophy · Week 1 of 8</div>
+    <div id="blockInfo" class="blockinfo"></div>
+    
+    <div class="iobox">
+      <p><b>Prevent Data Loss:</b> Backup or restore your weight logs as a text file so your history is never wiped by iPhone browser clears.</p>
+      <div class="iobtns">
+        <button class="iobtn" onclick="exportData()">Export Data (JSON)</button>
+        <button class="iobtn" onclick="importData()">Restore Data</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MACROS -->
+  <div id="p9" class="panel">
+    <div class="slabel">South Asian Recomposition Target (5'1", 109 lbs)</div>
+    <div class="macgrid">
+      <div class="maccard"><p class="maclbl">Daily Protein</p><p class="macval">100<span class="macunit">g</span></p><p class="macnote">Sustainable target (~0.9g/lb). Protects muscle and pulls belly tight.</p></div>
+      <div class="maccard"><p class="maclbl">Maintenance Cal</p><p class="macval" style="font-size:18px;padding-top:4px;">1,350–1,500</p><p class="macnote">Cycle carbs up on lifting days to fuel strength and pull-ups.</p></div>
+    </div>
+    <div class="slabel">Carb & Fat Cycling Split</div>
+    <div class="dayrow">
+      <div class="daycard train"><p class="daylbl g">3x Lifting Days</p><p class="dayitem">Protein <b>100g</b></p><p class="dayitem">Carbs <b>150g</b></p><p class="dayitem">Fat <b>50g</b></p><p class="daycal">~1,450–1,500 cal</p></div>
+      <div class="daycard rest"><p class="daylbl">4x Rest / Cardio Days</p><p class="dayitem">Protein <b>100g</b></p><p class="dayitem">Carbs <b>115g</b></p><p class="dayitem">Fat <b>54g</b></p><p class="daycal">~1,350 cal</p></div>
+    </div>
+  </div>
+</div>
+
+<script>
+var S={get:function(k,d){try{var v=localStorage.getItem(k);return v!==null?JSON.parse(v):d;}catch(e){return d;}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
+var currentWeek=S.get("cw",1);
+
+var PHASES=[
+  {name:"Phase 1: Foundation & Hypertrophy",weeks:8,cls:"b1",desc:"Weeks 1–8: Focus on hypertrophy, hamstring awakening, deep core bracing, and band-assisted pull-ups. Lay muscle volume baseline."},
+  {name:"Deload 1",weeks:1,cls:"deload",desc:"Week 9: Mandatory recovery week. Keep exercises the same, use 50% of your normal weight to allow central nervous system reset."},
+  {name:"Phase 2: Heavy Strength & Intensification",weeks:8,cls:"b2",desc:"Weeks 10–17: Heavier loading (5–8 reps). Hack squats, eccentric negative pull-ups, and Nordic hamstring curls to drive dense power."},
+  {name:"Deload 2",weeks:1,cls:"deload",desc:"Week 18: Mandatory recovery week. 50% weight reset."},
+  {name:"Phase 3: Functional Power & Unilateral Control",weeks:8,cls:"b3",desc:"Weeks 19–26: Deficit lunges, unassisted pull-up attempts, and single-leg stability to optimize pelvic posture for lifelong mobility."},
+  {name:"Deload 3",weeks:1,cls:"deload",desc:"Week 27: Final deload reset."}
+];
+
+function getPhaseInfo(w){
+  var cur=0;
+  for(var i=0;i<PHASES.length;i++){
+    var end=cur+PHASES[i].weeks;
+    if(w>cur && w<=end){
+      var phaseIdx = (i===0||i===1)?0:(i===2||i===3)?1:2;
+      return {phaseIdx:phaseIdx, isDeload:PHASES[i].cls==="deload", block:PHASES[i], wib:w-cur, start:cur+1, end:end};
+    }
+    cur=end;
+  }
+  return {phaseIdx:0, isDeload:false, block:PHASES[0], wib:1, start:1, end:8};
+}
+
+function yt(q){return "https://www.youtube.com/results?search_query="+encodeURIComponent(q);}
+function wlk(key,w){return "wl_"+key+"_"+w;}
+function svgCheck(){return '<svg width="10" height="8" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.2 6L8 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>';}
+
+var WORKOUT_DATABASE = [
+  {
+    name: "Day 1 — Quad & Leg Focus",
+    phases: [
+      [
+        ["Barbell Back Squat","3 × 8–10","Inhale down; exhale through pursed lips driving up to zip belly in.","barbell back squat tutorial"],
+        ["DB Bulgarian Split Squat","3 × 8–10 / leg","Inhale lowering chest; exhale driving through front heel.","bulgarian split squat tutorial"],
+        ["Leg Press (Medium Stance)","3 × 10–12","Inhale lowering sled; exhale driving sled away.","leg press proper form"],
+        ["Nordic Hamstring Curl","3 × 6–8","Inhale lowering slowly; exhale pulling glutes up. Protects knees.","nordic hamstring curl tutorial"],
+        ["Leg Extension","3 × 12–15","Inhale lowering; exhale squeezing quads at top extension.","leg extension exercise tutorial"]
+      ],
+      [
+        ["Hack Squat (or Front Squat)","3 × 6–8","Inhale deep into ribs down; exhale driving platform up.","hack squat exercise tutorial"],
+        ["DB Walking Lunge","3 × 10 steps/leg","Inhale stepping down; exhale driving forward to stand tall.","dumbbell walking lunge tutorial"],
+        ["Leg Press (Narrow Stance)","3 × 8–10","Inhale lowering; exhale pressing through heels.","narrow stance leg press"],
+        ["Swiss Ball / Gliding Hamstring Curl","3 × 8–10","Inhale extending legs; exhale curling heels in and squeezing glutes.","swiss ball hamstring curl tutorial"],
+        ["Single-Leg Extension","3 × 10–12 / leg","Inhale down; exhale squeezing quad at top lockout.","single leg extension exercise"]
+      ],
+      [
+        ["Heel-Elevated DB Goblet Box Squat","3 × 8–10","Inhale deep lowering to box; exhale driving tall.","heel elevated goblet squat tutorial"],
+        ["DB Deficit Bulgarian Split Squat","3 × 8–10 / leg","Inhale deep stretch at bottom; exhale pressing up.","deficit bulgarian split squat"],
+        ["Sissy Squat (or Pendulum Squat)","3 × 10–12","Inhale leaning back; exhale pulling back to upright.","sissy squat form tutorial"],
+        ["Nordic Hamstring Curl (Slow Eccentric)","3 × 5–6","Inhale 5 sec lowering down; exhale pulling back up.","eccentric nordic hamstring curl"],
+        ["Leg Extension (1-sec Squeeze)","3 × 12–15","Inhale down; exhale and hold peak contraction 1 sec.","leg extension exercise tutorial"]
+      ]
+    ]
+  },
+  {
+    name: "Day 2 — Upper Body & Pull-Up Focus",
+    phases: [
+      [
+        ["Band-Assisted Pull-Up","4 × 5 reps","Inhale at bottom stretch; exhale pulling elbows down to ribs.","band assisted pull up tutorial"],
+        ["Incline Push-Up","3 × 8–10","Inhale lowering chest to bench; exhale pressing away.","incline push up tutorial"],
+        ["Barbell Supinated Row","3 × 8–10","Inhale hinging down; exhale pulling bar to belly button.","underhand barbell row tutorial"],
+        ["Seated DB Overhead Press","3 × 8–10","Inhale DBs at shoulders; exhale pressing overhead.","seated dumbbell overhead press tutorial"],
+        ["Cable Face Pulls","3 × 15","Inhale extending arms; exhale pulling rope to eyes and rotating hands.","cable face pull tutorial"]
+      ],
+      [
+        ["Eccentric Negative Pull-Up","4 × 4–5 reps","Inhale top; exhale 5 seconds lowering down to full stretch.","negative pull up tutorial"],
+        ["Flat Push-Up (or DB Flat Press)","3 × 8–10","Inhale lowering chest; exhale pressing floor away as one unit.","flat push up proper form"],
+        ["T-Bar / Neutral-Grip Row","3 × 8–10","Inhale stretch forward; exhale pulling weight to chest.","t bar row tutorial"],
+        ["Standing DB Overhead Press","3 × 6–8","Inhale DBs at shoulders; exhale pressing up while bracing TVA.","standing dumbbell overhead press"],
+        ["Rear Delt Pec Deck Fly","3 × 12–15","Inhale hands together; exhale flying arms out wide.","rear delt fly machine tutorial"]
+      ],
+      [
+        ["Unassisted Pull-Up Attempts + Band","4 × 3–5 reps","Inhale bottom; explosive exhale pulling chin over bar.","first unassisted pull up tutorial"],
+        ["Deficit Push-Up","3 × 8–10","Inhale deep chest stretch; exhale pressing body up.","deficit push up tutorial"],
+        ["Single-Arm DB Gorilla Row","3 × 8–10 / side","Inhale arm down; exhale pulling dumbbell to hip.","gorilla row dumbbell tutorial"],
+        ["Half-Kneeling Single-Arm DB Press","3 × 8–10 / side","Inhale shoulder level; exhale pressing DB straight up.","half kneeling single arm press"],
+        ["Cable Rope Face Pull w/ Rotation","3 × 12–15","Inhale forward; exhale pulling and rotating shoulders back.","face pull external rotation tutorial"]
+      ]
+    ]
+  },
+  {
+    name: "Day 3 — Posterior Chain & Glutes",
+    phases: [
+      [
+        ["Conventional Deadlift","3 × 6–8","Inhale at setup; exhale driving floor away and pulling belly flat at top.","conventional deadlift form tutorial"],
+        ["Barbell Hip Thrust","3 × 10–12","Inhale dipping hips down; exhale thrusting bar up and squeezing glutes.","barbell hip thrust tutorial"],
+        ["DB Step-Up w/ Knee Drive","3 × 8–10 / leg","Inhale bottom; exhale driving front heel into bench and lifting knee.","step up with knee drive exercise"],
+        ["Lying Leg Curl","3 × 10–12","Inhale lowering legs; exhale curling heels to glutes.","lying leg curl tutorial"],
+        ["Cable Glute Kickback","3 × 12–15 / leg","Inhale leg forward; exhale kicking straight back.","cable glute kickback tutorial"]
+      ],
+      [
+        ["Barbell Romanian Deadlift (RDL)","3 × 6–8","Inhale hinging hips back; exhale driving hips forward to stand.","barbell rdl form tutorial"],
+        ["Single-Leg / B-Stance Hip Thrust","3 × 8–10 / leg","Inhale dipping hips; exhale squeezing working glute at top.","b stance hip thrust tutorial"],
+        ["Deficit Reverse Lunge","3 × 8–10 / leg","Inhale stepping back off plate; exhale driving up.","deficit reverse lunge tutorial"],
+        ["Seated Leg Curl","3 × 10–12","Inhale extending legs; exhale curling down.","seated leg curl exercise tutorial"],
+        ["45° Glute-Focused Hyperextension","3 × 12–15","Inhale lowering torso; exhale squeezing glutes to pull torso up.","45 degree glute hyperextension tutorial"]
+      ],
+      [
+        ["Trap Bar / Sumo Deadlift","3 × 6–8","Inhale deep at bottom; exhale pressing floor away to stand.","trap bar deadlift tutorial"],
+        ["Kas Glute Bridge","3 × 10–12","Inhale small dip; exhale hard squeeze at top lockout.","kas glute bridge tutorial"],
+        ["Single-Leg DB RDL","3 × 8–10 / leg","Inhale hinging on single leg; exhale driving hip forward.","single leg rdl tutorial"],
+        ["Banded Hamstring Curl","3 × 12–15","Inhale extending; exhale curling heels in fast.","banded hamstring curl tutorial"],
+        ["Cable Standing Hip Abduction","3 × 12–15 / leg","Inhale leg in; exhale kicking leg out to side.","cable standing hip abduction"]
+      ]
+    ]
+  }
+];
+
+var MIN_DAY_EX = [
+  ["Barbell Back Squat","3 × 8–10","Inhale down; exhale pressing up through heels.","barbell back squat tutorial"],
+  ["Barbell / DB RDL","3 × 8–10","Inhale hinging hips back; exhale standing tall.","barbell rdl form tutorial"],
+  ["Barbell Supinated Row","3 × 8–10","Inhale arms down; exhale pulling bar to navel.","underhand barbell row tutorial"],
+  ["Push-Ups (Incline or Flat)","3 × 8–10","Inhale lowering; exhale pressing floor away.","flat push up proper form"],
+  ["Dead Bug","3 × 10 / side","Inhale center; exhale completely as arm and leg extend.","dead bug core exercise tutorial"]
+];
+
+var TVA_CORE_EX = [
+  ["360° Diaphragmatic Core Breathing","10 deep breaths","Inhale into ribs/belly; exhale forcefully pulling belly button to spine.","diaphragmatic breathing core tutorial"],
+  ["Dead Bug (Floor-Press Cue)","3 × 10 / side","Inhale center; exhale 100% as limbs extend to lock back flat.","dead bug core exercise tutorial"],
+  ["Standing Cable/Band Pallof Press","3 × 10 / side","Inhale at chest; exhale pressing handle out while bracing TVA.","pallof press core tutorial"],
+  ["Single-Arm (Suitcase) Farmer’s Carry","3 × 30m / side","Take short, sharp inhales/exhales while maintaining 70% core brace.","suitcase carry form tutorial"],
+  ["Copenhagen Plank","3 × 20 sec / side","Continuous shield breathing while squeezing top inner thigh.","copenhagen plank tutorial"]
+];
+
+var HIP_MOBILITY_EX = [
+  ["90/90 Hip Switches","60 seconds","Deep diaphragmatic breathing while switching leg angles.","90 90 hip switch tutorial"],
+  ["Couch Stretch","45 sec / side","Inhale into belly; exhale sinking deeper into hip flexor stretch.","couch stretch hip flexor tutorial"],
+  ["Frog Stretch","60 seconds","Inhale hold; exhale sinking hips back into adductors.","frog stretch adductor tutorial"],
+  ["Pigeon Pose","45 sec / side","Inhale deeply; exhale relaxing chest down over shin.","pigeon pose stretch tutorial"],
+  ["Hip CARs (Controlled Articular Rotations)","5 slow reps / leg","Inhale prep; exhale as bent knee rotates wide.","hip CARs mobility tutorial"]
+];
+
+// UPDATED NO-GYM TRAVEL ROUTINE
+var NO_GYM_TRAVEL_EX = [
+  ["Banded / Slow Bulgarian Split Squats","3 × 10–12 / leg","3-sec lower on bed/chair. Inhale down; exhale driving through heel.","banded bulgarian split squat tutorial"],
+  ["Banded Romanian Deadlifts (RDL)","3 × 12–15","Stand on loop band. Inhale hinging hips back; exhale standing tall.","banded romanian deadlift tutorial"],
+  ["Door-Anchor Supinated Band Row","3 × 12","Underhand grip. Inhale extending; exhale pulling band to ribs.","door anchor resistance band row tutorial"],
+  ["Tempo Push-Ups (Incline or Flat)","3 × 8–10","Inhale 3 sec down, pause 1 sec; exhale pressing up.","tempo push up form tutorial"],
+  ["Dead Bugs w/ Floor-Press Cue","3 × 10 / side","Inhale center; exhale 100% as limbs extend, locking back flat.","dead bug exercise tutorial"],
+  ["Standing Banded Lat Pull-Down Hold","3 × 30 sec","Exhale pulling band to hips while standing tall; shield breathe.","standing resistance band lat pulldown"]
+];
+
+function updateMasterProgress(){
+  var totalItems = 27 * 12;
+  var completedItems = 0;
+  var curWkCompleted = 0;
+
+  for(var w=1; w<=27; w++){
+    var wkDone = 0;
+    for(var d=0; d<3; d++){ if(S.get("gym_done_"+d+"_"+w, false)){ wkDone++; } }
+    for(var c=1; c<=3; c++){ if(S.get("h_core_"+c+"_"+w, false)){ wkDone++; } }
+    for(var h=1; h<=3; h++){ if(S.get("h_hip_"+h+"_"+w, false)){ wkDone++; } }
+    for(var r=1; r<=3; r++){ if(S.get("h_cardio_"+r+"_"+w, false)){ wkDone++; } }
+
+    completedItems += wkDone;
+    if(w === currentWeek){ curWkCompleted = wkDone; }
+  }
+
+  var overallPct = Math.min(100, Math.round((completedItems / totalItems) * 1000) / 10);
+  var curWkPct = Math.round((curWkCompleted / 12) * 100);
+
+  document.getElementById("masterPct").textContent = overallPct + "%";
+  document.getElementById("masterFill").style.width = overallPct + "%";
+
+  var evalBox = document.getElementById("evalBox");
+  var msg = "";
+  if(curWkPct === 0){
+    msg = "Week " + currentWeek + " is ready! Complete your first session to build momentum toward your pull-up and snatched waist goals.";
+    evalBox.className = "eval-box infobox blue";
+  } else if(curWkPct < 40){
+    msg = "Great start on Week " + currentWeek + " (" + curWkPct + "% complete)! Focus on blowing out all your air during TVA exhales.";
+    evalBox.className = "eval-box infobox amber";
+  } else if(curWkPct < 80){
+    msg = "Consistent effort on Week " + currentWeek + " (" + curWkPct + "% complete)! Over halfway there—keep your nutrition and protein locked in!";
+    evalBox.className = "eval-box infobox green";
+  } else if(curWkPct < 100){
+    msg = "Almost a perfect week! You're at " + curWkPct + "% for Week " + currentWeek + ". Finish your remaining sessions strong!";
+    evalBox.className = "eval-box infobox green";
+  } else {
+    msg = "🔥 100% PERFECT WEEK " + currentWeek + "! Smashed all 3 gym workouts, 3 core sessions, 3 mobility routines, and 3 cardio walks. Absolute beast!";
+    evalBox.className = "eval-box infobox green";
+  }
+  evalBox.textContent = msg;
+}
+
+function check(el,key){
+  el.classList.toggle("done");
+  var isDone = el.classList.contains("done");
+  var chkEl = el.querySelector(".chk");
+  if(chkEl) chkEl.innerHTML=isDone?svgCheck():"";
+  updateProg(parseInt(key[0]));
+}
+
+function updateProg(di){
+  var rows=document.querySelectorAll("#p"+di+" .exrow.tap");
+  var total=rows.length,done=0;
+  rows.forEach(function(r){if(r.classList.contains("done"))done++;});
+  var pct=total>0?Math.round(done/total*100):0;
+  var fill=document.querySelector("#p"+di+" .pfill");
+  var txt=document.querySelector("#p"+di+" .ptxt");
+  if(fill)fill.style.width=pct+"%";
+  if(txt)txt.textContent=pct+"%";
+
+  if(pct === 100){ S.set("gym_done_"+di+"_"+currentWeek, true); }
+  else { S.set("gym_done_"+di+"_"+currentWeek, false); }
+  updateMasterProgress();
+}
+
+function resetDay(di){
+  document.querySelectorAll("#p"+di+" .exrow.tap").forEach(function(r){
+    r.classList.remove("done");
+    var c=r.querySelector(".chk"); if(c) c.innerHTML="";
+  });
+  updateProg(di);
+}
+
+function buildDayHTML(di){
+  var pInfo = getPhaseInfo(currentWeek);
+  var dayData = WORKOUT_DATABASE[di];
+  var exList = dayData.phases[pInfo.phaseIdx];
+  
+  var h='<div class="prow"><div class="pbar"><div class="pfill"></div></div><span class="ptxt">0%</span></div>';
+  h+='<div class="cwbar'+(pInfo.isDeload?" isdeload":"")+'"><span class="cw-lbl">Week</span>';
+  h+='<button onclick="changeWeek(-1)" class="cwbtn">&#8722;</button><span class="cwNum">'+currentWeek+'</span><button onclick="changeWeek(1)" class="cwbtn">+</button>';
+  h+='<span class="cwblock-name">'+pInfo.block.name+'</span>'+(pInfo.isDeload?'<span class="deload-badge">DELOAD (50% wt)</span>':'')+'</div>';
+  
+  h+='<div class="slabel">5 Core Lifts · Phase '+ (pInfo.phaseIdx+1) +'</div><div class="exlist">';
+  
+  for(var ei=0; ei<exList.length; ei++){
+    var ex=exList[ei];
+    var key=di+"_"+pInfo.phaseIdx+"_"+ei;
+    
+    h+='<div class="exwrap"><div class="exrow tap" onclick="check(this,\''+key+'\')">';
+    h+='<div><p class="exname">'+ex[0]+'</p><p class="exnote">'+ex[2]+'</p>';
+    h+='<div class="btnrow"><a href="'+yt(ex[3])+'" target="_blank" class="vtag" onclick="event.stopPropagation()">▶ Video Tutorial</a></div></div>';
+    h+='<div class="exright"><span class="exsets">'+ex[1]+'</span><div class="chk"></div></div></div>';
+    
+    h+=buildInlineWL(key, pInfo);
+    h+='</div>';
+  }
+  h+='</div>';
+  
+  h+='<div class="hangbox"><div><p class="hangtitle">Mandatory Finisher: Dead Hang</p><p class="hangbody">3 × 30 sec · Full grip hold to decompress spine & prime pull-up grip.</p></div><a href="'+yt("dead hang grip strength tutorial")+'" target="_blank" class="vtag">▶ Tutorial</a></div>';
+  h+='<button class="rstbtn" onclick="resetDay('+di+')">reset day status</button>';
+  
+  return h;
+}
+
+function buildInlineWL(key, pInfo){
+  var stored = S.get(wlk(key, currentWeek), "");
+  var statHtml = stored !== "" ? '<span class="wli-stat pos">Logged: '+stored+' lbs</span>' : '<span class="wli-stat">Enter weight</span>';
+  
+  var h='<div class="wlinline'+(pInfo.isDeload?" isdeload":"")+'" id="wlinline_'+key+'">';
+  h+='<div class="wli-row"><span class="wli-lbl">W'+currentWeek+' Weight:</span>';
+  h+='<input type="number" step="2.5" min="0" id="wlinp_'+key+'" class="wli-inp" placeholder="lbs" value="'+stored+'">';
+  h+='<button class="wli-save" onclick="saveWL(\''+key+'\','+currentWeek+')">Save</button>'+statHtml+'</div></div>';
+  return h;
+}
+
+function saveWL(key, week){
+  var inp=document.getElementById("wlinp_"+key);
+  if(!inp || inp.value.trim()==="") return;
+  S.set(wlk(key, week), inp.value.trim());
+  renderGymDays();
+}
+
+function renderGymDays(){
+  for(var di=0; di<3; di++){
+    document.getElementById("p"+di).innerHTML = buildDayHTML(di);
+  }
+  updateMasterProgress();
+}
+
+function toggleHabit(type, num){
+  var key = "h_" + type + "_" + num + "_" + currentWeek;
+  var cur = S.get(key, false);
+  S.set(key, !cur);
+  renderHabitGrids();
+  updateMasterProgress();
+}
+
+function renderHabitGrids(){
+  document.querySelectorAll(".curWkNum").forEach(function(el){ el.textContent = currentWeek; });
+  
+  var types = ["core", "hip", "cardio"];
+  types.forEach(function(type){
+    var grid = document.getElementById(type + "Habits");
+    if(!grid) return;
+    var h = "";
+    for(var i=1; i<=3; i++){
+      var isDone = S.get("h_" + type + "_" + i + "_" + currentWeek, false);
+      h += '<div class="habit-btn' + (isDone ? " done" : "") + '" onclick="toggleHabit(\'' + type + '\',' + i + ')">';
+      h += '<span>Session ' + i + '</span><div class="h-chk">' + (isDone ? svgCheck() : "") + '</div></div>';
+    }
+    grid.innerHTML = h;
+  });
+}
+
+function changeWeek(d){
+  currentWeek=Math.max(1, Math.min(27, currentWeek+d));
+  S.set("cw", currentWeek);
+  renderGymDays();
+  renderHabitGrids();
+  var sl=document.getElementById("wkSlider");
+  if(sl){ sl.value=currentWeek; updateJourney(); }
+}
+
+function renderMin(){
+  var h='<div class="exlist">';
+  for(var i=0; i<MIN_DAY_EX.length; i++){
+    var ex=MIN_DAY_EX[i]; var k="min_"+i;
+    h+='<div class="exrow tap'+(minChecked[k]?" done":"")+'" style="border-bottom:1px solid #eee;border-radius:9px;" onclick="togMin(\''+k+'\',this)">';
+    h+='<div><p class="exname">'+ex[0]+'</p><p class="exnote">'+ex[2]+'</p><div class="btnrow"><a href="'+yt(ex[3])+'" target="_blank" class="vtag" onclick="event.stopPropagation()">▶ Tutorial</a></div></div>';
+    h+='<div class="exright"><span class="exsets">'+ex[1]+'</span><div class="chk"></div></div></div>';
+  }
+  h+='</div>';
+  document.getElementById("minList").innerHTML=h;
+}
+function togMin(k,el){ minChecked[k]=!minChecked[k]; el.classList.toggle("done",minChecked[k]); }
+function resetMin(){ minChecked={}; renderMin(); }
+
+function renderStaticList(targetId, listData){
+  var h='<div class="exlist">';
+  for(var i=0; i<listData.length; i++){
+    var ex=listData[i];
+    h+='<div class="exrow-s"><div><p class="exname">'+ex[0]+'</p><p class="exnote">'+ex[2]+'</p><div class="btnrow"><a href="'+yt(ex[3])+'" target="_blank" class="vtag">▶ Video Tutorial</a></div></div>';
+    h+='<div class="exright"><span class="exsets">'+ex[1]+'</span></div></div>';
+  }
+  h+='</div>';
+  document.getElementById(targetId).innerHTML=h;
+}
+
+function updateJourney(){
+  var w=parseInt(document.getElementById("wkSlider").value);
+  currentWeek=w; S.set("cw",w);
+  document.getElementById("wkNum").textContent="Week "+w;
+  var pInfo=getPhaseInfo(w);
+  var badge=document.getElementById("blockBadge");
+  badge.textContent=pInfo.isDeload? pInfo.block.name+" · CNS Recovery" : pInfo.block.name+" · Week "+pInfo.wib+" of "+pInfo.block.weeks;
+  badge.classList.toggle("dl",pInfo.isDeload);
+  document.getElementById("blockInfo").innerHTML='<p class="bi-name">'+pInfo.block.name+'</p><p class="bi-desc">'+pInfo.block.desc+'</p>';
+  renderGymDays();
+  renderHabitGrids();
+}
+function sliderMove(){ updateJourney(); }
+
+function exportData(){
+  var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(localStorage));
+  var downloadAnchor = document.createElement('a');
+  downloadAnchor.setAttribute("href", dataStr);
+  downloadAnchor.setAttribute("download", "workout_backup.json");
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  downloadAnchor.remove();
+}
+
+function importData(){
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.onchange = e => {
+    var file = e.target.files[0];
+    var reader = new FileReader();
+    reader.readAsText(file,'UTF-8');
+    reader.onload = readerEvent => {
+      var content = readerEvent.target.result;
+      var data = JSON.parse(content);
+      for(var k in data){ localStorage.setItem(k, data[k]); }
+      alert("Data successfully restored!");
+      location.reload();
+    }
+  }
+  input.click();
+}
+
+function go(idx,btn){
+  document.querySelectorAll(".panel").forEach(function(p,i){p.classList.toggle("on",i===idx);});
+  document.querySelectorAll(".nav button").forEach(function(b,i){b.classList.toggle("on",i===idx);});
+  if(idx===3) renderMin();
+  if(idx===4) renderStaticList("tvaList", TVA_CORE_EX);
+  if(idx===5) renderStaticList("hipList", HIP_MOBILITY_EX);
+  if(idx===7) renderStaticList("travelContent", NO_GYM_TRAVEL_EX);
+  if(idx===8){ document.getElementById("wkSlider").value=currentWeek; updateJourney(); }
+  renderHabitGrids();
+}
+
+renderGymDays();
+renderStaticList("travelContent", NO_GYM_TRAVEL_EX);
+renderHabitGrids();
+</script>
+</body>
+</html>
