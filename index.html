@@ -9,7 +9,7 @@
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#F8F4EE;color:#2C221E;font-size:15px;line-height:1.6;}
 .wrap{max-width:720px;margin:0 auto;padding:1.25rem 1rem 5rem;}
 
-/* HEADER & SINGLE TOP WEEK + PHASE SWITCHER */
+/* HEADER & SINGLE TOP WEEK + PHASE TRACKER */
 .header-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:1rem;flex-wrap:wrap;}
 h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 .sub{font-size:12.5px;color:#887970;margin-top:1px;}
@@ -69,7 +69,7 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 
 .exlist{display:flex;flex-direction:column;gap:8px;}
 .exwrap{display:flex;flex-direction:column;}
-.exrow{display:grid;grid-template-columns:1fr auto;align-items:start;padding:12px 13px;background:#FFFFFF;border:1px solid #EAE2D7;border-bottom:none;border-radius:9px 9px 0 0;gap:10px;min-height:56px;}
+.exrow{display:grid;grid-template-columns:1fr auto;align-items:start;padding:12px 13px;background:#FFFFFF;border:1px solid #EAE2D7;border-bottom:none;border-radius:999px 999px 0 0;gap:10px;min-height:56px;}
 .exrow.tap{cursor:pointer;}
 .exrow.done{opacity:.4;}
 .exrow.done .chk{background:#BA4A24;border-color:#BA4A24;}
@@ -83,18 +83,20 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 .chk{width:26px;height:26px;border-radius:50%;border:2px solid #CBD5E1;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .exrow-s{display:grid;grid-template-columns:1fr auto;align-items:start;padding:12px 13px;background:#FFFFFF;border:1px solid #EAE2D7;border-radius:9px;gap:10px;margin-bottom:6px;}
 
+/* PREVIOUS WEIGHT BADGE & INLINE LOGGING */
 .wlinline{background:#F4EEE6;border:1px solid #EAE2D7;border-radius:0 0 9px 9px;padding:8px 13px 10px;}
 .wlinline.isdeload{background:#FFFBEF;border-color:#F5D890;}
-.wli-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:2px;}
-.wli-lbl{font-size:12px;color:#887970;white-space:nowrap;min-width:52px;}
-.wli-inp{width:82px;border:1px solid #D5C9BD;border-radius:6px;padding:7px 9px;font-size:15px;font-family:inherit;background:#FFFFFF;-webkit-appearance:none;min-height:38px;}
+.wli-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.wli-lbl{font-size:12px;color:#887970;white-space:nowrap;font-weight:600;}
+.wli-inp{width:75px;border:1px solid #D5C9BD;border-radius:6px;padding:6px 8px;font-size:14px;font-family:inherit;background:#FFFFFF;-webkit-appearance:none;min-height:36px;}
 .wli-inp:focus{outline:none;border-color:#BA4A24;}
-.wli-save{padding:7px 12px;border:none;border-radius:6px;background:#BA4A24;color:#FFFFFF;font-size:12px;cursor:pointer;font-family:inherit;min-height:38px;font-weight:700;}
-.wli-stats-wrap{display:flex;flex-direction:column;gap:2px;font-size:11px;margin-left:auto;}
-.wli-stat{color:#887970;}
+.wli-save{padding:6px 12px;border:none;border-radius:6px;background:#BA4A24;color:#FFFFFF;font-size:12px;cursor:pointer;font-family:inherit;min-height:36px;font-weight:700;}
+
+.wli-prev-pill{font-size:11px;color:#BA4A24;background:#FDF3EF;border:1px solid #F5D5CB;padding:4px 9px;border-radius:6px;font-weight:600;display:inline-flex;align-items:center;gap:3px;}
+.wli-prev-pill b{color:#BA4A24;font-weight:800;}
+.wli-prev-pill.none{color:#887970;background:#EAE2D7;border:none;font-weight:500;}
+.wli-stat{font-size:11px;color:#887970;margin-left:auto;}
 .wli-stat.pos{color:#BA4A24;font-weight:700;}
-.wli-prev-badge{font-size:11px;color:#BA4A24;background:#FDF3EF;border:1px solid #F5D5CB;padding:2px 8px;border-radius:5px;font-weight:700;}
-.wli-prev-badge.none{color:#887970;background:#EAE2D7;border:none;font-weight:500;}
 
 .hangbox{padding:12px 14px;background:#FDF3EF;border:1px solid #F5D5CB;border-radius:12px;margin-top:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:10px;}
 .hangtitle{font-size:13px;font-weight:700;color:#923516;}
@@ -305,6 +307,7 @@ function yt(q){return "https://www.youtube.com/results?search_query="+encodeURIC
 function wlk(key,w){return "wl_"+key+"_"+w;}
 function svgCheck(){return '<svg width="10" height="8" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.2 6L8 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>';}
 
+// GET PREVIOUS WEEK'S LOGGED WEIGHT
 function getPrevWeight(key, curWk){
   for(var w = curWk - 1; w >= 1; w--){
     var v = S.get(wlk(key, w), "");
@@ -313,7 +316,6 @@ function getPrevWeight(key, curWk){
   return null;
 }
 
-// UPDATE TOP RIGHT SINGLE TRACKER (WEEK + PHASE)
 function updateTopWeekUI(){
   var pInfo = getPhaseInfo(currentWeek);
   var wkEl = document.getElementById("topWkDisplay");
@@ -549,7 +551,7 @@ function buildDayHTML(di){
   var wuList = WARMUPS[di];
   
   var h='<div class="prow"><div class="pbar"><div class="pfill"></div></div><span class="ptxt">0%</span></div>';
-  
+
   // Dynamic Warm-Up Section
   h+='<div class="slabel">Dynamic Warm-Up · 4 Exercises (5 Mins)</div><div class="exlist">';
   for(var wi=0; wi<wuList.length; wi++){
@@ -586,14 +588,21 @@ function buildInlineWL(key, pInfo){
   var stored = S.get(wlk(key, currentWeek), "");
   var prevObj = getPrevWeight(key, currentWeek);
   
-  var statHtml = stored !== "" ? '<span class="wli-stat pos">Logged: ' + stored + ' lbs</span>' : '<span class="wli-stat">Enter weight</span>';
-  var prevHtml = prevObj ? '<span class="wli-prev-badge">Prev (W' + prevObj.week + '): ' + prevObj.weight + ' lbs</span>' : '<span class="wli-prev-badge none">Prev: —</span>';
+  var prevBadge = prevObj
+    ? '<span class="wli-prev-pill">Prev: <b>' + prevObj.weight + ' lbs</b> (W' + prevObj.week + ')</span>'
+    : '<span class="wli-prev-pill none">Prev: —</span>';
+
+  var statHtml = stored !== ""
+    ? '<span class="wli-stat pos">Logged W' + currentWeek + ': <b>' + stored + ' lbs</b></span>'
+    : '<span class="wli-stat">Not logged yet</span>';
 
   var h='<div class="wlinline'+(pInfo.isDeload?" isdeload":"")+'" id="wlinline_'+key+'">';
   h+='<div class="wli-row"><span class="wli-lbl">W'+currentWeek+' Weight:</span>';
   h+='<input type="number" step="2.5" min="0" id="wlinp_'+key+'" class="wli-inp" placeholder="lbs" value="'+stored+'" oninput="autoSaveWL(\''+key+'\','+currentWeek+',this.value)">';
   h+='<button class="wli-save" onclick="saveWL(\''+key+'\','+currentWeek+')">Save</button>';
-  h+='<div class="wli-stats-wrap">' + prevHtml + statHtml + '</div></div></div>';
+  h+= prevBadge;
+  h+= statHtml;
+  h+='</div></div>';
   return h;
 }
 
@@ -603,7 +612,7 @@ function autoSaveWL(key, week, val){
     var stat = document.querySelector("#wlinline_" + key + " .wli-stat");
     if(stat){
       stat.className = "wli-stat pos";
-      stat.textContent = "Logged: " + val.trim() + " lbs";
+      stat.innerHTML = "Logged W" + week + ": <b>" + val.trim() + " lbs</b>";
     }
     updateMasterProgress();
   }
