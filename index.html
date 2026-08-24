@@ -9,15 +9,17 @@
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#F8F4EE;color:#2C221E;font-size:15px;line-height:1.6;}
 .wrap{max-width:720px;margin:0 auto;padding:1.25rem 1rem 5rem;}
 
-/* HEADER & TOP WEEK SWITCHER */
-.header-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:1rem;flex-wrap:wrap;}
+/* HEADER & SINGLE TOP WEEK + PHASE SWITCHER */
+.header-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:1rem;flex-wrap:wrap;}
 h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 .sub{font-size:12.5px;color:#887970;margin-top:1px;}
 
-.top-week-picker{display:flex;align-items:center;gap:6px;background:#FFFFFF;border:1.5px solid #EAE2D7;border-radius:999px;padding:4px 10px;box-shadow:0 2px 6px rgba(186,74,36,0.06);}
-.top-wk-lbl{font-size:11px;font-weight:700;color:#887970;text-transform:uppercase;letter-spacing:0.05em;}
-.top-wk-btn{width:28px;height:28px;border-radius:50%;border:1px solid #EAE2D7;background:#F8F4EE;cursor:pointer;font-size:16px;color:#BA4A24;display:flex;align-items:center;justify-content:center;font-weight:700;}
-.top-wk-num{font-size:14px;font-weight:800;color:#BA4A24;min-width:55px;text-align:center;}
+.top-week-picker{display:flex;align-items:center;gap:8px;background:#FFFFFF;border:1.5px solid #EAE2D7;border-radius:999px;padding:4px 12px;box-shadow:0 2px 6px rgba(186,74,36,0.06);}
+.top-wk-text-wrap{display:flex;flex-direction:column;align-items:center;line-height:1.15;min-width:70px;}
+.top-wk-num{font-size:14px;font-weight:800;color:#BA4A24;}
+.top-phase-lbl{font-size:10px;font-weight:700;color:#887970;text-transform:uppercase;letter-spacing:0.04em;}
+.top-phase-lbl.deload{color:#92600A;font-weight:800;}
+.top-wk-btn{width:30px;height:30px;border-radius:50%;border:1px solid #EAE2D7;background:#F8F4EE;cursor:pointer;font-size:16px;color:#BA4A24;display:flex;align-items:center;justify-content:center;font-weight:700;}
 
 /* MASTER PROGRESS CARD */
 .master-card{background:#FFFFFF;border:1px solid #EAE2D7;border-radius:14px;padding:14px;margin-bottom:1.25rem;box-shadow:0 3px 10px rgba(44,34,30,0.03);}
@@ -53,20 +55,12 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 /* HABIT GRID */
 .habit-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1.1rem;}
 .habit-grid.two-col{grid-template-columns:1fr 1fr;}
-.habit-btn{padding:10px;border-radius:9px;border:1px solid #EAE2D7;background:#FFFFFF;cursor:pointer;text-align:center;font-size:11px;font-weight:700;color:#6A5C55;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.habit-btn{padding:10px;border-radius:999px;border:1px solid #EAE2D7;background:#FFFFFF;cursor:pointer;text-align:center;font-size:11px;font-weight:700;color:#6A5C55;display:flex;flex-direction:column;align-items:center;gap:5px;}
 .habit-btn.done{background:#FDF3EF;border-color:#F5D5CB;color:#BA4A24;}
 .h-chk{width:18px;height:18px;border-radius:50%;border:1.5px solid #CBD5E1;display:flex;align-items:center;justify-content:center;}
 .habit-btn.done .h-chk{background:#BA4A24;border-color:#BA4A24;}
 
 /* EXERCISE LIST & CARDS */
-.cwbar{display:flex;align-items:center;gap:7px;padding:8px 13px;background:#FFFFFF;border:1px solid #EAE2D7;border-radius:9px;margin-bottom:1.1rem;flex-wrap:wrap;}
-.cwbar.isdeload{background:#FFFBEF;border-color:#F5D890;}
-.cw-lbl{font-size:11px;color:#887970;}
-.cwbtn{width:32px;height:32px;border-radius:50%;border:1px solid #EAE2D7;background:#F8F4EE;cursor:pointer;font-size:16px;color:#BA4A24;display:flex;align-items:center;justify-content:center;font-family:inherit;flex-shrink:0;font-weight:700;}
-.cwNum{font-size:14px;font-weight:700;min-width:16px;text-align:center;}
-.cwblock-name{font-size:11px;color:#887970;font-weight:600;}
-.deload-badge{font-size:10px;font-weight:700;color:#92600A;background:#FEF3C7;border:1px solid #F5D890;border-radius:999px;padding:2px 9px;}
-
 .prow{display:flex;align-items:center;gap:8px;margin-bottom:1.1rem;}
 .pbar{flex:1;height:5px;background:#EAE2D7;border-radius:999px;overflow:hidden;}
 .pfill{height:100%;background:#BA4A24;border-radius:999px;transition:width .2s;width:0%;}
@@ -89,7 +83,6 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 .chk{width:26px;height:26px;border-radius:50%;border:2px solid #CBD5E1;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .exrow-s{display:grid;grid-template-columns:1fr auto;align-items:start;padding:12px 13px;background:#FFFFFF;border:1px solid #EAE2D7;border-radius:9px;gap:10px;margin-bottom:6px;}
 
-/* PREVIOUS WEIGHT DISPLAY ENHANCEMENT */
 .wlinline{background:#F4EEE6;border:1px solid #EAE2D7;border-radius:0 0 9px 9px;padding:8px 13px 10px;}
 .wlinline.isdeload{background:#FFFBEF;border-color:#F5D890;}
 .wli-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:2px;}
@@ -97,10 +90,11 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 .wli-inp{width:82px;border:1px solid #D5C9BD;border-radius:6px;padding:7px 9px;font-size:15px;font-family:inherit;background:#FFFFFF;-webkit-appearance:none;min-height:38px;}
 .wli-inp:focus{outline:none;border-color:#BA4A24;}
 .wli-save{padding:7px 12px;border:none;border-radius:6px;background:#BA4A24;color:#FFFFFF;font-size:12px;cursor:pointer;font-family:inherit;min-height:38px;font-weight:700;}
-.wli-stats-wrap{display:flex;flex-direction:column;gap:1px;font-size:11px;margin-left:auto;}
+.wli-stats-wrap{display:flex;flex-direction:column;gap:2px;font-size:11px;margin-left:auto;}
 .wli-stat{color:#887970;}
 .wli-stat.pos{color:#BA4A24;font-weight:700;}
-.wli-prev-badge{font-size:11px;color:#554841;background:#EAE2D7;padding:2px 7px;border-radius:4px;font-weight:600;}
+.wli-prev-badge{font-size:11px;color:#BA4A24;background:#FDF3EF;border:1px solid #F5D5CB;padding:2px 8px;border-radius:5px;font-weight:700;}
+.wli-prev-badge.none{color:#887970;background:#EAE2D7;border:none;font-weight:500;}
 
 .hangbox{padding:12px 14px;background:#FDF3EF;border:1px solid #F5D5CB;border-radius:12px;margin-top:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:10px;}
 .hangtitle{font-size:13px;font-weight:700;color:#923516;}
@@ -141,16 +135,18 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 </head>
 <body>
 <div class="wrap">
-  <!-- TOP HEADER & GLOBAL WEEK SWITCHER -->
+  <!-- TOP HEADER & SINGLE WEEK + PHASE TRACKER -->
   <div class="header-row">
     <div>
       <h1>Lean & Strong</h1>
       <p class="sub">27-Wk Periodization · TVA Corset · Pull-Up Goal</p>
     </div>
     <div class="top-week-picker">
-      <span class="top-wk-lbl">Week</span>
       <button class="top-wk-btn" onclick="changeWeek(-1)">−</button>
-      <span class="top-wk-num" id="topWkDisplay">Wk 1</span>
+      <div class="top-wk-text-wrap">
+        <span class="top-wk-num" id="topWkDisplay">Wk 1</span>
+        <span class="top-phase-lbl" id="topPhaseDisplay">Phase 1</span>
+      </div>
       <button class="top-wk-btn" onclick="changeWeek(1)">+</button>
     </div>
   </div>
@@ -309,13 +305,29 @@ function yt(q){return "https://www.youtube.com/results?search_query="+encodeURIC
 function wlk(key,w){return "wl_"+key+"_"+w;}
 function svgCheck(){return '<svg width="10" height="8" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.2 6L8 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>';}
 
-// HELPER TO FIND MOST RECENT PREVIOUS WEIGHT
 function getPrevWeight(key, curWk){
   for(var w = curWk - 1; w >= 1; w--){
     var v = S.get(wlk(key, w), "");
-    if(v !== "") return { weight: v, week: w };
+    if(v !== "" && v !== null && v !== undefined) return { weight: v, week: w };
   }
   return null;
+}
+
+// UPDATE TOP RIGHT SINGLE TRACKER (WEEK + PHASE)
+function updateTopWeekUI(){
+  var pInfo = getPhaseInfo(currentWeek);
+  var wkEl = document.getElementById("topWkDisplay");
+  var phEl = document.getElementById("topPhaseDisplay");
+  if(wkEl) wkEl.textContent = "Wk " + currentWeek;
+  if(phEl){
+    if(pInfo.isDeload){
+      phEl.textContent = "Deload";
+      phEl.className = "top-phase-lbl deload";
+    } else {
+      phEl.textContent = "Phase " + (pInfo.phaseIdx + 1);
+      phEl.className = "top-phase-lbl";
+    }
+  }
 }
 
 var WARMUPS = [
@@ -537,9 +549,6 @@ function buildDayHTML(di){
   var wuList = WARMUPS[di];
   
   var h='<div class="prow"><div class="pbar"><div class="pfill"></div></div><span class="ptxt">0%</span></div>';
-  h+='<div class="cwbar'+(pInfo.isDeload?" isdeload":"")+'"><span class="cw-lbl">Logging Week</span>';
-  h+='<button onclick="changeWeek(-1)" class="cwbtn">&#8722;</button><span class="cwNum">'+currentWeek+'</span><button onclick="changeWeek(1)" class="cwbtn">+</button>';
-  h+='<span class="cwblock-name">'+pInfo.block.name+'</span>'+(pInfo.isDeload?'<span class="deload-badge">DELOAD (50% wt)</span>':'')+'</div>';
   
   // Dynamic Warm-Up Section
   h+='<div class="slabel">Dynamic Warm-Up · 4 Exercises (5 Mins)</div><div class="exlist">';
@@ -578,14 +587,26 @@ function buildInlineWL(key, pInfo){
   var prevObj = getPrevWeight(key, currentWeek);
   
   var statHtml = stored !== "" ? '<span class="wli-stat pos">Logged: ' + stored + ' lbs</span>' : '<span class="wli-stat">Enter weight</span>';
-  var prevHtml = prevObj ? '<span class="wli-prev-badge">Prev (W' + prevObj.week + '): ' + prevObj.weight + ' lbs</span>' : '<span class="wli-prev-badge">Prev: —</span>';
+  var prevHtml = prevObj ? '<span class="wli-prev-badge">Prev (W' + prevObj.week + '): ' + prevObj.weight + ' lbs</span>' : '<span class="wli-prev-badge none">Prev: —</span>';
 
   var h='<div class="wlinline'+(pInfo.isDeload?" isdeload":"")+'" id="wlinline_'+key+'">';
   h+='<div class="wli-row"><span class="wli-lbl">W'+currentWeek+' Weight:</span>';
-  h+='<input type="number" step="2.5" min="0" id="wlinp_'+key+'" class="wli-inp" placeholder="lbs" value="'+stored+'">';
+  h+='<input type="number" step="2.5" min="0" id="wlinp_'+key+'" class="wli-inp" placeholder="lbs" value="'+stored+'" oninput="autoSaveWL(\''+key+'\','+currentWeek+',this.value)">';
   h+='<button class="wli-save" onclick="saveWL(\''+key+'\','+currentWeek+')">Save</button>';
   h+='<div class="wli-stats-wrap">' + prevHtml + statHtml + '</div></div></div>';
   return h;
+}
+
+function autoSaveWL(key, week, val){
+  if(val.trim() !== ""){
+    S.set(wlk(key, week), val.trim());
+    var stat = document.querySelector("#wlinline_" + key + " .wli-stat");
+    if(stat){
+      stat.className = "wli-stat pos";
+      stat.textContent = "Logged: " + val.trim() + " lbs";
+    }
+    updateMasterProgress();
+  }
 }
 
 function saveWL(key, week){
@@ -640,7 +661,7 @@ function renderHabitGrids(){
 function changeWeek(d){
   currentWeek=Math.max(1, Math.min(27, currentWeek+d));
   S.set("cw", currentWeek);
-  document.getElementById("topWkDisplay").textContent = "Wk " + currentWeek;
+  updateTopWeekUI();
   renderGymDays();
   renderHabitGrids();
   var sl=document.getElementById("wkSlider");
@@ -665,7 +686,7 @@ function renderStaticList(targetId, listData){
   var h='<div class="exlist">';
   for(var i=0; i<listData.length; i++){
     var ex=listData[i];
-    h+='<div class="exrow-s"><div><p class="exname">'+ex[0]+'</p><p class="exnote">'+ex[2]+'</p><div class="btnrow"><a href="'+yt(ex[3])+'" target="_blank" class="vtag">▶ Video Tutorial</a></div></div>';
+    h+='<div class="exrow-s"><div><p class="exname">'+ex[0]+'</p><p class="exnote">'+ex[2]+'</p><div class="btnrow"><a href="'+yt(ex[3])+'" target="_blank" class="vtag">▶ Tutorial</a></div></div>';
     h+='<div class="exright"><span class="exsets">'+ex[1]+'</span></div></div>';
   }
   h+='</div>';
@@ -675,7 +696,7 @@ function renderStaticList(targetId, listData){
 function updateJourney(){
   var w=parseInt(document.getElementById("wkSlider").value);
   currentWeek=w; S.set("cw",w);
-  document.getElementById("topWkDisplay").textContent = "Wk " + w;
+  updateTopWeekUI();
   document.getElementById("wkNum").textContent="Week "+w;
   var pInfo=getPhaseInfo(w);
   var badge=document.getElementById("blockBadge");
@@ -726,7 +747,8 @@ function go(idx,btn){
   renderHabitGrids();
 }
 
-document.getElementById("topWkDisplay").textContent = "Wk " + currentWeek;
+// INITIALIZE
+updateTopWeekUI();
 renderGymDays();
 renderStaticList("travelContent", NO_GYM_TRAVEL_EX);
 renderHabitGrids();
