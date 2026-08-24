@@ -6,115 +6,142 @@
 <title>Lean & Strong — 27-Week Training App</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#fafaf8;color:#1a1a18;font-size:15px;line-height:1.6;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#F8F4EE;color:#2C221E;font-size:15px;line-height:1.6;}
 .wrap{max-width:720px;margin:0 auto;padding:1.25rem 1rem 5rem;}
-h1{font-size:22px;font-weight:700;margin-bottom:3px;}
-.sub{font-size:13px;color:#777;margin-bottom:1rem;}
-.nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem;}
-.nav button{padding:8px 12px;border-radius:999px;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:12px;color:#555;font-family:inherit;min-height:38px;font-weight:500;}
-.nav button.on{background:#1a1a18;border-color:#1a1a18;color:#fff;font-weight:700;}
-.panel{display:none;}.panel.on{display:block;}
-.slabel{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#aaa;margin:1.25rem 0 6px;}
-.infobox{padding:11px 13px;border-radius:9px;margin-bottom:1rem;font-size:12px;line-height:1.55;}
-.infobox.green{background:#edfaf4;border:1px solid #b5e5ce;color:#1a5c3a;}
-.infobox.blue{background:#e6f1fb;border:1px solid #85B7EB;color:#0C447C;}
-.infobox.amber{background:#fffbef;border:1px solid #f5d890;color:#92600a;}
 
-.master-card{background:#fff;border:1px solid #e8e8e4;border-radius:12px;padding:14px;margin-bottom:1.25rem;box-shadow:0 1px 3px rgba(0,0,0,0.03);}
+.header-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:1rem;flex-wrap:wrap;}
+h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
+.sub{font-size:12.5px;color:#887970;margin-top:1px;}
+
+.top-week-picker{display:flex;align-items:center;gap:6px;background:#FFFFFF;border:1.5px solid #EAE2D7;border-radius:999px;padding:4px 10px;box-shadow:0 2px 6px rgba(186,74,36,0.06);}
+.top-wk-lbl{font-size:11px;font-weight:700;color:#887970;text-transform:uppercase;letter-spacing:0.05em;}
+.top-wk-btn{width:28px;height:28px;border-radius:50%;border:1px solid #EAE2D7;background:#F8F4EE;cursor:pointer;font-size:16px;color:#BA4A24;display:flex;align-items:center;justify-content:center;font-weight:700;}
+.top-wk-num{font-size:14px;font-weight:800;color:#BA4A24;min-width:55px;text-align:center;}
+
+.master-card{background:#FFFFFF;border:1px solid #EAE2D7;border-radius:14px;padding:14px;margin-bottom:1.25rem;box-shadow:0 3px 10px rgba(44,34,30,0.03);}
 .mp-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-.mp-title{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#888;}
-.mp-pct{font-size:18px;font-weight:800;color:#1a1a18;}
-.mp-bar-wrap{height:8px;background:#f0f0ec;border-radius:999px;overflow:hidden;margin-bottom:10px;}
-.mp-bar-fill{height:100%;background:#1D9E75;border-radius:999px;transition:width .3s ease;}
-.eval-box{padding:10px 12px;border-radius:8px;font-size:12px;font-weight:600;line-height:1.45;}
+.mp-title{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#887970;}
+.mp-pct{font-size:18px;font-weight:800;color:#BA4A24;}
+.mp-bar-wrap{height:8px;background:#F3EBE1;border-radius:999px;overflow:hidden;margin-bottom:10px;}
+.mp-bar-fill{height:100%;background:#BA4A24;border-radius:999px;transition:width .3s ease;}
+.eval-box{padding:10px 12px;border-radius:9px;font-size:12px;font-weight:600;line-height:1.45;}
+
+.nav-group-title{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#BA4A24;margin:1rem 0 6px;}
+.nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:0.75rem;}
+.nav button{padding:8px 12px;border-radius:999px;border:1px solid #EAE2D7;background:#FFFFFF;cursor:pointer;font-size:12px;color:#6A5C55;font-family:inherit;min-height:38px;font-weight:600;transition:all 0.15s;}
+.nav button.on{background:#BA4A24;border-color:#BA4A24;color:#FFFFFF;box-shadow:0 2px 6px rgba(186,74,36,0.3);}
+
+.nav-secondary button{background:#F0E7DD;border-color:#E2D6C7;color:#554841;}
+.nav-secondary button.on{background:#2C221E;border-color:#2C221E;color:#FFFFFF;box-shadow:0 2px 6px rgba(44,34,30,0.2);}
+
+.panel{display:none;}.panel.on{display:block;}
+.slabel{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#887970;margin:1.25rem 0 6px;}
+
+.infobox{padding:11px 13px;border-radius:9px;margin-bottom:1rem;font-size:12px;line-height:1.55;}
+.infobox.rust{background:#FDF3EF;border:1px solid #F5D5CB;color:#923516;}
+.infobox.green{background:#EDFAF4;border:1px solid #B5E5CE;color:#1A5C3A;}
+.infobox.blue{background:#EBF3FA;border:1px solid #B2D2F1;color:#124E89;}
+.infobox.amber{background:#FFFBEF;border:1px solid #F5D890;color:#92600A;}
 
 .habit-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1.1rem;}
-.habit-btn{padding:10px;border-radius:8px;border:1px solid #eee;background:#fff;cursor:pointer;text-align:center;font-size:11px;font-weight:600;color:#666;display:flex;flex-direction:column;align-items:center;gap:5px;}
-.habit-btn.done{background:#edfaf4;border-color:#b5e5ce;color:#1a5c3a;}
-.h-chk{width:18px;height:18px;border-radius:50%;border:1.5px solid #ccc;display:flex;align-items:center;justify-content:center;}
-.habit-btn.done .h-chk{background:#1a5c3a;border-color:#1a5c3a;}
+.habit-grid.two-col{grid-template-columns:1fr 1fr;}
+.habit-btn{padding:10px;border-radius:9px;border:1px solid #EAE2D7;background:#FFFFFF;cursor:pointer;text-align:center;font-size:11px;font-weight:700;color:#6A5C55;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.habit-btn.done{background:#FDF3EF;border-color:#F5D5CB;color:#BA4A24;}
+.h-chk{width:18px;height:18px;border-radius:50%;border:1.5px solid #CBD5E1;display:flex;align-items:center;justify-content:center;}
+.habit-btn.done .h-chk{background:#BA4A24;border-color:#BA4A24;}
 
-.cwbar{display:flex;align-items:center;gap:7px;padding:8px 13px;background:#fff;border:1px solid #eee;border-radius:9px;margin-bottom:1.1rem;flex-wrap:wrap;}
-.cwbar.isdeload{background:#fffbef;border-color:#f5d890;}
-.cw-lbl{font-size:11px;color:#888;}
-.cwbtn{width:36px;height:36px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:18px;color:#555;display:flex;align-items:center;justify-content:center;font-family:inherit;flex-shrink:0;}
+.cwbar{display:flex;align-items:center;gap:7px;padding:8px 13px;background:#FFFFFF;border:1px solid #EAE2D7;border-radius:9px;margin-bottom:1.1rem;flex-wrap:wrap;}
+.cwbar.isdeload{background:#FFFBEF;border-color:#F5D890;}
+.cw-lbl{font-size:11px;color:#887970;}
+.cwbtn{width:32px;height:32px;border-radius:50%;border:1px solid #EAE2D7;background:#F8F4EE;cursor:pointer;font-size:16px;color:#BA4A24;display:flex;align-items:center;justify-content:center;font-family:inherit;flex-shrink:0;font-weight:700;}
 .cwNum{font-size:14px;font-weight:700;min-width:16px;text-align:center;}
-.cwblock-name{font-size:11px;color:#aaa;font-weight:600;}
-.deload-badge{font-size:10px;font-weight:700;color:#92600a;background:#fef3c7;border:1px solid #f5d890;border-radius:999px;padding:2px 9px;}
+.cwblock-name{font-size:11px;color:#887970;font-weight:600;}
+.deload-badge{font-size:10px;font-weight:700;color:#92600A;background:#FEF3C7;border:1px solid #F5D890;border-radius:999px;padding:2px 9px;}
+
 .prow{display:flex;align-items:center;gap:8px;margin-bottom:1.1rem;}
-.pbar{flex:1;height:4px;background:#e8e8e4;border-radius:999px;overflow:hidden;}
-.pfill{height:100%;background:#1a1a18;border-radius:999px;transition:width .2s;width:0%;}
-.ptxt{font-size:11px;color:#aaa;min-width:26px;text-align:right;font-weight:600;}
-.rstbtn{font-size:12px;color:#bbb;background:none;border:none;cursor:pointer;text-decoration:underline;font-family:inherit;margin-top:12px;display:block;min-height:36px;}
+.pbar{flex:1;height:5px;background:#EAE2D7;border-radius:999px;overflow:hidden;}
+.pfill{height:100%;background:#BA4A24;border-radius:999px;transition:width .2s;width:0%;}
+.ptxt{font-size:11px;color:#887970;min-width:26px;text-align:right;font-weight:700;}
+.rstbtn{font-size:12px;color:#887970;background:none;border:none;cursor:pointer;text-decoration:underline;font-family:inherit;margin-top:12px;display:block;min-height:36px;}
+
 .exlist{display:flex;flex-direction:column;gap:8px;}
 .exwrap{display:flex;flex-direction:column;}
-.exrow{display:grid;grid-template-columns:1fr auto;align-items:start;padding:12px 13px;background:#fff;border:1px solid #eee;border-bottom:none;border-radius:9px 9px 0 0;gap:10px;min-height:56px;}
+.exrow{display:grid;grid-template-columns:1fr auto;align-items:start;padding:12px 13px;background:#FFFFFF;border:1px solid #EAE2D7;border-bottom:none;border-radius:9px 9px 0 0;gap:10px;min-height:56px;}
 .exrow.tap{cursor:pointer;}
-.exrow.tap:hover{border-color:#ccc;}
-.exrow.done{opacity:.38;}
-.exrow.done .chk{background:#1a1a18;border-color:#1a1a18;}
-.exname{font-size:14px;font-weight:700;margin:0 0 2px;}
-.exnote{font-size:12px;color:#666;margin:0 0 6px;line-height:1.45;}
+.exrow.done{opacity:.4;}
+.exrow.done .chk{background:#BA4A24;border-color:#BA4A24;}
+.exname{font-size:14px;font-weight:700;margin:0 0 2px;color:#2C221E;}
+.exnote{font-size:12px;color:#6A5C55;margin:0 0 6px;line-height:1.45;}
 .btnrow{display:flex;gap:5px;flex-wrap:wrap;}
-.vtag{display:inline-flex;align-items:center;gap:3px;font-size:11px;color:#c00;border:1px solid rgba(200,0,0,.2);background:rgba(200,0,0,.04);border-radius:5px;padding:4px 9px;text-decoration:none;min-height:34px;font-weight:500;}
+.vtag{display:inline-flex;align-items:center;gap:3px;font-size:11px;color:#BA4A24;border:1px solid rgba(186,74,36,0.25);background:rgba(186,74,36,0.05);border-radius:6px;padding:4px 9px;text-decoration:none;min-height:34px;font-weight:600;}
+
 .exright{display:flex;flex-direction:column;align-items:flex-end;gap:5px;padding-top:2px;}
-.exsets{font-size:11px;color:#888;white-space:nowrap;font-weight:600;}
-.chk{width:26px;height:26px;border-radius:50%;border:2px solid #ddd;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.exrow-s{display:grid;grid-template-columns:1fr auto;align-items:start;padding:12px 13px;background:#fff;border:1px solid #eee;border-radius:9px;gap:10px;margin-bottom:6px;}
-.wlinline{background:#f8f8f6;border:1px solid #eee;border-radius:0 0 9px 9px;padding:8px 13px 10px;}
-.wlinline.isdeload{background:#fffdf5;border-color:#f5d890;}
+.exsets{font-size:11px;color:#887970;white-space:nowrap;font-weight:700;}
+.chk{width:26px;height:26px;border-radius:50%;border:2px solid #CBD5E1;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.exrow-s{display:grid;grid-template-columns:1fr auto;align-items:start;padding:12px 13px;background:#FFFFFF;border:1px solid #EAE2D7;border-radius:9px;gap:10px;margin-bottom:6px;}
+
+.wlinline{background:#F4EEE6;border:1px solid #EAE2D7;border-radius:0 0 9px 9px;padding:8px 13px 10px;}
+.wlinline.isdeload{background:#FFFBEF;border-color:#F5D890;}
 .wli-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:2px;}
-.wli-lbl{font-size:12px;color:#888;white-space:nowrap;min-width:52px;}
-.wli-inp{width:90px;border:1px solid #ddd;border-radius:6px;padding:7px 9px;font-size:15px;font-family:inherit;background:#fff;-webkit-appearance:none;min-height:40px;}
-.wli-inp:focus{outline:none;border-color:#1a1a18;}
-.wli-save{padding:7px 14px;border:none;border-radius:6px;background:#1a1a18;color:#fff;font-size:12px;cursor:pointer;font-family:inherit;min-height:40px;font-weight:600;}
-.wli-stat{font-size:11px;color:#bbb;}
-.wli-stat.pos{color:#1a5c3a;font-weight:700;}
-.hangbox{padding:12px 14px;background:#edfaf4;border:1px solid #b5e5ce;border-radius:999px;margin-top:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.hangtitle{font-size:13px;font-weight:700;color:#1a5c3a;}
-.hangbody{font-size:12px;color:#2d7a52;}
-.etog{display:flex;background:#eeede8;border-radius:999px;padding:3px;gap:2px;margin-bottom:1.1rem;}
-.etog button{flex:1;padding:8px;border-radius:999px;border:none;background:transparent;cursor:pointer;font-size:12px;color:#777;font-family:inherit;min-height:38px;}
-.etog button.on{background:#fff;color:#1a1a18;font-weight:700;}
-.subtabs{display:flex;gap:5px;margin-bottom:1.1rem;}
-.subtabs button{flex:1;padding:8px 4px;border-radius:8px;border:1px solid #eee;background:#fff;cursor:pointer;font-size:11px;color:#888;text-align:center;font-family:inherit;min-height:44px;}
-.subtabs button .dn{display:block;font-size:12px;font-weight:700;color:#1a1a18;margin-bottom:1px;}
-.subtabs button.on{background:#1a1a18;border-color:#1a1a18;color:#999;}
-.subtabs button.on .dn{color:#fff;}
-.weeksel{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap;}
-.weeksel label{font-size:12px;color:#888;}
-.weeksel input{flex:1;min-width:140px;accent-color:#1a1a18;min-height:28px;}
-.weeksel .wnum{font-size:14px;font-weight:700;min-width:65px;}
-.blockbadge{display:inline-block;padding:5px 14px;background:#1a1a18;color:#fff;border-radius:999px;font-size:12px;font-weight:600;margin-bottom:1rem;}
-.blockbadge.dl{background:#e8c84a;color:#6b4d00;}
-.blockinfo{padding:12px 14px;background:#fff;border:1px solid #eee;border-radius:999px;margin-top:1.25rem;}
-.bi-name{font-size:13px;font-weight:700;margin-bottom:3px;}
-.bi-desc{font-size:12px;color:#666;line-height:1.5;}
+.wli-lbl{font-size:12px;color:#887970;white-space:nowrap;min-width:52px;}
+.wli-inp{width:90px;border:1px solid #D5C9BD;border-radius:6px;padding:7px 9px;font-size:15px;font-family:inherit;background:#FFFFFF;-webkit-appearance:none;min-height:40px;}
+.wli-inp:focus{outline:none;border-color:#BA4A24;}
+.wli-save{padding:7px 14px;border:none;border-radius:6px;background:#BA4A24;color:#FFFFFF;font-size:12px;cursor:pointer;font-family:inherit;min-height:40px;font-weight:700;}
+.wli-stat{font-size:11px;color:#887970;}
+.wli-stat.pos{color:#BA4A24;font-weight:700;}
+
+.hangbox{padding:12px 14px;background:#FDF3EF;border:1px solid #F5D5CB;border-radius:12px;margin-top:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.hangtitle{font-size:13px;font-weight:700;color:#923516;}
+.hangbody{font-size:12px;color:#923516;}
+
 .macgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem;}
-.maccard{padding:13px 15px;background:#fff;border:1px solid #eee;border-radius:999px;}
-.maclbl{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#aaa;margin-bottom:3px;}
-.macval{font-size:24px;font-weight:700;}
-.macunit{font-size:12px;color:#999;}
-.macnote{font-size:11px;color:#888;margin-top:2px;line-height:1.4;}
+.maccard{padding:13px 15px;background:#FFFFFF;border:1px solid #EAE2D7;border-radius:10px;}
+.maclbl{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#887970;margin-bottom:3px;}
+.macval{font-size:24px;font-weight:800;color:#BA4A24;}
+.macunit{font-size:12px;color:#887970;}
+.macnote{font-size:11px;color:#6A5C55;margin-top:2px;line-height:1.4;}
+
 .dayrow{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.daycard{padding:12px 14px;border-radius:9px;}
-.daycard.train{background:#edfaf4;border:1px solid #b5e5ce;}
-.daycard.rest{background:#fafaf8;border:1px solid #eee;}
-.daylbl{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#aaa;margin-bottom:6px;}
-.daylbl.g{color:#2d7a52;}
-.dayitem{font-size:12px;color:#555;margin-bottom:2px;}
-.dayitem b{color:#1a1a18;}
-.daycal{font-size:11px;color:#999;margin-top:5px;border-top:1px solid rgba(0,0,0,.07);padding-top:5px;}
-.iobox{padding:14px;background:#fff;border:1px solid #eee;border-radius:9px;margin-top:1.5rem;}
-.iobox p{font-size:12px;color:#666;margin-bottom:8px;}
+.daycard{padding:12px 14px;border-radius:10px;}
+.daycard.train{background:#FDF3EF;border:1px solid #F5D5CB;}
+.daycard.rest{background:#FFFFFF;border:1px solid #EAE2D7;}
+.daylbl{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#887970;margin-bottom:6px;}
+.daylbl.g{color:#BA4A24;}
+.dayitem{font-size:12px;color:#554841;margin-bottom:2px;}
+.dayitem b{color:#2C221E;}
+.daycal{font-size:11px;color:#887970;margin-top:5px;border-top:1px solid rgba(0,0,0,0.06);padding-top:5px;}
+
+.weeksel{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap;}
+.weeksel label{font-size:12px;color:#887970;}
+.weeksel input{flex:1;min-width:140px;accent-color:#BA4A24;min-height:28px;}
+.weeksel .wnum{font-size:14px;font-weight:800;color:#BA4A24;min-width:65px;}
+.blockbadge{display:inline-block;padding:5px 14px;background:#BA4A24;color:#FFFFFF;border-radius:999px;font-size:12px;font-weight:700;margin-bottom:1rem;}
+.blockbadge.dl{background:#E8C84A;color:#6B4D00;}
+.blockinfo{padding:12px 14px;background:#FFFFFF;border:1px solid #EAE2D7;border-radius:10px;margin-top:1.25rem;}
+.bi-name{font-size:13px;font-weight:700;margin-bottom:3px;color:#2C221E;}
+.bi-desc{font-size:12px;color:#6A5C55;line-height:1.5;}
+
+.iobox{padding:14px;background:#FFFFFF;border:1px solid #EAE2D7;border-radius:10px;margin-top:1.5rem;}
+.iobox p{font-size:12px;color:#6A5C55;margin-bottom:8px;}
 .iobtns{display:flex;gap:8px;}
-.iobtn{padding:8px 14px;border-radius:6px;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:12px;font-weight:600;color:#444;}
+.iobtn{padding:8px 14px;border-radius:6px;border:1px solid #D5C9BD;background:#FFFFFF;cursor:pointer;font-size:12px;font-weight:700;color:#2C221E;}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Lean & Strong — 27 Wks</h1>
-  <p class="sub">3-Phase Periodization · TVA Alignment · Pull-Up Goal · 100g Protein Recomp</p>
+  <!-- TOP HEADER & GLOBAL WEEK SWITCHER -->
+  <div class="header-row">
+    <div>
+      <h1>Lean & Strong</h1>
+      <p class="sub">27-Wk Periodization · TVA Corset · Pull-Up Goal</p>
+    </div>
+    <div class="top-week-picker">
+      <span class="top-wk-lbl">Week</span>
+      <button class="top-wk-btn" onclick="changeWeek(-1)">−</button>
+      <span class="top-wk-num" id="topWkDisplay">Wk 1</span>
+      <button class="top-wk-btn" onclick="changeWeek(1)">+</button>
+    </div>
+  </div>
 
   <!-- MASTER PROGRESS & EVALUATION CARD -->
   <div class="master-card">
@@ -125,17 +152,23 @@ h1{font-size:22px;font-weight:700;margin-bottom:3px;}
     <div class="mp-bar-wrap">
       <div class="mp-bar-fill" id="masterFill" style="width:0%;"></div>
     </div>
-    <div id="evalBox" class="eval-box infobox blue" style="margin-bottom:0;"></div>
+    <div id="evalBox" class="eval-box infobox rust" style="margin-bottom:0;"></div>
   </div>
   
+  <!-- SEPARATED NAVIGATION STRUCTURE -->
+  <div class="nav-group-title">Weekly Routines & Workouts</div>
   <div class="nav">
     <button onclick="go(0,this)" class="on">Day 1: Quads</button>
     <button onclick="go(1,this)">Day 2: Push/Pull</button>
     <button onclick="go(2,this)">Day 3: Posterior</button>
-    <button onclick="go(3,this)">Min Day</button>
+    <button onclick="go(3,this)">Full Body Day</button>
     <button onclick="go(4,this)">TVA Core</button>
     <button onclick="go(5,this)">Hip Mobility</button>
-    <button onclick="go(6,this)">Cardio</button>
+    <button onclick="go(6,this)">Cardio (2x)</button>
+  </div>
+
+  <div class="nav-group-title">Tools & Program Resources</div>
+  <div class="nav nav-secondary">
     <button onclick="go(7,this)">Travel</button>
     <button onclick="go(8,this)">Journey</button>
     <button onclick="go(9,this)">Macros</button>
@@ -146,21 +179,21 @@ h1{font-size:22px;font-weight:700;margin-bottom:3px;}
   <div id="p1" class="panel"></div>
   <div id="p2" class="panel"></div>
 
-  <!-- MIN DAY -->
+  <!-- FULL BODY DAY -->
   <div id="p3" class="panel">
-    <div class="infobox blue">Your 1-Day Safety Net: Use this full-body session when travel or busy weeks only allow 1 workout. Keeps muscle, pull-up motor patterns, and TVA alignment alive.</div>
-    <div class="slabel">5 Core Compound Exercises + Dead Hang</div>
-    <div id="minList"></div>
+    <div class="infobox rust">Full Body Day: Use this complete full-body session during travel or busy weeks when you can only hit 1 workout. Keeps your muscle mass, pull-up motor patterns, and TVA alignment fully locked in.</div>
+    <div class="slabel">5 Core Compound Lifts + Dead Hang Finisher</div>
+    <div id="fullBodyList"></div>
     <div class="hangbox">
-      <div><p class="hangtitle">Mandatory Finisher: Dead Hang</p><p class="hangbody">3 × 30 sec · Decompresses spine, locks grip strength.</p></div>
+      <div><p class="hangtitle">Mandatory Finisher: Dead Hang</p><p class="hangbody">3 × 30 sec · Decompresses spine, locks pull-up grip strength.</p></div>
       <a href="https://www.youtube.com/results?search_query=dead+hang+form+tutorial" target="_blank" class="vtag">▶ Tutorial</a>
     </div>
-    <button class="rstbtn" onclick="resetMin()">reset status</button>
+    <button class="rstbtn" onclick="resetFullBody()">reset status</button>
   </div>
 
   <!-- TVA CORE -->
   <div id="p4" class="panel">
-    <div class="infobox green">Targeted TVA & Pelvic Alignment Protocol: Complete 3× per week. Pulls abdomen inward, corrects Anterior Pelvic Tilt, and eliminates standing back pain.</div>
+    <div class="infobox rust">Targeted TVA & Pelvic Alignment Protocol: Complete 3× per week. Pulls abdomen inward, corrects Anterior Pelvic Tilt, and eliminates standing back pain.</div>
     <div class="slabel">Week <span class="curWkNum">1</span> Core Target (3x / Week)</div>
     <div class="habit-grid" id="coreHabits"></div>
     <div class="slabel">Deep Anti-Extension & Anti-Rotation Protocol</div>
@@ -169,7 +202,7 @@ h1{font-size:22px;font-weight:700;margin-bottom:3px;}
 
   <!-- HIP MOBILITY -->
   <div id="p5" class="panel">
-    <div class="infobox amber">Daily Hip Mobility & Glute-Unlocking Sequence: Complete 3× per week minimum. Unlocks rotation, opens tight hip flexors, and relieves sleeping hip pain.</div>
+    <div class="infobox rust">Daily Hip Mobility & Glute-Unlocking Sequence: Complete 3× per week minimum. Unlocks rotation, opens tight hip flexors, and relieves sleeping hip pain.</div>
     <div class="slabel">Week <span class="curWkNum">1</span> Mobility Target (3x / Week)</div>
     <div class="habit-grid" id="hipHabits"></div>
     <div class="slabel">Daily Hip Protocol</div>
@@ -178,9 +211,9 @@ h1{font-size:22px;font-weight:700;margin-bottom:3px;}
 
   <!-- CARDIO -->
   <div id="p6" class="panel">
-    <div class="infobox blue">Steady-State Zone 2 Cardio: 30 minutes, 3x per week on non-lifting days. Keeps energy high and fat low without interfering with heavy lifting recovery.</div>
-    <div class="slabel">Week <span class="curWkNum">1</span> Cardio Target (3x / Week)</div>
-    <div class="habit-grid" id="cardioHabits"></div>
+    <div class="infobox blue">Steady-State Zone 2 Cardio: 30 minutes, 2x per week on non-lifting days. Keeps energy high and body fat low without burning out heavy lifting recovery.</div>
+    <div class="slabel">Week <span class="curWkNum">1</span> Cardio Target (2x / Week)</div>
+    <div class="habit-grid two-col" id="cardioHabits"></div>
     
     <div class="slabel">Cardio Recommendations</div>
     <div class="exrow-s"><div><p class="exname">Incline Treadmill Walk</p><p class="exnote">8–10% incline at 2.8–3.2 mph. Best glute-friendly Zone 2 stimulus.</p></div><div class="exright"><span class="exsets">30 min</span></div></div>
@@ -188,9 +221,9 @@ h1{font-size:22px;font-weight:700;margin-bottom:3px;}
     <div class="exrow-s"><div><p class="exname">Rowing Machine</p><p class="exnote">Engages upper and lower body with zero joint impact.</p></div><div class="exright"><span class="exsets">30 min</span></div></div>
   </div>
 
-  <!-- TRAVEL (UPDATED WITH NO-GYM BAND ROUTINE) -->
+  <!-- TRAVEL -->
   <div id="p7" class="panel">
-    <div class="infobox" style="background:#f8f8f6;border:1px solid #eee;color:#666;">Maintenance program for travel abroad without gym access. Uses loop bands + chair/bed.</div>
+    <div class="infobox rust">Maintenance program for travel abroad without gym access. Uses loop bands + chair/bed.</div>
     <div class="slabel">No-Gym Band & Bodyweight Routine</div>
     <div id="travelContent"></div>
   </div>
@@ -199,7 +232,7 @@ h1{font-size:22px;font-weight:700;margin-bottom:3px;}
   <div id="p8" class="panel">
     <div class="slabel">27-Week Phase & Week Selector</div>
     <div class="weeksel">
-      <label>Current Week:</label>
+      <label>Jump to Week:</label>
       <input type="range" min="1" max="27" value="1" id="wkSlider" oninput="sliderMove()">
       <span class="wnum" id="wkNum">Week 1</span>
     </div>
@@ -259,6 +292,28 @@ function getPhaseInfo(w){
 function yt(q){return "https://www.youtube.com/results?search_query="+encodeURIComponent(q);}
 function wlk(key,w){return "wl_"+key+"_"+w;}
 function svgCheck(){return '<svg width="10" height="8" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.2 6L8 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>';}
+
+// TARGETED DYNAMIC WARM-UPS PER DAY (4 EXERCISES EACH)
+var WARMUPS = [
+  [
+    ["Leg Swings (Forward & Lateral)", "10 reps / direction / leg", "Inhale swing back; exhale swing through. Dynamic hip/adductor stretch.", "leg swings dynamic warm up tutorial"],
+    ["Banded Lateral Walk", "12–15 steps / side", "Fires glute medius to stabilize knees and prevent valgus cave.", "banded lateral walk glute tutorial"],
+    ["Deep Bodyweight Squat Pry", "8–10 reps", "Inhale deep at bottom; shift weight side-to-side to open ankles/hips.", "deep goblet squat pry ankle mobility"],
+    ["Cossack Squats", "5 reps / side", "Opens adductors and prepares inner thighs for quad loading.", "cossack squat mobility tutorial"]
+  ],
+  [
+    ["Scapular Pull-Ups", "8–10 reps", "Primes lat initiation and scapular depression for pull-up strength.", "scapular pull up tutorial"],
+    ["Band Pull-Aparts", "15 reps", "Inhale center; exhale pulling band to chest to wake up rear delts.", "band pull apart exercise tutorial"],
+    ["Shoulder CARs (Controlled Rotations)", "5 slow reps / direction", "Lubricates rotator cuff joints for pressing stability.", "shoulder CARs tutorial"],
+    ["Thoracic Extension (Foam Roller / Bench)", "60 seconds", "Inhale arching over; exhale releasing. Opens thoracic spine.", "thoracic extension foam roller tutorial"]
+  ],
+  [
+    ["Bodyweight Glute Bridge (2-sec Hold)", "12–15 reps", "Inhale bottom; exhale driving through heels and squeezing glutes 2 sec.", "glute bridge activation tutorial"],
+    ["Bodyweight Good Mornings", "10–12 reps", "Inhale hinging hips back; exhale driving hips forward to stand.", "bodyweight good morning exercise"],
+    ["Banded Hip Abductions", "15–20 reps", "Continuous glute-hamstring junction firing.", "banded hip abduction warm up"],
+    ["Cat-Cow Spinal Waves", "8 slow reps", "Inhale arching spine down; exhale rounding spine up. Spine mobility.", "cat cow exercise tutorial"]
+  ]
+];
 
 var WORKOUT_DATABASE = [
   {
@@ -341,12 +396,12 @@ var WORKOUT_DATABASE = [
   }
 ];
 
-var MIN_DAY_EX = [
-  ["Barbell Back Squat","3 × 8–10","Inhale down; exhale pressing up through heels.","barbell back squat tutorial"],
-  ["Barbell / DB RDL","3 × 8–10","Inhale hinging hips back; exhale standing tall.","barbell rdl form tutorial"],
-  ["Barbell Supinated Row","3 × 8–10","Inhale arms down; exhale pulling bar to navel.","underhand barbell row tutorial"],
-  ["Push-Ups (Incline or Flat)","3 × 8–10","Inhale lowering; exhale pressing floor away.","flat push up proper form"],
-  ["Dead Bug","3 × 10 / side","Inhale center; exhale completely as arm and leg extend.","dead bug core exercise tutorial"]
+var FULL_BODY_EX = [
+  ["Barbell Back Squat (or Goblet Squat)","3 × 8–10","Inhale down; exhale driving through heels. Maintains quad density.","barbell back squat tutorial"],
+  ["Barbell / DB Romanian Deadlift (RDL)","3 × 8–10","Inhale hinging hips back; exhale standing tall. Hamstring awakening.","barbell rdl form tutorial"],
+  ["Barbell Supinated Row","3 × 8–10","Inhale arms down; exhale pulling bar to navel. Direct pull-up lat feeder.","underhand barbell row tutorial"],
+  ["Push-Ups (Incline or Flat)","3 × 8–10","Inhale lowering; exhale pressing floor away. Chest stability.","flat push up proper form"],
+  ["Dead Bug","3 × 10 / side","Inhale center; exhale 100% as limbs extend to lock back flat. Deep TVA alignment.","dead bug core exercise tutorial"]
 ];
 
 var TVA_CORE_EX = [
@@ -365,7 +420,6 @@ var HIP_MOBILITY_EX = [
   ["Hip CARs (Controlled Articular Rotations)","5 slow reps / leg","Inhale prep; exhale as bent knee rotates wide.","hip CARs mobility tutorial"]
 ];
 
-// UPDATED NO-GYM TRAVEL ROUTINE
 var NO_GYM_TRAVEL_EX = [
   ["Banded / Slow Bulgarian Split Squats","3 × 10–12 / leg","3-sec lower on bed/chair. Inhale down; exhale driving through heel.","banded bulgarian split squat tutorial"],
   ["Banded Romanian Deadlifts (RDL)","3 × 12–15","Stand on loop band. Inhale hinging hips back; exhale standing tall.","banded romanian deadlift tutorial"],
@@ -375,8 +429,11 @@ var NO_GYM_TRAVEL_EX = [
   ["Standing Banded Lat Pull-Down Hold","3 × 30 sec","Exhale pulling band to hips while standing tall; shield breathe.","standing resistance band lat pulldown"]
 ];
 
+var checked={};
+var fullBodyChecked={};
+
 function updateMasterProgress(){
-  var totalItems = 27 * 12;
+  var totalItems = 27 * 11;
   var completedItems = 0;
   var curWkCompleted = 0;
 
@@ -385,14 +442,14 @@ function updateMasterProgress(){
     for(var d=0; d<3; d++){ if(S.get("gym_done_"+d+"_"+w, false)){ wkDone++; } }
     for(var c=1; c<=3; c++){ if(S.get("h_core_"+c+"_"+w, false)){ wkDone++; } }
     for(var h=1; h<=3; h++){ if(S.get("h_hip_"+h+"_"+w, false)){ wkDone++; } }
-    for(var r=1; r<=3; r++){ if(S.get("h_cardio_"+r+"_"+w, false)){ wkDone++; } }
+    for(var r=1; r<=2; r++){ if(S.get("h_cardio_"+r+"_"+w, false)){ wkDone++; } }
 
     completedItems += wkDone;
     if(w === currentWeek){ curWkCompleted = wkDone; }
   }
 
   var overallPct = Math.min(100, Math.round((completedItems / totalItems) * 1000) / 10);
-  var curWkPct = Math.round((curWkCompleted / 12) * 100);
+  var curWkPct = Math.round((curWkCompleted / 11) * 100);
 
   document.getElementById("masterPct").textContent = overallPct + "%";
   document.getElementById("masterFill").style.width = overallPct + "%";
@@ -400,8 +457,8 @@ function updateMasterProgress(){
   var evalBox = document.getElementById("evalBox");
   var msg = "";
   if(curWkPct === 0){
-    msg = "Week " + currentWeek + " is ready! Complete your first session to build momentum toward your pull-up and snatched waist goals.";
-    evalBox.className = "eval-box infobox blue";
+    msg = "Week " + currentWeek + " is waiting! Hit your first session to build momentum toward your pull-up and snatched waist goals.";
+    evalBox.className = "eval-box infobox rust";
   } else if(curWkPct < 40){
     msg = "Great start on Week " + currentWeek + " (" + curWkPct + "% complete)! Focus on blowing out all your air during TVA exhales.";
     evalBox.className = "eval-box infobox amber";
@@ -412,7 +469,7 @@ function updateMasterProgress(){
     msg = "Almost a perfect week! You're at " + curWkPct + "% for Week " + currentWeek + ". Finish your remaining sessions strong!";
     evalBox.className = "eval-box infobox green";
   } else {
-    msg = "🔥 100% PERFECT WEEK " + currentWeek + "! Smashed all 3 gym workouts, 3 core sessions, 3 mobility routines, and 3 cardio walks. Absolute beast!";
+    msg = "🔥 100% PERFECT WEEK " + currentWeek + "! Smashed all 3 gym workouts, 3 core sessions, 3 mobility routines, and 2 cardio walks. Absolute beast!";
     evalBox.className = "eval-box infobox green";
   }
   evalBox.textContent = msg;
@@ -453,14 +510,25 @@ function buildDayHTML(di){
   var pInfo = getPhaseInfo(currentWeek);
   var dayData = WORKOUT_DATABASE[di];
   var exList = dayData.phases[pInfo.phaseIdx];
+  var wuList = WARMUPS[di];
   
   var h='<div class="prow"><div class="pbar"><div class="pfill"></div></div><span class="ptxt">0%</span></div>';
-  h+='<div class="cwbar'+(pInfo.isDeload?" isdeload":"")+'"><span class="cw-lbl">Week</span>';
+  h+='<div class="cwbar'+(pInfo.isDeload?" isdeload":"")+'"><span class="cw-lbl">Logging Week</span>';
   h+='<button onclick="changeWeek(-1)" class="cwbtn">&#8722;</button><span class="cwNum">'+currentWeek+'</span><button onclick="changeWeek(1)" class="cwbtn">+</button>';
   h+='<span class="cwblock-name">'+pInfo.block.name+'</span>'+(pInfo.isDeload?'<span class="deload-badge">DELOAD (50% wt)</span>':'')+'</div>';
   
-  h+='<div class="slabel">5 Core Lifts · Phase '+ (pInfo.phaseIdx+1) +'</div><div class="exlist">';
-  
+  // Dynamic Warm-Up Section
+  h+='<div class="slabel">Dynamic Warm-Up · 4 Exercises (5 Mins)</div><div class="exlist">';
+  for(var wi=0; wi<wuList.length; wi++){
+    var wu = wuList[wi];
+    h+='<div class="exrow-s"><div><p class="exname">'+wu[0]+'</p><p class="exnote">'+wu[2]+'</p>';
+    h+='<div class="btnrow"><a href="'+yt(wu[3])+'" target="_blank" class="vtag">▶ Video Tutorial</a></div></div>';
+    h+='<div class="exright"><span class="exsets">'+wu[1]+'</span></div></div>';
+  }
+  h+='</div>';
+
+  // 5 Core Lifts
+  h+='<div class="slabel" style="margin-top:1.25rem;">5 Core Lifts · Phase '+ (pInfo.phaseIdx+1) +'</div><div class="exlist">';
   for(var ei=0; ei<exList.length; ei++){
     var ex=exList[ei];
     var key=di+"_"+pInfo.phaseIdx+"_"+ei;
@@ -517,8 +585,7 @@ function toggleHabit(type, num){
 function renderHabitGrids(){
   document.querySelectorAll(".curWkNum").forEach(function(el){ el.textContent = currentWeek; });
   
-  var types = ["core", "hip", "cardio"];
-  types.forEach(function(type){
+  ["core", "hip"].forEach(function(type){
     var grid = document.getElementById(type + "Habits");
     if(!grid) return;
     var h = "";
@@ -529,30 +596,42 @@ function renderHabitGrids(){
     }
     grid.innerHTML = h;
   });
+
+  var cGrid = document.getElementById("cardioHabits");
+  if(cGrid){
+    var ch = "";
+    for(var c=1; c<=2; c++){
+      var cDone = S.get("h_cardio_" + c + "_" + currentWeek, false);
+      ch += '<div class="habit-btn' + (cDone ? " done" : "") + '" onclick="toggleHabit(\'cardio\',' + c + ')">';
+      ch += '<span>Cardio Session ' + c + ' (30m)</span><div class="h-chk">' + (cDone ? svgCheck() : "") + '</div></div>';
+    }
+    cGrid.innerHTML = ch;
+  }
 }
 
 function changeWeek(d){
   currentWeek=Math.max(1, Math.min(27, currentWeek+d));
   S.set("cw", currentWeek);
+  document.getElementById("topWkDisplay").textContent = "Wk " + currentWeek;
   renderGymDays();
   renderHabitGrids();
   var sl=document.getElementById("wkSlider");
   if(sl){ sl.value=currentWeek; updateJourney(); }
 }
 
-function renderMin(){
+function renderFullBody(){
   var h='<div class="exlist">';
-  for(var i=0; i<MIN_DAY_EX.length; i++){
-    var ex=MIN_DAY_EX[i]; var k="min_"+i;
-    h+='<div class="exrow tap'+(minChecked[k]?" done":"")+'" style="border-bottom:1px solid #eee;border-radius:9px;" onclick="togMin(\''+k+'\',this)">';
+  for(var i=0; i<FULL_BODY_EX.length; i++){
+    var ex=FULL_BODY_EX[i]; var k="fb_"+i;
+    h+='<div class="exrow tap'+(fullBodyChecked[k]?" done":"")+'" style="border-bottom:1px solid #EAE2D7;border-radius:9px;" onclick="togFullBody(\''+k+'\',this)">';
     h+='<div><p class="exname">'+ex[0]+'</p><p class="exnote">'+ex[2]+'</p><div class="btnrow"><a href="'+yt(ex[3])+'" target="_blank" class="vtag" onclick="event.stopPropagation()">▶ Tutorial</a></div></div>';
     h+='<div class="exright"><span class="exsets">'+ex[1]+'</span><div class="chk"></div></div></div>';
   }
   h+='</div>';
-  document.getElementById("minList").innerHTML=h;
+  document.getElementById("fullBodyList").innerHTML=h;
 }
-function togMin(k,el){ minChecked[k]=!minChecked[k]; el.classList.toggle("done",minChecked[k]); }
-function resetMin(){ minChecked={}; renderMin(); }
+function togFullBody(k,el){ fullBodyChecked[k]=!fullBodyChecked[k]; el.classList.toggle("done",fullBodyChecked[k]); }
+function resetFullBody(){ fullBodyChecked={}; renderFullBody(); }
 
 function renderStaticList(targetId, listData){
   var h='<div class="exlist">';
@@ -568,6 +647,7 @@ function renderStaticList(targetId, listData){
 function updateJourney(){
   var w=parseInt(document.getElementById("wkSlider").value);
   currentWeek=w; S.set("cw",w);
+  document.getElementById("topWkDisplay").textContent = "Wk " + w;
   document.getElementById("wkNum").textContent="Week "+w;
   var pInfo=getPhaseInfo(w);
   var badge=document.getElementById("blockBadge");
@@ -610,7 +690,7 @@ function importData(){
 function go(idx,btn){
   document.querySelectorAll(".panel").forEach(function(p,i){p.classList.toggle("on",i===idx);});
   document.querySelectorAll(".nav button").forEach(function(b,i){b.classList.toggle("on",i===idx);});
-  if(idx===3) renderMin();
+  if(idx===3) renderFullBody();
   if(idx===4) renderStaticList("tvaList", TVA_CORE_EX);
   if(idx===5) renderStaticList("hipList", HIP_MOBILITY_EX);
   if(idx===7) renderStaticList("travelContent", NO_GYM_TRAVEL_EX);
@@ -618,6 +698,7 @@ function go(idx,btn){
   renderHabitGrids();
 }
 
+document.getElementById("topWkDisplay").textContent = "Wk " + currentWeek;
 renderGymDays();
 renderStaticList("travelContent", NO_GYM_TRAVEL_EX);
 renderHabitGrids();
