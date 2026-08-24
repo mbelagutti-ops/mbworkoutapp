@@ -9,6 +9,7 @@
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#F8F4EE;color:#2C221E;font-size:15px;line-height:1.6;}
 .wrap{max-width:720px;margin:0 auto;padding:1.25rem 1rem 5rem;}
 
+/* HEADER & TOP WEEK SWITCHER */
 .header-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:1rem;flex-wrap:wrap;}
 h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 .sub{font-size:12.5px;color:#887970;margin-top:1px;}
@@ -18,6 +19,7 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 .top-wk-btn{width:28px;height:28px;border-radius:50%;border:1px solid #EAE2D7;background:#F8F4EE;cursor:pointer;font-size:16px;color:#BA4A24;display:flex;align-items:center;justify-content:center;font-weight:700;}
 .top-wk-num{font-size:14px;font-weight:800;color:#BA4A24;min-width:55px;text-align:center;}
 
+/* MASTER PROGRESS CARD */
 .master-card{background:#FFFFFF;border:1px solid #EAE2D7;border-radius:14px;padding:14px;margin-bottom:1.25rem;box-shadow:0 3px 10px rgba(44,34,30,0.03);}
 .mp-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
 .mp-title{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#887970;}
@@ -26,23 +28,29 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 .mp-bar-fill{height:100%;background:#BA4A24;border-radius:999px;transition:width .3s ease;}
 .eval-box{padding:10px 12px;border-radius:9px;font-size:12px;font-weight:600;line-height:1.45;}
 
-.nav-group-title{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#BA4A24;margin:1rem 0 6px;}
-.nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:0.75rem;}
-.nav button{padding:8px 12px;border-radius:999px;border:1px solid #EAE2D7;background:#FFFFFF;cursor:pointer;font-size:12px;color:#6A5C55;font-family:inherit;min-height:38px;font-weight:600;transition:all 0.15s;}
+/* NAVIGATION STRUCTURE & VISUAL SEPARATION */
+.nav-section-card{background:#FFFFFF;border:1px solid #EAE2D7;border-radius:12px;padding:10px 12px;margin-bottom:1.25rem;box-shadow:0 2px 6px rgba(0,0,0,0.02);}
+.nav-section-label{font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#BA4A24;margin-bottom:8px;}
+.nav-section-label.alt{color:#554841;}
+
+.nav{display:flex;gap:6px;flex-wrap:wrap;}
+.nav button{padding:8px 12px;border-radius:999px;border:1px solid #EAE2D7;background:#F8F4EE;cursor:pointer;font-size:12px;color:#6A5C55;font-family:inherit;min-height:36px;font-weight:600;transition:all 0.15s;}
 .nav button.on{background:#BA4A24;border-color:#BA4A24;color:#FFFFFF;box-shadow:0 2px 6px rgba(186,74,36,0.3);}
 
-.nav-secondary button{background:#F0E7DD;border-color:#E2D6C7;color:#554841;}
-.nav-secondary button.on{background:#2C221E;border-color:#2C221E;color:#FFFFFF;box-shadow:0 2px 6px rgba(44,34,30,0.2);}
+.nav-secondary button{background:#EFE6DC;border-color:#DFD2C4;color:#443832;}
+.nav-secondary button.on{background:#2C221E;border-color:#2C221E;color:#FFFFFF;box-shadow:0 2px 6px rgba(44,34,30,0.25);}
 
 .panel{display:none;}.panel.on{display:block;}
 .slabel{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#887970;margin:1.25rem 0 6px;}
 
+/* INFOBOXES */
 .infobox{padding:11px 13px;border-radius:9px;margin-bottom:1rem;font-size:12px;line-height:1.55;}
 .infobox.rust{background:#FDF3EF;border:1px solid #F5D5CB;color:#923516;}
 .infobox.green{background:#EDFAF4;border:1px solid #B5E5CE;color:#1A5C3A;}
 .infobox.blue{background:#EBF3FA;border:1px solid #B2D2F1;color:#124E89;}
 .infobox.amber{background:#FFFBEF;border:1px solid #F5D890;color:#92600A;}
 
+/* HABIT GRID */
 .habit-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1.1rem;}
 .habit-grid.two-col{grid-template-columns:1fr 1fr;}
 .habit-btn{padding:10px;border-radius:9px;border:1px solid #EAE2D7;background:#FFFFFF;cursor:pointer;text-align:center;font-size:11px;font-weight:700;color:#6A5C55;display:flex;flex-direction:column;align-items:center;gap:5px;}
@@ -50,6 +58,7 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 .h-chk{width:18px;height:18px;border-radius:50%;border:1.5px solid #CBD5E1;display:flex;align-items:center;justify-content:center;}
 .habit-btn.done .h-chk{background:#BA4A24;border-color:#BA4A24;}
 
+/* EXERCISE LIST & CARDS */
 .cwbar{display:flex;align-items:center;gap:7px;padding:8px 13px;background:#FFFFFF;border:1px solid #EAE2D7;border-radius:9px;margin-bottom:1.1rem;flex-wrap:wrap;}
 .cwbar.isdeload{background:#FFFBEF;border-color:#F5D890;}
 .cw-lbl{font-size:11px;color:#887970;}
@@ -80,15 +89,18 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 .chk{width:26px;height:26px;border-radius:50%;border:2px solid #CBD5E1;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .exrow-s{display:grid;grid-template-columns:1fr auto;align-items:start;padding:12px 13px;background:#FFFFFF;border:1px solid #EAE2D7;border-radius:9px;gap:10px;margin-bottom:6px;}
 
+/* PREVIOUS WEIGHT DISPLAY ENHANCEMENT */
 .wlinline{background:#F4EEE6;border:1px solid #EAE2D7;border-radius:0 0 9px 9px;padding:8px 13px 10px;}
 .wlinline.isdeload{background:#FFFBEF;border-color:#F5D890;}
-.wli-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:2px;}
+.wli-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:2px;}
 .wli-lbl{font-size:12px;color:#887970;white-space:nowrap;min-width:52px;}
-.wli-inp{width:90px;border:1px solid #D5C9BD;border-radius:6px;padding:7px 9px;font-size:15px;font-family:inherit;background:#FFFFFF;-webkit-appearance:none;min-height:40px;}
+.wli-inp{width:82px;border:1px solid #D5C9BD;border-radius:6px;padding:7px 9px;font-size:15px;font-family:inherit;background:#FFFFFF;-webkit-appearance:none;min-height:38px;}
 .wli-inp:focus{outline:none;border-color:#BA4A24;}
-.wli-save{padding:7px 14px;border:none;border-radius:6px;background:#BA4A24;color:#FFFFFF;font-size:12px;cursor:pointer;font-family:inherit;min-height:40px;font-weight:700;}
-.wli-stat{font-size:11px;color:#887970;}
+.wli-save{padding:7px 12px;border:none;border-radius:6px;background:#BA4A24;color:#FFFFFF;font-size:12px;cursor:pointer;font-family:inherit;min-height:38px;font-weight:700;}
+.wli-stats-wrap{display:flex;flex-direction:column;gap:1px;font-size:11px;margin-left:auto;}
+.wli-stat{color:#887970;}
 .wli-stat.pos{color:#BA4A24;font-weight:700;}
+.wli-prev-badge{font-size:11px;color:#554841;background:#EAE2D7;padding:2px 7px;border-radius:4px;font-weight:600;}
 
 .hangbox{padding:12px 14px;background:#FDF3EF;border:1px solid #F5D5CB;border-radius:12px;margin-top:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:10px;}
 .hangtitle{font-size:13px;font-weight:700;color:#923516;}
@@ -155,23 +167,27 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
     <div id="evalBox" class="eval-box infobox rust" style="margin-bottom:0;"></div>
   </div>
   
-  <!-- SEPARATED NAVIGATION STRUCTURE -->
-  <div class="nav-group-title">Weekly Routines & Workouts</div>
-  <div class="nav">
-    <button onclick="go(0,this)" class="on">Day 1: Quads</button>
-    <button onclick="go(1,this)">Day 2: Push/Pull</button>
-    <button onclick="go(2,this)">Day 3: Posterior</button>
-    <button onclick="go(3,this)">Full Body Day</button>
-    <button onclick="go(4,this)">TVA Core</button>
-    <button onclick="go(5,this)">Hip Mobility</button>
-    <button onclick="go(6,this)">Cardio (2x)</button>
+  <!-- VISUALLY SEPARATED NAVIGATION MENU -->
+  <div class="nav-section-card">
+    <div class="nav-section-label">Weekly Routine & Workouts</div>
+    <div class="nav">
+      <button onclick="go(0,this)" class="on">Day 1: Quads</button>
+      <button onclick="go(1,this)">Day 2: Push/Pull</button>
+      <button onclick="go(2,this)">Day 3: Posterior</button>
+      <button onclick="go(3,this)">Full Body</button>
+      <button onclick="go(4,this)">TVA Core</button>
+      <button onclick="go(5,this)">Hip Mobility</button>
+      <button onclick="go(6,this)">Cardio (2x)</button>
+    </div>
   </div>
 
-  <div class="nav-group-title">Tools & Program Resources</div>
-  <div class="nav nav-secondary">
-    <button onclick="go(7,this)">Travel</button>
-    <button onclick="go(8,this)">Journey</button>
-    <button onclick="go(9,this)">Macros</button>
+  <div class="nav-section-card" style="background:#F4EEE6;">
+    <div class="nav-section-label alt">Reference & Tools</div>
+    <div class="nav nav-secondary">
+      <button onclick="go(7,this)">Travel</button>
+      <button onclick="go(8,this)">Journey</button>
+      <button onclick="go(9,this)">Macros</button>
+    </div>
   </div>
 
   <!-- LIFTING DAYS 0, 1, 2 -->
@@ -209,7 +225,7 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
     <div id="hipList"></div>
   </div>
 
-  <!-- CARDIO -->
+  <!-- CARDIO (2X A WEEK) -->
   <div id="p6" class="panel">
     <div class="infobox blue">Steady-State Zone 2 Cardio: 30 minutes, 2x per week on non-lifting days. Keeps energy high and body fat low without burning out heavy lifting recovery.</div>
     <div class="slabel">Week <span class="curWkNum">1</span> Cardio Target (2x / Week)</div>
@@ -293,7 +309,15 @@ function yt(q){return "https://www.youtube.com/results?search_query="+encodeURIC
 function wlk(key,w){return "wl_"+key+"_"+w;}
 function svgCheck(){return '<svg width="10" height="8" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.2 6L8 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>';}
 
-// TARGETED DYNAMIC WARM-UPS PER DAY (4 EXERCISES EACH)
+// HELPER TO FIND MOST RECENT PREVIOUS WEIGHT
+function getPrevWeight(key, curWk){
+  for(var w = curWk - 1; w >= 1; w--){
+    var v = S.get(wlk(key, w), "");
+    if(v !== "") return { weight: v, week: w };
+  }
+  return null;
+}
+
 var WARMUPS = [
   [
     ["Leg Swings (Forward & Lateral)", "10 reps / direction / leg", "Inhale swing back; exhale swing through. Dynamic hip/adductor stretch.", "leg swings dynamic warm up tutorial"],
@@ -551,12 +575,16 @@ function buildDayHTML(di){
 
 function buildInlineWL(key, pInfo){
   var stored = S.get(wlk(key, currentWeek), "");
-  var statHtml = stored !== "" ? '<span class="wli-stat pos">Logged: '+stored+' lbs</span>' : '<span class="wli-stat">Enter weight</span>';
+  var prevObj = getPrevWeight(key, currentWeek);
   
+  var statHtml = stored !== "" ? '<span class="wli-stat pos">Logged: ' + stored + ' lbs</span>' : '<span class="wli-stat">Enter weight</span>';
+  var prevHtml = prevObj ? '<span class="wli-prev-badge">Prev (W' + prevObj.week + '): ' + prevObj.weight + ' lbs</span>' : '<span class="wli-prev-badge">Prev: —</span>';
+
   var h='<div class="wlinline'+(pInfo.isDeload?" isdeload":"")+'" id="wlinline_'+key+'">';
   h+='<div class="wli-row"><span class="wli-lbl">W'+currentWeek+' Weight:</span>';
   h+='<input type="number" step="2.5" min="0" id="wlinp_'+key+'" class="wli-inp" placeholder="lbs" value="'+stored+'">';
-  h+='<button class="wli-save" onclick="saveWL(\''+key+'\','+currentWeek+')">Save</button>'+statHtml+'</div></div>';
+  h+='<button class="wli-save" onclick="saveWL(\''+key+'\','+currentWeek+')">Save</button>';
+  h+='<div class="wli-stats-wrap">' + prevHtml + statHtml + '</div></div></div>';
   return h;
 }
 
