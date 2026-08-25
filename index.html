@@ -6,136 +6,616 @@
 <title>Lean & Strong — 27-Week Training App</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#F8F4EE;color:#2C221E;font-size:15px;line-height:1.6;}
-.wrap{max-width:720px;margin:0 auto;padding:1.25rem 1rem 5rem;}
+:root {
+  --theme-accent: #78C816;
+  --theme-accent-dark: #4F880B;
+  --theme-bg-1: #C5E898;
+  --theme-bg-2: #EFE1B4;
+  --theme-bg-3: #92C570;
+  --theme-card-bg: rgba(255, 255, 255, 0.88);
+  --theme-card-border: rgba(255, 255, 255, 0.95);
+  --theme-sub: #5E6E4E;
+}
 
-/* HEADER & SINGLE TOP WEEK + PHASE TRACKER */
-.header-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:1rem;flex-wrap:wrap;}
-h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
-.sub{font-size:12.5px;color:#887970;margin-top:1px;}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  color: #1C2415;
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 100vh;
+  position: relative;
+  background-color: #F4F7EE;
+  overflow-x: hidden;
+}
 
-.top-week-picker{display:flex;align-items:center;gap:8px;background:#FFFFFF;border:1.5px solid #EAE2D7;border-radius:999px;padding:4px 12px;box-shadow:0 2px 6px rgba(186,74,36,0.06);}
-.top-wk-text-wrap{display:flex;flex-direction:column;align-items:center;line-height:1.15;min-width:70px;}
-.top-wk-num{font-size:14px;font-weight:800;color:#BA4A24;}
-.top-phase-lbl{font-size:10px;font-weight:700;color:#887970;text-transform:uppercase;letter-spacing:0.04em;}
-.top-phase-lbl.deload{color:#92600A;font-weight:800;}
-.top-wk-btn{width:30px;height:30px;border-radius:50%;border:1px solid #EAE2D7;background:#F8F4EE;cursor:pointer;font-size:16px;color:#BA4A24;display:flex;align-items:center;justify-content:center;font-weight:700;}
+/* DYNAMIC WATERCOLOR CANVAS BACKDROP */
+.watercolor-bg {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  transition: all 1.2s ease;
+}
+.blob {
+  position: absolute;
+  filter: blur(70px);
+  opacity: 0.65;
+  border-radius: 50%;
+  transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.blob-1 { width: 340px; height: 340px; top: -60px; left: -60px; background: var(--theme-bg-1); }
+.blob-2 { width: 380px; height: 380px; top: 250px; right: -80px; background: var(--theme-bg-2); }
+.blob-3 { width: 300px; height: 300px; bottom: -40px; left: 20%; background: var(--theme-bg-3); }
+
+.wrap {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 1.25rem 0.85rem 6rem;
+  width: 100%;
+}
+
+/* HEADER & WEEK TRACKER */
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.2rem;
+}
+h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1C2415;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.sub {
+  font-size: 12px;
+  color: var(--theme-sub);
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+.top-week-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--theme-card-border);
+  border-radius: 999px;
+  padding: 5px 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+}
+.top-wk-text-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+  min-width: 65px;
+}
+.top-wk-num {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--theme-accent-dark);
+}
+.top-phase-lbl {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--theme-sub);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.top-phase-lbl.deload { color: #D97706; }
+.top-wk-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.06);
+  background: #FFFFFF;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--theme-accent-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* FROSTED INTERACTIVE CALENDAR STRIP */
+.calendar-card {
+  background: var(--theme-card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--theme-card-border);
+  border-radius: 22px;
+  padding: 14px 12px;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+}
+.cal-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 0 4px;
+}
+.cal-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--theme-sub);
+}
+.cal-month-lbl {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1C2415;
+}
+.cal-strip {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+.cal-day-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 2px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+.cal-day-pill.active-today {
+  background: var(--theme-accent);
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(120, 200, 22, 0.4);
+  border-color: transparent;
+}
+.cal-day-pill.has-workout::after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  background: var(--theme-accent-dark);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 4px;
+}
+.cal-day-pill.active-today.has-workout::after {
+  background: #FFFFFF;
+}
+.cal-dname {
+  font-size: 10px;
+  font-weight: 700;
+  opacity: 0.75;
+  margin-bottom: 2px;
+}
+.cal-dnum {
+  font-size: 14px;
+  font-weight: 800;
+}
 
 /* MASTER PROGRESS CARD */
-.master-card{background:#FFFFFF;border:1px solid #EAE2D7;border-radius:14px;padding:14px;margin-bottom:1.25rem;box-shadow:0 3px 10px rgba(44,34,30,0.03);}
-.mp-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-.mp-title{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#887970;}
-.mp-pct{font-size:18px;font-weight:800;color:#BA4A24;}
-.mp-bar-wrap{height:8px;background:#F3EBE1;border-radius:999px;overflow:hidden;margin-bottom:10px;}
-.mp-bar-fill{height:100%;background:#BA4A24;border-radius:999px;transition:width .3s ease;}
-.eval-box{padding:10px 12px;border-radius:9px;font-size:12px;font-weight:600;line-height:1.45;}
+.master-card {
+  background: var(--theme-card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--theme-card-border);
+  border-radius: 20px;
+  padding: 14px 16px;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.03);
+}
+.mp-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.mp-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--theme-sub);
+}
+.mp-pct {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--theme-accent-dark);
+}
+.mp-bar-wrap {
+  height: 8px;
+  background: rgba(0,0,0,0.06);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.mp-bar-fill {
+  height: 100%;
+  background: var(--theme-accent);
+  border-radius: 999px;
+  transition: width .4s ease;
+}
+.eval-box {
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.45;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
 
-/* NAVIGATION STRUCTURE & VISUAL SEPARATION */
-.nav-section-card{background:#FFFFFF;border:1px solid #EAE2D7;border-radius:12px;padding:10px 12px;margin-bottom:1.25rem;box-shadow:0 2px 6px rgba(0,0,0,0.02);}
-.nav-section-label{font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#BA4A24;margin-bottom:8px;}
-.nav-section-label.alt{color:#554841;}
+/* NAVIGATION CATEGORIES */
+.nav-section-card {
+  background: var(--theme-card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--theme-card-border);
+  border-radius: 18px;
+  padding: 10px 12px;
+  margin-bottom: 1.1rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.02);
+}
+.nav-section-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--theme-accent-dark);
+  margin-bottom: 8px;
+}
+.nav-section-label.alt { color: #554841; }
 
-.nav{display:flex;gap:6px;flex-wrap:wrap;}
-.nav button{padding:8px 12px;border-radius:999px;border:1px solid #EAE2D7;background:#F8F4EE;cursor:pointer;font-size:12px;color:#6A5C55;font-family:inherit;min-height:36px;font-weight:600;transition:all 0.15s;}
-.nav button.on{background:#BA4A24;border-color:#BA4A24;color:#FFFFFF;box-shadow:0 2px 6px rgba(186,74,36,0.3);}
+.nav {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.nav button {
+  padding: 8px 13px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.65);
+  cursor: pointer;
+  font-size: 12px;
+  color: #445035;
+  font-family: inherit;
+  min-height: 36px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+.nav button.on {
+  background: var(--theme-accent-dark);
+  border-color: var(--theme-accent-dark);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
 
-.nav-secondary button{background:#EFE6DC;border-color:#DFD2C4;color:#443832;}
-.nav-secondary button.on{background:#2C221E;border-color:#2C221E;color:#FFFFFF;box-shadow:0 2px 6px rgba(44,34,30,0.25);}
+.nav-secondary button {
+  background: rgba(255,255,255,0.5);
+  border-color: rgba(255,255,255,0.7);
+  color: #4A423B;
+}
+.nav-secondary button.on {
+  background: #2C221E;
+  border-color: #2C221E;
+  color: #FFFFFF;
+}
 
-.panel{display:none;}.panel.on{display:block;}
-.slabel{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#887970;margin:1.25rem 0 6px;}
+.panel { display: none; }
+.panel.on { display: block; }
+.slabel {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--theme-sub);
+  margin: 1.25rem 0 6px;
+}
 
 /* INFOBOXES */
-.infobox{padding:11px 13px;border-radius:9px;margin-bottom:1rem;font-size:12px;line-height:1.55;}
-.infobox.rust{background:#FDF3EF;border:1px solid #F5D5CB;color:#923516;}
-.infobox.green{background:#EDFAF4;border:1px solid #B5E5CE;color:#1A5C3A;}
-.infobox.blue{background:#EBF3FA;border:1px solid #B2D2F1;color:#124E89;}
-.infobox.amber{background:#FFFBEF;border:1px solid #F5D890;color:#92600A;}
+.infobox {
+  padding: 12px 14px;
+  border-radius: 14px;
+  margin-bottom: 1rem;
+  font-size: 12.5px;
+  line-height: 1.5;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid var(--theme-card-border);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
 
 /* HABIT GRID */
-.habit-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1.1rem;}
-.habit-grid.two-col{grid-template-columns:1fr 1fr;}
-.habit-btn{padding:10px;border-radius:999px;border:1px solid #EAE2D7;background:#FFFFFF;cursor:pointer;text-align:center;font-size:11px;font-weight:700;color:#6A5C55;display:flex;flex-direction:column;align-items:center;gap:5px;}
-.habit-btn.done{background:#FDF3EF;border-color:#F5D5CB;color:#BA4A24;}
-.h-chk{width:18px;height:18px;border-radius:50%;border:1.5px solid #CBD5E1;display:flex;align-items:center;justify-content:center;}
-.habit-btn.done .h-chk{background:#BA4A24;border-color:#BA4A24;}
+.habit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 1.1rem;
+}
+.habit-grid.two-col { grid-template-columns: 1fr 1fr; }
+.habit-btn {
+  padding: 12px 8px;
+  border-radius: 14px;
+  border: 1px solid var(--theme-card-border);
+  background: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #4A583A;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s;
+}
+.habit-btn.done {
+  background: var(--theme-accent-dark);
+  border-color: var(--theme-accent-dark);
+  color: #FFFFFF;
+}
+.h-chk {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid #CBD5E1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFF;
+}
+.habit-btn.done .h-chk {
+  background: #FFFFFF;
+  border-color: #FFFFFF;
+}
 
-/* EXERCISE LIST & CARDS */
-.prow{display:flex;align-items:center;gap:8px;margin-bottom:1.1rem;}
-.pbar{flex:1;height:5px;background:#EAE2D7;border-radius:999px;overflow:hidden;}
-.pfill{height:100%;background:#BA4A24;border-radius:999px;transition:width .2s;width:0%;}
-.ptxt{font-size:11px;color:#887970;min-width:26px;text-align:right;font-weight:700;}
-.rstbtn{font-size:12px;color:#887970;background:none;border:none;cursor:pointer;text-decoration:underline;font-family:inherit;margin-top:12px;display:block;min-height:36px;}
+/* EXERCISE CARDS */
+.prow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.1rem;
+}
+.pbar {
+  flex: 1;
+  height: 6px;
+  background: rgba(0,0,0,0.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.pfill {
+  height: 100%;
+  background: var(--theme-accent-dark);
+  border-radius: 999px;
+  transition: width .3s;
+  width: 0%;
+}
+.ptxt {
+  font-size: 11px;
+  color: var(--theme-sub);
+  min-width: 28px;
+  text-align: right;
+  font-weight: 800;
+}
+.rstbtn {
+  font-size: 12px;
+  color: var(--theme-sub);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  font-family: inherit;
+  margin-top: 14px;
+  display: block;
+}
 
-.exlist{display:flex;flex-direction:column;gap:8px;}
-.exwrap{display:flex;flex-direction:column;}
-.exrow{display:grid;grid-template-columns:1fr auto;align-items:start;padding:12px 13px;background:#FFFFFF;border:1px solid #EAE2D7;border-bottom:none;border-radius:999px 999px 0 0;gap:10px;min-height:56px;}
-.exrow.tap{cursor:pointer;}
-.exrow.done{opacity:.4;}
-.exrow.done .chk{background:#BA4A24;border-color:#BA4A24;}
-.exname{font-size:14px;font-weight:700;margin:0 0 2px;color:#2C221E;}
-.exnote{font-size:12px;color:#6A5C55;margin:0 0 6px;line-height:1.45;}
-.btnrow{display:flex;gap:5px;flex-wrap:wrap;}
-.vtag{display:inline-flex;align-items:center;gap:3px;font-size:11px;color:#BA4A24;border:1px solid rgba(186,74,36,0.25);background:rgba(186,74,36,0.05);border-radius:6px;padding:4px 9px;text-decoration:none;min-height:34px;font-weight:600;}
+.exlist { display: flex; flex-direction: column; gap: 10px; }
+.exwrap { display: flex; flex-direction: column; }
+.exrow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  padding: 14px 15px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--theme-card-border);
+  border-bottom: none;
+  border-radius: 18px 18px 0 0;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+.exrow.tap { cursor: pointer; }
+.exrow.done { opacity: 0.5; }
+.exrow.done .chk { background: var(--theme-accent-dark); border-color: var(--theme-accent-dark); }
+.exname { font-size: 14.5px; font-weight: 800; margin: 0 0 2px; color: #1C2415; }
+.exnote { font-size: 12px; color: #526042; margin: 0 0 8px; line-height: 1.45; }
+.btnrow { display: flex; gap: 6px; flex-wrap: wrap; }
+.vtag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--theme-accent-dark);
+  border: 1px solid rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.8);
+  border-radius: 8px;
+  padding: 5px 10px;
+  text-decoration: none;
+  font-weight: 700;
+}
 
-.exright{display:flex;flex-direction:column;align-items:flex-end;gap:5px;padding-top:2px;}
-.exsets{font-size:11px;color:#887970;white-space:nowrap;font-weight:700;}
-.chk{width:26px;height:26px;border-radius:50%;border:2px solid #CBD5E1;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.exrow-s{display:grid;grid-template-columns:1fr auto;align-items:start;padding:12px 13px;background:#FFFFFF;border:1px solid #EAE2D7;border-radius:9px;gap:10px;margin-bottom:6px;}
+.exright { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; padding-top: 2px; }
+.exsets { font-size: 11px; color: var(--theme-sub); white-space: nowrap; font-weight: 800; }
+.chk {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #CBD5E1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #FFFFFF;
+}
+.exrow-s {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  padding: 14px 15px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--theme-card-border);
+  border-radius: 16px;
+  gap: 10px;
+  margin-bottom: 6px;
+}
 
-/* PREVIOUS WEIGHT BADGE & INLINE LOGGING */
-.wlinline{background:#F4EEE6;border:1px solid #EAE2D7;border-radius:0 0 9px 9px;padding:8px 13px 10px;}
-.wlinline.isdeload{background:#FFFBEF;border-color:#F5D890;}
-.wli-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.wli-lbl{font-size:12px;color:#887970;white-space:nowrap;font-weight:600;}
-.wli-inp{width:75px;border:1px solid #D5C9BD;border-radius:6px;padding:6px 8px;font-size:14px;font-family:inherit;background:#FFFFFF;-webkit-appearance:none;min-height:36px;}
-.wli-inp:focus{outline:none;border-color:#BA4A24;}
-.wli-save{padding:6px 12px;border:none;border-radius:6px;background:#BA4A24;color:#FFFFFF;font-size:12px;cursor:pointer;font-family:inherit;min-height:36px;font-weight:700;}
+/* INLINE WEIGHT LOGGING */
+.wlinline {
+  background: rgba(245, 248, 238, 0.95);
+  border: 1px solid var(--theme-card-border);
+  border-radius: 0 0 18px 18px;
+  padding: 10px 15px 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.02);
+}
+.wli-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.wli-lbl { font-size: 12px; color: var(--theme-sub); white-space: nowrap; font-weight: 700; }
+.wli-inp {
+  width: 82px;
+  border: 1px solid #D1DCC6;
+  border-radius: 8px;
+  padding: 6px 9px;
+  font-size: 16px;
+  font-family: inherit;
+  background: #FFFFFF;
+  -webkit-appearance: none;
+  min-height: 38px;
+}
+.wli-inp:focus { outline: none; border-color: var(--theme-accent-dark); }
+.wli-save {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 8px;
+  background: var(--theme-accent-dark);
+  color: #FFFFFF;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  min-height: 38px;
+  font-weight: 800;
+}
 
-.wli-prev-pill{font-size:11px;color:#BA4A24;background:#FDF3EF;border:1px solid #F5D5CB;padding:4px 9px;border-radius:6px;font-weight:600;display:inline-flex;align-items:center;gap:3px;}
-.wli-prev-pill b{color:#BA4A24;font-weight:800;}
-.wli-prev-pill.none{color:#887970;background:#EAE2D7;border:none;font-weight:500;}
-.wli-stat{font-size:11px;color:#887970;margin-left:auto;}
-.wli-stat.pos{color:#BA4A24;font-weight:700;}
+.wli-prev-pill {
+  font-size: 11px;
+  color: var(--theme-accent-dark);
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(0,0,0,0.08);
+  padding: 4px 9px;
+  border-radius: 8px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.wli-prev-pill.none { color: #777; background: rgba(0,0,0,0.05); border: none; font-weight: 500; }
+.wli-stat { font-size: 11px; color: var(--theme-sub); margin-left: auto; }
+.wli-stat.pos { color: var(--theme-accent-dark); font-weight: 800; }
 
-.hangbox{padding:12px 14px;background:#FDF3EF;border:1px solid #F5D5CB;border-radius:12px;margin-top:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.hangtitle{font-size:13px;font-weight:700;color:#923516;}
-.hangbody{font-size:12px;color:#923516;}
+.hangbox {
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--theme-card-border);
+  border-radius: 18px;
+  margin-top: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.hangtitle { font-size: 13.5px; font-weight: 800; color: #1C2415; }
+.hangbody { font-size: 12px; color: var(--theme-sub); }
 
-.macgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem;}
-.maccard{padding:13px 15px;background:#FFFFFF;border:1px solid #EAE2D7;border-radius:10px;}
-.maclbl{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#887970;margin-bottom:3px;}
-.macval{font-size:24px;font-weight:800;color:#BA4A24;}
-.macunit{font-size:12px;color:#887970;}
-.macnote{font-size:11px;color:#6A5C55;margin-top:2px;line-height:1.4;}
+.macgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1.25rem; }
+.maccard { padding: 14px 16px; background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(16px); border: 1px solid var(--theme-card-border); border-radius: 16px; }
+.maclbl { font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--theme-sub); margin-bottom: 3px; }
+.macval { font-size: 24px; font-weight: 900; color: var(--theme-accent-dark); }
+.macunit { font-size: 12px; color: var(--theme-sub); }
+.macnote { font-size: 11px; color: #526042; margin-top: 2px; line-height: 1.4; }
 
-.dayrow{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.daycard{padding:12px 14px;border-radius:10px;}
-.daycard.train{background:#FDF3EF;border:1px solid #F5D5CB;}
-.daycard.rest{background:#FFFFFF;border:1px solid #EAE2D7;}
-.daylbl{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#887970;margin-bottom:6px;}
-.daylbl.g{color:#BA4A24;}
-.dayitem{font-size:12px;color:#554841;margin-bottom:2px;}
-.dayitem b{color:#2C221E;}
-.daycal{font-size:11px;color:#887970;margin-top:5px;border-top:1px solid rgba(0,0,0,0.06);padding-top:5px;}
+.dayrow { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.daycard { padding: 14px 16px; border-radius: 16px; backdrop-filter: blur(16px); }
+.daycard.train { background: rgba(255, 255, 255, 0.9); border: 1px solid var(--theme-card-border); }
+.daycard.rest { background: rgba(255, 255, 255, 0.7); border: 1px solid var(--theme-card-border); }
+.daylbl { font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--theme-sub); margin-bottom: 6px; }
+.daylbl.g { color: var(--theme-accent-dark); }
+.dayitem { font-size: 12px; color: #4A583A; margin-bottom: 2px; }
+.dayitem b { color: #1C2415; }
+.daycal { font-size: 11px; color: var(--theme-sub); margin-top: 5px; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 5px; }
 
-.weeksel{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap;}
-.weeksel label{font-size:12px;color:#887970;}
-.weeksel input{flex:1;min-width:140px;accent-color:#BA4A24;min-height:28px;}
-.weeksel .wnum{font-size:14px;font-weight:800;color:#BA4A24;min-width:65px;}
-.blockbadge{display:inline-block;padding:5px 14px;background:#BA4A24;color:#FFFFFF;border-radius:999px;font-size:12px;font-weight:700;margin-bottom:1rem;}
-.blockbadge.dl{background:#E8C84A;color:#6B4D00;}
-.blockinfo{padding:12px 14px;background:#FFFFFF;border:1px solid #EAE2D7;border-radius:10px;margin-top:1.25rem;}
-.bi-name{font-size:13px;font-weight:700;margin-bottom:3px;color:#2C221E;}
-.bi-desc{font-size:12px;color:#6A5C55;line-height:1.5;}
+.weeksel { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.weeksel label { font-size: 12px; color: var(--theme-sub); }
+.weeksel input { flex: 1; min-width: 140px; accent-color: var(--theme-accent-dark); min-height: 28px; }
+.weeksel .wnum { font-size: 14px; font-weight: 800; color: var(--theme-accent-dark); min-width: 65px; }
+.blockbadge { display: inline-block; padding: 6px 16px; background: var(--theme-accent-dark); color: #FFFFFF; border-radius: 999px; font-size: 12px; font-weight: 800; margin-bottom: 1rem; }
+.blockbadge.dl { background: #D97706; color: #FFFFFF; }
+.blockinfo { padding: 14px 16px; background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(16px); border: 1px solid var(--theme-card-border); border-radius: 16px; margin-top: 1.25rem; }
+.bi-name { font-size: 13.5px; font-weight: 800; margin-bottom: 3px; color: #1C2415; }
+.bi-desc { font-size: 12px; color: #526042; line-height: 1.5; }
 
-.iobox{padding:14px;background:#FFFFFF;border:1px solid #EAE2D7;border-radius:10px;margin-top:1.5rem;}
-.iobox p{font-size:12px;color:#6A5C55;margin-bottom:8px;}
-.iobtns{display:flex;gap:8px;}
-.iobtn{padding:8px 14px;border-radius:6px;border:1px solid #D5C9BD;background:#FFFFFF;cursor:pointer;font-size:12px;font-weight:700;color:#2C221E;}
+.iobox { padding: 16px; background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(16px); border: 1px solid var(--theme-card-border); border-radius: 16px; margin-top: 1.5rem; }
+.iobox p { font-size: 12px; color: #526042; margin-bottom: 8px; }
+.iobtns { display: flex; gap: 8px; }
+.iobtn { padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); background: #FFFFFF; cursor: pointer; font-size: 12px; font-weight: 800; color: #1C2415; }
+
+/* MODAL OVERLAY FOR CALENDAR DETAILS */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  z-index: 999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.modal-overlay.open { display: flex; }
+.modal-card {
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+}
+.modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.modal-title { font-size: 16px; font-weight: 800; color: #1C2415; }
+.modal-close { background: #F0F4EC; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-weight: 800; color: #526042; }
+.modal-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.modal-item { padding: 10px 12px; background: #F7FAF2; border-radius: 12px; font-size: 13px; font-weight: 700; color: #354428; display: flex; align-items: center; gap: 8px; }
 </style>
 </head>
 <body>
+
+<!-- DYNAMIC WATERCOLOR CANVAS -->
+<div class="watercolor-bg">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
 <div class="wrap">
   <!-- TOP HEADER & SINGLE WEEK + PHASE TRACKER -->
   <div class="header-row">
@@ -153,16 +633,25 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
     </div>
   </div>
 
+  <!-- PERSISTENT AUTOMATIC CALENDAR STRIP -->
+  <div class="calendar-card">
+    <div class="cal-title-row">
+      <span class="cal-title">Activity Calendar</span>
+      <span class="cal-month-lbl" id="calMonthDisplay">August 2026</span>
+    </div>
+    <div class="cal-strip" id="calStrip"></div>
+  </div>
+
   <!-- MASTER PROGRESS & EVALUATION CARD -->
   <div class="master-card">
     <div class="mp-head">
-      <span class="mp-title">Overall 27-Week Program Progress</span>
+      <span class="mp-title">Overall Program Progress</span>
       <span class="mp-pct" id="masterPct">0.0%</span>
     </div>
     <div class="mp-bar-wrap">
       <div class="mp-bar-fill" id="masterFill" style="width:0%;"></div>
     </div>
-    <div id="evalBox" class="eval-box infobox rust" style="margin-bottom:0;"></div>
+    <div id="evalBox" class="eval-box"></div>
   </div>
   
   <!-- VISUALLY SEPARATED NAVIGATION MENU -->
@@ -179,7 +668,7 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
     </div>
   </div>
 
-  <div class="nav-section-card" style="background:#F4EEE6;">
+  <div class="nav-section-card" style="background: rgba(255, 255, 255, 0.55);">
     <div class="nav-section-label alt">Reference & Tools</div>
     <div class="nav nav-secondary">
       <button onclick="go(7,this)">Travel</button>
@@ -195,7 +684,7 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 
   <!-- FULL BODY DAY -->
   <div id="p3" class="panel">
-    <div class="infobox rust">Full Body Day: Use this complete full-body session during travel or busy weeks when you can only hit 1 workout. Keeps your muscle mass, pull-up motor patterns, and TVA alignment fully locked in.</div>
+    <div class="infobox">Full Body Day: Use this complete full-body session during travel or busy weeks when you can only hit 1 workout. Keeps your muscle mass, pull-up motor patterns, and TVA alignment fully locked in.</div>
     <div class="slabel">5 Core Compound Lifts + Dead Hang Finisher</div>
     <div id="fullBodyList"></div>
     <div class="hangbox">
@@ -207,7 +696,7 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 
   <!-- TVA CORE -->
   <div id="p4" class="panel">
-    <div class="infobox rust">Targeted TVA & Pelvic Alignment Protocol: Complete 3× per week. Pulls abdomen inward, corrects Anterior Pelvic Tilt, and eliminates standing back pain.</div>
+    <div class="infobox">Targeted TVA & Pelvic Alignment Protocol: Complete 3× per week. Pulls abdomen inward, corrects Anterior Pelvic Tilt, and eliminates standing back pain.</div>
     <div class="slabel">Week <span class="curWkNum">1</span> Core Target (3x / Week)</div>
     <div class="habit-grid" id="coreHabits"></div>
     <div class="slabel">Deep Anti-Extension & Anti-Rotation Protocol</div>
@@ -216,7 +705,7 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 
   <!-- HIP MOBILITY -->
   <div id="p5" class="panel">
-    <div class="infobox rust">Daily Hip Mobility & Glute-Unlocking Sequence: Complete 3× per week minimum. Unlocks rotation, opens tight hip flexors, and relieves sleeping hip pain.</div>
+    <div class="infobox">Daily Hip Mobility & Glute-Unlocking Sequence: Complete 3× per week minimum. Unlocks rotation, opens tight hip flexors, and relieves sleeping hip pain.</div>
     <div class="slabel">Week <span class="curWkNum">1</span> Mobility Target (3x / Week)</div>
     <div class="habit-grid" id="hipHabits"></div>
     <div class="slabel">Daily Hip Protocol</div>
@@ -225,7 +714,7 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 
   <!-- CARDIO (2X A WEEK) -->
   <div id="p6" class="panel">
-    <div class="infobox blue">Steady-State Zone 2 Cardio: 30 minutes, 2x per week on non-lifting days. Keeps energy high and body fat low without burning out heavy lifting recovery.</div>
+    <div class="infobox">Steady-State Zone 2 Cardio: 30 minutes, 2x per week on non-lifting days. Keeps energy high and body fat low without burning out heavy lifting recovery.</div>
     <div class="slabel">Week <span class="curWkNum">1</span> Cardio Target (2x / Week)</div>
     <div class="habit-grid two-col" id="cardioHabits"></div>
     
@@ -237,7 +726,7 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
 
   <!-- TRAVEL -->
   <div id="p7" class="panel">
-    <div class="infobox rust">Maintenance program for travel abroad without gym access. Uses loop bands + chair/bed.</div>
+    <div class="infobox">Maintenance program for travel abroad without gym access. Uses loop bands + chair/bed.</div>
     <div class="slabel">No-Gym Band & Bodyweight Routine</div>
     <div id="travelContent"></div>
   </div>
@@ -277,9 +766,44 @@ h1{font-size:22px;font-weight:800;color:#2C221E;letter-spacing:-0.02em;}
   </div>
 </div>
 
+<!-- CALENDAR MODAL OVERLAY -->
+<div class="modal-overlay" id="calModal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <span class="modal-title" id="modalDateTitle">August 25, 2026</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
 <script>
 var S={get:function(k,d){try{var v=localStorage.getItem(k);return v!==null?JSON.parse(v):d;}catch(e){return d;}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
 var currentWeek=S.get("cw",1);
+
+// DYNAMIC WATERCOLOR THEME PALETTES PER TAB
+var PALETTES = [
+  { accent: "#78C816", dark: "#4F880B", bg1: "#C5E898", bg2: "#EFE1B4", bg3: "#92C570", sub: "#5E6E4E" }, // Day 1: Moss/Lime
+  { accent: "#3B82F6", dark: "#1D4ED8", bg1: "#BFDBFE", bg2: "#E0E7FF", bg3: "#93C5FD", sub: "#3B4A6B" }, // Day 2: Sky/Slate
+  { accent: "#D97706", dark: "#92400E", bg1: "#FDE68A", bg2: "#FEF3C7", bg3: "#F59E0B", sub: "#6E523A" }, // Day 3: Ochre/Amber
+  { accent: "#E05638", dark: "#A32D18", bg1: "#FCA5A5", bg2: "#FFEDD5", bg3: "#F87171", sub: "#6B3D3B" }, // Full Body: Terracotta
+  { accent: "#10B981", dark: "#047857", bg1: "#A7F3D0", bg2: "#ECFDF5", bg3: "#34D399", sub: "#385E4F" }, // Core: Emerald
+  { accent: "#8B5CF6", dark: "#6D28D9", bg1: "#DDD6FE", bg2: "#F3E8FF", bg3: "#A78BFA", sub: "#52446B" }, // Mobility: Amethyst
+  { accent: "#14B8A6", dark: "#0F766E", bg1: "#99F6E4", bg2: "#CCFBF1", bg3: "#2DD4BF", sub: "#3A5C58" }, // Cardio: Teal
+  { accent: "#64748B", dark: "#334155", bg1: "#CBD5E1", bg2: "#F1F5F9", bg3: "#94A3B8", sub: "#475569" }, // Travel
+  { accent: "#84CC16", dark: "#4D7C0F", bg1: "#D9F99D", bg2: "#FEF08A", bg3: "#A3E635", sub: "#4C6B2B" }, // Journey
+  { accent: "#F59E0B", dark: "#B45309", bg1: "#FDE68A", bg2: "#FEF3C7", bg3: "#FBBF24", sub: "#634D2A" }  // Macros
+];
+
+function applyTheme(idx){
+  var p = PALETTES[idx] || PALETTES[0];
+  document.documentElement.style.setProperty('--theme-accent', p.accent);
+  document.documentElement.style.setProperty('--theme-accent-dark', p.dark);
+  document.documentElement.style.setProperty('--theme-bg-1', p.bg1);
+  document.documentElement.style.setProperty('--theme-bg-2', p.bg2);
+  document.documentElement.style.setProperty('--theme-bg-3', p.bg3);
+  document.documentElement.style.setProperty('--theme-sub', p.sub);
+}
 
 var PHASES=[
   {name:"Phase 1: Foundation & Hypertrophy",weeks:8,cls:"b1",desc:"Weeks 1–8: Focus on hypertrophy, hamstring awakening, deep core bracing, and band-assisted pull-ups. Lay muscle volume baseline."},
@@ -305,15 +829,91 @@ function getPhaseInfo(w){
 
 function yt(q){return "https://www.youtube.com/results?search_query="+encodeURIComponent(q);}
 function wlk(key,w){return "wl_"+key+"_"+w;}
-function svgCheck(){return '<svg width="10" height="8" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.2 6L8 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>';}
+function svgCheck(){return '<svg width="12" height="9" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.2 6L8 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';}
 
-// GET PREVIOUS WEEK'S LOGGED WEIGHT
 function getPrevWeight(key, curWk){
   for(var w = curWk - 1; w >= 1; w--){
     var v = S.get(wlk(key, w), "");
     if(v !== "" && v !== null && v !== undefined) return { weight: v, week: w };
   }
   return null;
+}
+
+/* AUTOMATIC CALENDAR ENGINE */
+function getTodayISO(){
+  var d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,'0') + "-" + String(d.getDate()).padStart(2,'0');
+}
+
+function logCalendarActivity(activityName){
+  var today = getTodayISO();
+  var history = S.get("cal_history", {});
+  if(!history[today]) history[today] = [];
+  if(history[today].indexOf(activityName) === -1){
+    history[today].push(activityName);
+    S.set("cal_history", history);
+  }
+  renderCalendarStrip();
+}
+
+function renderCalendarStrip(){
+  var calStrip = document.getElementById("calStrip");
+  if(!calStrip) return;
+  var history = S.get("cal_history", {});
+  var today = new Date();
+  
+  var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  document.getElementById("calMonthDisplay").textContent = months[today.getMonth()] + " " + today.getFullYear();
+  
+  var dayOfWeek = today.getDay(); // 0 is Sun
+  var startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - dayOfWeek);
+  
+  var dayNames = ["Su","Mo","Tu","We","Th","Fr","Sa"];
+  var html = "";
+  
+  for(var i=0; i<7; i++){
+    var d = new Date(startOfWeek);
+    d.setDate(startOfWeek.getDate() + i);
+    var iso = d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,'0') + "-" + String(d.getDate()).padStart(2,'0');
+    var isToday = (iso === getTodayISO());
+    var hasWorkout = (history[iso] && history[iso].length > 0);
+    
+    html += '<div class="cal-day-pill ' + (isToday ? 'active-today' : '') + ' ' + (hasWorkout ? 'has-workout' : '') + '" onclick="openCalendarDate(\'' + iso + '\')">';
+    html += '<span class="cal-dname">' + dayNames[i] + '</span>';
+    html += '<span class="cal-dnum">' + d.getDate() + '</span>';
+    html += '</div>';
+  }
+  calStrip.innerHTML = html;
+}
+
+function openCalendarDate(iso){
+  var history = S.get("cal_history", {});
+  var activities = history[iso] || [];
+  
+  var parts = iso.split("-");
+  var dObj = new Date(parts[0], parts[1]-1, parts[2]);
+  var dateStr = dObj.toLocaleDateString("en-US", { month: 'long', day: 'numeric', year: 'numeric' });
+  
+  document.getElementById("modalDateTitle").textContent = dateStr;
+  var body = document.getElementById("modalBody");
+  
+  if(activities.length === 0){
+    body.innerHTML = '<p style="font-size:13px;color:#777;padding:10px 0;">No logged workout sessions for this date.</p>';
+  } else {
+    var h = '<div class="modal-list">';
+    activities.forEach(function(act){
+      h += '<div class="modal-item">✓ ' + act + '</div>';
+    });
+    h += '</div>';
+    body.innerHTML = h;
+  }
+  
+  document.getElementById("calModal").classList.add("open");
+}
+
+function closeModal(){
+  document.getElementById("calModal").classList.remove("open");
 }
 
 function updateTopWeekUI(){
@@ -496,52 +1096,64 @@ function updateMasterProgress(){
   var msg = "";
   if(curWkPct === 0){
     msg = "Week " + currentWeek + " is waiting! Hit your first session to build momentum toward your pull-up and snatched waist goals.";
-    evalBox.className = "eval-box infobox rust";
   } else if(curWkPct < 40){
     msg = "Great start on Week " + currentWeek + " (" + curWkPct + "% complete)! Focus on blowing out all your air during TVA exhales.";
-    evalBox.className = "eval-box infobox amber";
   } else if(curWkPct < 80){
-    msg = "Consistent effort on Week " + currentWeek + " (" + curWkPct + "% complete)! Over halfway there—keep your nutrition and protein locked in!";
-    evalBox.className = "eval-box infobox green";
+    msg = "Consistent effort on Week " + currentWeek + " (" + curWkPct + "% complete)! Over halfway there—keep your nutrition locked in!";
   } else if(curWkPct < 100){
     msg = "Almost a perfect week! You're at " + curWkPct + "% for Week " + currentWeek + ". Finish your remaining sessions strong!";
-    evalBox.className = "eval-box infobox green";
   } else {
-    msg = "🔥 100% PERFECT WEEK " + currentWeek + "! Smashed all 3 gym workouts, 3 core sessions, 3 mobility routines, and 2 cardio walks. Absolute beast!";
-    evalBox.className = "eval-box infobox green";
+    msg = "🔥 100% PERFECT WEEK " + currentWeek + "! Smashed all 3 gym workouts, 3 core sessions, 3 mobility routines, and 2 cardio walks.";
   }
   evalBox.textContent = msg;
 }
 
-function check(el,key){
-  el.classList.toggle("done");
-  var isDone = el.classList.contains("done");
+function check(el, key){
+  var chkKey = "chk_" + key + "_" + currentWeek;
+  var isDone = !S.get(chkKey, false);
+  S.set(chkKey, isDone);
+
+  el.classList.toggle("done", isDone);
   var chkEl = el.querySelector(".chk");
-  if(chkEl) chkEl.innerHTML=isDone?svgCheck():"";
-  updateProg(parseInt(key[0]));
+  if(chkEl) chkEl.innerHTML = isDone ? svgCheck() : "";
+
+  var di = parseInt(key[0]);
+  var dayName = WORKOUT_DATABASE[di] ? WORKOUT_DATABASE[di].name : "Workout Day " + (di+1);
+  logCalendarActivity(dayName);
+
+  updateProg(di);
 }
 
 function updateProg(di){
-  var rows=document.querySelectorAll("#p"+di+" .exrow.tap");
-  var total=rows.length,done=0;
-  rows.forEach(function(r){if(r.classList.contains("done"))done++;});
-  var pct=total>0?Math.round(done/total*100):0;
-  var fill=document.querySelector("#p"+di+" .pfill");
-  var txt=document.querySelector("#p"+di+" .ptxt");
-  if(fill)fill.style.width=pct+"%";
-  if(txt)txt.textContent=pct+"%";
+  var pInfo = getPhaseInfo(currentWeek);
+  var exList = WORKOUT_DATABASE[di].phases[pInfo.phaseIdx];
+  var total = exList.length, done = 0;
 
-  if(pct === 100){ S.set("gym_done_"+di+"_"+currentWeek, true); }
-  else { S.set("gym_done_"+di+"_"+currentWeek, false); }
+  for(var ei=0; ei<total; ei++){
+    var key = di + "_" + pInfo.phaseIdx + "_" + ei;
+    if(S.get("chk_" + key + "_" + currentWeek, false)) done++;
+  }
+
+  var pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  var fill = document.querySelector("#p" + di + " .pfill");
+  var txt = document.querySelector("#p" + di + " .ptxt");
+  if(fill) fill.style.width = pct + "%";
+  if(txt) txt.textContent = pct + "%";
+
+  if(pct === 100){ S.set("gym_done_" + di + "_" + currentWeek, true); }
+  else { S.set("gym_done_" + di + "_" + currentWeek, false); }
+
   updateMasterProgress();
 }
 
 function resetDay(di){
-  document.querySelectorAll("#p"+di+" .exrow.tap").forEach(function(r){
-    r.classList.remove("done");
-    var c=r.querySelector(".chk"); if(c) c.innerHTML="";
-  });
-  updateProg(di);
+  var pInfo = getPhaseInfo(currentWeek);
+  var exList = WORKOUT_DATABASE[di].phases[pInfo.phaseIdx];
+  for(var ei=0; ei<exList.length; ei++){
+    var key = di + "_" + pInfo.phaseIdx + "_" + ei;
+    S.set("chk_" + key + "_" + currentWeek, false);
+  }
+  renderGymDays();
 }
 
 function buildDayHTML(di){
@@ -552,7 +1164,6 @@ function buildDayHTML(di){
   
   var h='<div class="prow"><div class="pbar"><div class="pfill"></div></div><span class="ptxt">0%</span></div>';
 
-  // Dynamic Warm-Up Section
   h+='<div class="slabel">Dynamic Warm-Up · 4 Exercises (5 Mins)</div><div class="exlist">';
   for(var wi=0; wi<wuList.length; wi++){
     var wu = wuList[wi];
@@ -562,16 +1173,16 @@ function buildDayHTML(di){
   }
   h+='</div>';
 
-  // 5 Core Lifts
   h+='<div class="slabel" style="margin-top:1.25rem;">5 Core Lifts · Phase '+ (pInfo.phaseIdx+1) +'</div><div class="exlist">';
   for(var ei=0; ei<exList.length; ei++){
     var ex=exList[ei];
     var key=di+"_"+pInfo.phaseIdx+"_"+ei;
+    var isExDone = S.get("chk_" + key + "_" + currentWeek, false);
     
-    h+='<div class="exwrap"><div class="exrow tap" onclick="check(this,\''+key+'\')">';
+    h+='<div class="exwrap"><div class="exrow tap' + (isExDone ? " done" : "") + '" onclick="check(this,\''+key+'\')">';
     h+='<div><p class="exname">'+ex[0]+'</p><p class="exnote">'+ex[2]+'</p>';
     h+='<div class="btnrow"><a href="'+yt(ex[3])+'" target="_blank" class="vtag" onclick="event.stopPropagation()">▶ Video Tutorial</a></div></div>';
-    h+='<div class="exright"><span class="exsets">'+ex[1]+'</span><div class="chk"></div></div></div>';
+    h+='<div class="exright"><span class="exsets">'+ex[1]+'</span><div class="chk">' + (isExDone ? svgCheck() : "") + '</div></div></div>';
     
     h+=buildInlineWL(key, pInfo);
     h+='</div>';
@@ -614,6 +1225,7 @@ function autoSaveWL(key, week, val){
       stat.className = "wli-stat pos";
       stat.innerHTML = "Logged W" + week + ": <b>" + val.trim() + " lbs</b>";
     }
+    logCalendarActivity("Logged Weight (" + val.trim() + " lbs)");
     updateMasterProgress();
   }
 }
@@ -622,12 +1234,14 @@ function saveWL(key, week){
   var inp=document.getElementById("wlinp_"+key);
   if(!inp || inp.value.trim()==="") return;
   S.set(wlk(key, week), inp.value.trim());
+  logCalendarActivity("Logged Weight (" + inp.value.trim() + " lbs)");
   renderGymDays();
 }
 
 function renderGymDays(){
   for(var di=0; di<3; di++){
     document.getElementById("p"+di).innerHTML = buildDayHTML(di);
+    updateProg(di);
   }
   updateMasterProgress();
 }
@@ -636,6 +1250,12 @@ function toggleHabit(type, num){
   var key = "h_" + type + "_" + num + "_" + currentWeek;
   var cur = S.get(key, false);
   S.set(key, !cur);
+  
+  if(!cur){
+    var label = type.toUpperCase() + " Session " + num;
+    logCalendarActivity(label);
+  }
+  
   renderHabitGrids();
   updateMasterProgress();
 }
@@ -681,14 +1301,21 @@ function renderFullBody(){
   var h='<div class="exlist">';
   for(var i=0; i<FULL_BODY_EX.length; i++){
     var ex=FULL_BODY_EX[i]; var k="fb_"+i;
-    h+='<div class="exrow tap'+(fullBodyChecked[k]?" done":"")+'" style="border-bottom:1px solid #EAE2D7;border-radius:9px;" onclick="togFullBody(\''+k+'\',this)">';
+    h+='<div class="exrow tap'+(fullBodyChecked[k]?" done":"")+'" style="border-bottom:1px solid rgba(0,0,0,0.06);border-radius:14px;" onclick="togFullBody(\''+k+'\',this)">';
     h+='<div><p class="exname">'+ex[0]+'</p><p class="exnote">'+ex[2]+'</p><div class="btnrow"><a href="'+yt(ex[3])+'" target="_blank" class="vtag" onclick="event.stopPropagation()">▶ Tutorial</a></div></div>';
-    h+='<div class="exright"><span class="exsets">'+ex[1]+'</span><div class="chk"></div></div></div>';
+    h+='<div class="exright"><span class="exsets">'+ex[1]+'</span><div class="chk">' + (fullBodyChecked[k] ? svgCheck() : "") + '</div></div></div>';
   }
   h+='</div>';
   document.getElementById("fullBodyList").innerHTML=h;
 }
-function togFullBody(k,el){ fullBodyChecked[k]=!fullBodyChecked[k]; el.classList.toggle("done",fullBodyChecked[k]); }
+
+function togFullBody(k,el){
+  fullBodyChecked[k]=!fullBodyChecked[k];
+  el.classList.toggle("done",fullBodyChecked[k]);
+  var chkEl = el.querySelector(".chk");
+  if(chkEl) chkEl.innerHTML = fullBodyChecked[k] ? svgCheck() : "";
+  if(fullBodyChecked[k]){ logCalendarActivity("Full Body Session"); }
+}
 function resetFullBody(){ fullBodyChecked={}; renderFullBody(); }
 
 function renderStaticList(targetId, listData){
@@ -746,8 +1373,11 @@ function importData(){
 }
 
 function go(idx,btn){
+  applyTheme(idx);
   document.querySelectorAll(".panel").forEach(function(p,i){p.classList.toggle("on",i===idx);});
-  document.querySelectorAll(".nav button").forEach(function(b,i){b.classList.toggle("on",i===idx);});
+  document.querySelectorAll(".nav button").forEach(function(b,i){b.classList.remove("on");});
+  if(btn) btn.classList.add("on");
+  
   if(idx===3) renderFullBody();
   if(idx===4) renderStaticList("tvaList", TVA_CORE_EX);
   if(idx===5) renderStaticList("hipList", HIP_MOBILITY_EX);
@@ -757,7 +1387,9 @@ function go(idx,btn){
 }
 
 // INITIALIZE
+applyTheme(0);
 updateTopWeekUI();
+renderCalendarStrip();
 renderGymDays();
 renderStaticList("travelContent", NO_GYM_TRAVEL_EX);
 renderHabitGrids();
