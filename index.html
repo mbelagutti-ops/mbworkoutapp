@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Belagutti Strong — 27-Week Training App</title>
+<title>Lean & Strong — 27-Week Training App</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 
 :root {
-  --bg-tint: #FAF7F1;
-  --wash-1: rgba(178, 58, 92, 0.55);
-  --wash-2: rgba(139, 154, 91, 0.45);
-  --theme-accent: #B23A5C;
-  --theme-accent-dark: #7A2440;
-  --theme-sub: #6D3B48;
+  --bg-tint: #FAFAF7;
+  --wash-1: rgba(220, 235, 200, 0.7);
+  --wash-2: rgba(185, 210, 150, 0.45);
+  --theme-accent: #74B228;
+  --theme-accent-dark: #447212;
+  --theme-sub: #5C6E48;
   --card-bg: rgba(255, 255, 255, 0.82);
   --card-border: rgba(255, 255, 255, 0.95);
   --text-primary: #2C221E;
@@ -31,89 +31,35 @@ body {
   transition: background-color 0.8s ease;
 }
 
-/* COMPLEX LAYERED WATERCOLOR BACKDROP */
+/* LIGHT SINGLE-COLOR WATERCOLOR WASH BACKDROP */
 .watercolor-bg {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
-  background: var(--bg-tint);
-  transition: background-color 0.9s ease;
-}
-
-/* Cold-press paper grain texture overlay */
-.paper-grain {
-  position: absolute;
-  top: -10%; left: -10%; right: -10%; bottom: -10%;
-  opacity: 0.9;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.09 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-}
-.paper-grain::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  mix-blend-mode: soft-light;
-  opacity: 0.7;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n2'><feTurbulence type='turbulence' baseFrequency='0.012' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.18 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n2)'/></svg>");
+  background: radial-gradient(circle at 50% 15%, var(--bg-tint) 0%, #FAFAF6 100%);
 }
 
 .wash-blob {
   position: absolute;
-  filter: blur(60px);
-  mix-blend-mode: multiply;
+  border-radius: 50%;
+  filter: blur(65px);
   transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .wash-1 {
-  width: 460px; height: 420px;
-  top: -130px; left: -110px;
-  background: radial-gradient(circle at 38% 32%, var(--wash-1) 0%, var(--wash-1) 45%, transparent 78%);
-  opacity: 0.95;
-  border-radius: 42% 58% 65% 35% / 45% 40% 60% 55%;
-  filter: blur(42px);
+  width: 480px; height: 480px;
+  top: -120px; left: -80px;
+  background: var(--wash-1);
+  opacity: 0.85;
 }
+
 .wash-2 {
-  width: 520px; height: 480px;
-  top: 160px; right: -170px;
-  background: radial-gradient(circle at 62% 42%, var(--wash-2) 0%, var(--wash-2) 42%, transparent 76%);
-  opacity: 0.8;
-  border-radius: 58% 42% 40% 60% / 55% 60% 40% 45%;
-  filter: blur(58px);
-}
-.wash-3 {
-  width: 400px; height: 440px;
-  bottom: -110px; left: -90px;
-  background: var(--wash-1);
-  opacity: 0.4;
-  border-radius: 50% 50% 38% 62% / 60% 45% 55% 40%;
-  filter: blur(90px);
-}
-.wash-4 {
-  width: 480px; height: 420px;
-  bottom: 40px; right: -150px;
+  width: 520px; height: 520px;
+  top: 220px; right: -140px;
   background: var(--wash-2);
-  opacity: 0.5;
-  border-radius: 46% 54% 62% 38% / 40% 55% 45% 60%;
-  filter: blur(95px);
-}
-.wash-5 {
-  width: 320px; height: 320px;
-  top: 44%; left: 28%;
-  background: var(--wash-1);
-  opacity: 0.22;
-  border-radius: 55% 45% 50% 50% / 45% 55% 45% 55%;
-  filter: blur(105px);
-}
-.wash-6 {
-  width: 260px; height: 300px;
-  top: 8%; right: 12%;
-  background: radial-gradient(circle, #FFFFFF 0%, #FFFFFF 30%, transparent 72%);
-  opacity: 0.35;
-  mix-blend-mode: screen;
-  border-radius: 50% 50% 45% 55% / 55% 45% 55% 45%;
-  filter: blur(60px);
+  opacity: 0.75;
 }
 
 .wrap {
@@ -530,7 +476,6 @@ h1 {
 
 .exlist { display: flex; flex-direction: column; gap: 10px; }
 
-/* COMPLETE TILE WRAPPER WITH FULLY DISABLED STATE */
 .exwrap {
   display: flex;
   flex-direction: column;
@@ -583,9 +528,9 @@ h1 {
   gap: 10px;
 }
 .exrow.tap { cursor: pointer; }
-.exwrap.done .chk {
-  background: var(--theme-accent-dark);
-  border-color: var(--theme-accent-dark);
+.exwrap.done .chk { 
+  background: var(--theme-accent-dark); 
+  border-color: var(--theme-accent-dark); 
   color: #FFFFFF;
 }
 .exname { font-size: 14.5px; font-weight: 800; margin: 0 0 2px; color: var(--text-primary); }
@@ -759,15 +704,10 @@ h1 {
 </head>
 <body>
 
-<!-- COMPLEX WATERCOLOR CANVAS BACKDROP -->
+<!-- LIGHT WATERCOLOR CANVAS BACKDROP -->
 <div class="watercolor-bg">
   <div class="wash-blob wash-1"></div>
   <div class="wash-blob wash-2"></div>
-  <div class="wash-blob wash-3"></div>
-  <div class="wash-blob wash-4"></div>
-  <div class="wash-blob wash-5"></div>
-  <div class="wash-blob wash-6"></div>
-  <div class="paper-grain"></div>
 </div>
 
 <div class="wrap">
@@ -810,7 +750,7 @@ h1 {
     </div>
     <div id="evalBox" class="eval-box"></div>
   </div>
-
+  
   <!-- VISUALLY SEPARATED NAVIGATION MENU -->
   <div class="nav-section-card">
     <div class="nav-section-label">Weekly Routine & Workouts</div>
@@ -874,7 +814,7 @@ h1 {
     <div class="infobox">Steady-State Zone 2 Cardio: 30 minutes, 2x per week on non-lifting days. Keeps energy high and body fat low without burning out heavy lifting recovery.</div>
     <div class="slabel">Week <span class="curWkNum">1</span> Cardio Target (2x / Week)</div>
     <div class="habit-grid two-col" id="cardioHabits"></div>
-
+    
     <div class="slabel">Cardio Recommendations</div>
     <div class="exrow-s"><div><p class="exname">Incline Treadmill Walk</p><p class="exnote">8–10% incline at 2.8–3.2 mph. Best glute-friendly Zone 2 stimulus.</p></div><div class="exright"><span class="exsets">30 min</span></div></div>
     <div class="exrow-s"><div><p class="exname">Stationary Cycling</p><p class="exnote">Easy on knee joints on off-days after heavy squat sessions.</p></div><div class="exright"><span class="exsets">30 min</span></div></div>
@@ -898,7 +838,7 @@ h1 {
     </div>
     <div id="blockBadge" class="blockbadge">Phase 1 — Hypertrophy · Week 1 of 8</div>
     <div id="blockInfo" class="blockinfo"></div>
-
+    
     <div class="iobox">
       <p><b>Prevent Data Loss:</b> Backup or restore your weight logs as a text file so your history is never wiped by iPhone browser clears.</p>
       <div class="iobtns">
@@ -938,28 +878,28 @@ h1 {
 var S={get:function(k,d){try{var v=localStorage.getItem(k);return v!==null?JSON.parse(v):d;}catch(e){return d;}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
 var currentWeek=S.get("cw",1);
 
-/* WATERCOLOR SWATCH PALETTES — KEYED FROM THE USER'S REFERENCE COLOR CARD */
+/* LIGHT SINGLE-COLOR WATERCOLOR SWATCH PALETTES BASED EXACTLY ON USER SWATCH IMAGE */
 var PALETTES = [
-  // Day 1: Quads (Olive Green swatch)
-  { tint: "#F7F8ED", wash1: "rgba(139, 154, 91, 0.60)", wash2: "rgba(107, 112, 71, 0.45)", accent: "#8B9A5B", dark: "#5A6339", sub: "#5C6B3E" },
-  // Day 2: Push/Pull (Dusty Teal-Blue swatch)
-  { tint: "#F1F8F8", wash1: "rgba(127, 168, 172, 0.60)", wash2: "rgba(88, 132, 137, 0.45)", accent: "#5D9BA0", dark: "#37676C", sub: "#3F6266" },
-  // Day 3: Posterior (Terracotta Orange swatch)
-  { tint: "#FBF3EC", wash1: "rgba(217, 122, 76, 0.58)", wash2: "rgba(183, 88, 46, 0.42)", accent: "#D97A4C", dark: "#A34315", sub: "#7A4B32" },
-  // Full Body (Deep Berry Magenta swatch)
-  { tint: "#FAF1F4", wash1: "rgba(178, 58, 92, 0.55)", wash2: "rgba(139, 30, 63, 0.40)", accent: "#B23A5C", dark: "#7A2440", sub: "#6D3B48" },
-  // TVA Core (Golden Mustard swatch)
-  { tint: "#FBF7E9", wash1: "rgba(212, 180, 64, 0.62)", wash2: "rgba(185, 138, 46, 0.42)", accent: "#C9A227", dark: "#8A6A14", sub: "#6E5A22" },
-  // Hip Mobility (Warm Oatmeal / Beige swatch)
-  { tint: "#FAF6EC", wash1: "rgba(217, 203, 163, 0.62)", wash2: "rgba(184, 163, 118, 0.42)", accent: "#B69B6C", dark: "#7F683F", sub: "#665741" },
-  // Cardio: 2x (Muted Mauve swatch)
-  { tint: "#F9F3F5", wash1: "rgba(183, 154, 174, 0.55)", wash2: "rgba(146, 112, 133, 0.40)", accent: "#A87F98", dark: "#6F4A63", sub: "#67495B" },
-  // Travel (Lavender Pink swatch)
-  { tint: "#FAF3F6", wash1: "rgba(217, 168, 194, 0.55)", wash2: "rgba(194, 132, 163, 0.40)", accent: "#CE83A6", dark: "#93516F", sub: "#6D4557" },
-  // Journey (Golden Yellow swatch)
-  { tint: "#FBF6E7", wash1: "rgba(212, 180, 64, 0.60)", wash2: "rgba(201, 162, 39, 0.42)", accent: "#D4B440", dark: "#8F7315", sub: "#6E5A22" },
-  // Macros (Cream / Sand Beige swatch)
-  { tint: "#FAF6EE", wash1: "rgba(217, 203, 163, 0.60)", wash2: "rgba(196, 178, 130, 0.40)", accent: "#C7AD79", dark: "#8C7343", sub: "#6A5A40" }
+  // Day 1: Quads (Olive / Sage Green Swatch)
+  { tint: "#F8FAF3", wash1: "rgba(180, 195, 140, 0.55)", wash2: "rgba(140, 160, 100, 0.35)", accent: "#728C38", dark: "#4E6322", sub: "#5C6E3E" },
+  // Day 2: Push/Pull (Muted Teal / Slate Blue Swatch)
+  { tint: "#F4FAFC", wash1: "rgba(165, 200, 212, 0.55)", wash2: "rgba(120, 165, 180, 0.35)", accent: "#4A8B99", dark: "#2C6370", sub: "#426570" },
+  // Day 3: Posterior (Warm Terracotta Orange Swatch)
+  { tint: "#FAF5F0", wash1: "rgba(235, 170, 130, 0.55)", wash2: "rgba(215, 130, 85, 0.35)", accent: "#D46838", dark: "#A34315", sub: "#73503C" },
+  // Full Body (Deep Rose / Berry Pink Swatch)
+  { tint: "#FAF2F4", wash1: "rgba(225, 150, 170, 0.55)", wash2: "rgba(195, 90, 120, 0.35)", accent: "#C84B68", dark: "#922642", sub: "#6D3B48" },
+  // TVA Core (Warm Honey Yellow Swatch)
+  { tint: "#FAF8EE", wash1: "rgba(240, 215, 130, 0.60)", wash2: "rgba(220, 185, 80, 0.38)", accent: "#C99E28", dark: "#917010", sub: "#695D2A" },
+  // Hip Mobility (Soft Oatmeal Beige Swatch)
+  { tint: "#FAF7F2", wash1: "rgba(230, 212, 180, 0.65)", wash2: "rgba(205, 180, 140, 0.40)", accent: "#A68656", dark: "#785F33", sub: "#615340" },
+  // Cardio: 2x (Muted Aqua Blue Swatch)
+  { tint: "#F3FAFA", wash1: "rgba(155, 205, 205, 0.55)", wash2: "rgba(110, 175, 180, 0.35)", accent: "#3B9B9B", dark: "#226C6C", sub: "#386161" },
+  // Travel (Soft Dusty Pink Swatch)
+  { tint: "#FAF4F6", wash1: "rgba(225, 180, 195, 0.55)", wash2: "rgba(195, 140, 160, 0.35)", accent: "#B56B86", dark: "#853D56", sub: "#614450" },
+  // Journey (Honey Ochre Swatch)
+  { tint: "#FAF7ED", wash1: "rgba(235, 200, 120, 0.60)", wash2: "rgba(205, 165, 75, 0.38)", accent: "#BD8C22", dark: "#876210", sub: "#5C4F2B" },
+  // Macros (Warm Sand Beige Swatch)
+  { tint: "#FAF6F1", wash1: "rgba(235, 215, 185, 0.65)", wash2: "rgba(210, 185, 145, 0.40)", accent: "#A88350", dark: "#7A5B2B", sub: "#5E503C" }
 ];
 
 function applyTheme(idx){
