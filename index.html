@@ -139,7 +139,7 @@ h1 {
   box-shadow: 0 2px 5px rgba(0,0,0,0.04);
 }
 
-/* FROSTED AUTOMATIC CALENDAR STRIP */
+/* FROSTED AUTOMATIC CALENDAR STRIP & EXPANDABLE MONTH VIEW */
 .calendar-card {
   background: var(--card-bg);
   backdrop-filter: blur(20px);
@@ -164,11 +164,32 @@ h1 {
   text-transform: uppercase;
   color: var(--theme-sub);
 }
+.cal-month-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 .cal-month-lbl {
   font-size: 12px;
   font-weight: 700;
   color: var(--text-primary);
 }
+.cal-expand-btn {
+  background: rgba(0,0,0,0.04);
+  border: none;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.cal-expand-btn:hover { background: rgba(0,0,0,0.08); }
+
 .cal-strip {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -213,6 +234,24 @@ h1 {
 .cal-dnum {
   font-size: 14px;
   font-weight: 800;
+}
+.cal-stats-box {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 14px;
+}
+.cal-stats-count {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--theme-accent-dark);
+  margin-bottom: 2px;
+}
+.cal-stats-msg {
+  font-size: 12px;
+  color: var(--theme-sub);
+  line-height: 1.4;
 }
 
 /* MASTER PROGRESS CARD */
@@ -437,7 +476,6 @@ h1 {
 
 .exlist { display: flex; flex-direction: column; gap: 10px; }
 
-/* COMPLETE TILE WRAPPER WITH FULLY DISABLED STATE */
 .exwrap {
   display: flex;
   flex-direction: column;
@@ -447,7 +485,6 @@ h1 {
   box-shadow: 0 4px 18px rgba(0,0,0,0.02);
 }
 
-/* FULL TILE DISABLED STATE WHEN COMPLETED (FULLY DISABLED LOGIC) */
 .exwrap.done {
   opacity: 0.38;
   filter: grayscale(45%) contrast(0.92);
@@ -467,7 +504,6 @@ h1 {
   border-color: rgba(220, 224, 212, 0.8);
 }
 
-/* LOCKING & DISABLING WEIGHT INPUT + BUTTON ON COMPLETED TILE */
 .exwrap.done .wli-inp,
 .exwrap.done .wli-save {
   pointer-events: none !important;
@@ -691,13 +727,16 @@ h1 {
     </div>
   </div>
 
-  <!-- PERSISTENT AUTOMATIC CALENDAR STRIP -->
+  <!-- PERSISTENT AUTOMATIC CALENDAR STRIP & EXPANDABLE MONTH VIEW -->
   <div class="calendar-card">
     <div class="cal-title-row">
       <span class="cal-title">Activity Calendar</span>
-      <span class="cal-month-lbl" id="calMonthDisplay">August 2026</span>
+      <div class="cal-month-wrap">
+        <span class="cal-month-lbl" id="calMonthDisplay">August 2026</span>
+        <button id="calToggleBtn" class="cal-expand-btn" onclick="toggleCalendar()">▼</button>
+      </div>
     </div>
-    <div class="cal-strip" id="calStrip"></div>
+    <div id="calStrip"></div>
   </div>
 
   <!-- MASTER PROGRESS & EVALUATION CARD -->
@@ -907,7 +946,14 @@ function getPrevWeight(key, curWk){
   return null;
 }
 
-/* AUTOMATIC CALENDAR ENGINE */
+/* AUTOMATIC EXPANDABLE CALENDAR ENGINE */
+var calExpanded = false;
+
+function toggleCalendar() {
+  calExpanded = !calExpanded;
+  renderCalendarStrip();
+}
+
 function getTodayISO(){
   var d = new Date();
   return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,'0') + "-" + String(d.getDate()).padStart(2,'0');
@@ -929,29 +975,83 @@ function renderCalendarStrip(){
   if(!calStrip) return;
   var history = S.get("cal_history", {});
   var today = new Date();
+  var currentMonth = today.getMonth();
+  var currentYear = today.getFullYear();
+  var todayISO = getTodayISO();
   
   var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-  document.getElementById("calMonthDisplay").textContent = months[today.getMonth()] + " " + today.getFullYear();
-  
-  var dayOfWeek = today.getDay();
-  var startOfWeek = new Date(today);
-  startOfWeek.setDate(today.getDate() - dayOfWeek);
+  document.getElementById("calMonthDisplay").textContent = months[currentMonth] + " " + currentYear;
   
   var dayNames = ["Su","Mo","Tu","We","Th","Fr","Sa"];
   var html = "";
   
-  for(var i=0; i<7; i++){
-    var d = new Date(startOfWeek);
-    d.setDate(startOfWeek.getDate() + i);
-    var iso = d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,'0') + "-" + String(d.getDate()).padStart(2,'0');
-    var isToday = (iso === getTodayISO());
-    var hasWorkout = (history[iso] && history[iso].length > 0);
+  if (!calExpanded) {
+    document.getElementById("calToggleBtn").innerHTML = "▼";
+    html += '<div class="cal-strip">';
+    var dayOfWeek = today.getDay();
+    var startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - dayOfWeek);
     
-    html += '<div class="cal-day-pill ' + (isToday ? 'active-today' : '') + ' ' + (hasWorkout ? 'has-workout' : '') + '" onclick="openCalendarDate(\'' + iso + '\')">';
-    html += '<span class="cal-dname">' + dayNames[i] + '</span>';
-    html += '<span class="cal-dnum">' + d.getDate() + '</span>';
+    for(var i=0; i<7; i++){
+      var d = new Date(startOfWeek);
+      d.setDate(startOfWeek.getDate() + i);
+      var iso = d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,'0') + "-" + String(d.getDate()).padStart(2,'0');
+      var isToday = (iso === todayISO);
+      var hasWorkout = (history[iso] && history[iso].length > 0);
+      
+      html += '<div class="cal-day-pill ' + (isToday ? 'active-today' : '') + ' ' + (hasWorkout ? 'has-workout' : '') + '" onclick="openCalendarDate(\'' + iso + '\')">';
+      html += '<span class="cal-dname">' + dayNames[i] + '</span>';
+      html += '<span class="cal-dnum">' + d.getDate() + '</span>';
+      html += '</div>';
+    }
+    html += '</div>';
+  } else {
+    document.getElementById("calToggleBtn").innerHTML = "▲";
+    
+    html += '<div class="cal-strip" style="margin-bottom: 8px;">';
+    for(var i=0; i<7; i++){
+      html += '<div style="text-align:center; font-size:10px; font-weight:700; color:var(--theme-sub); opacity:0.75;">' + dayNames[i] + '</div>';
+    }
+    html += '</div>';
+
+    html += '<div class="cal-strip" style="row-gap: 8px;">';
+    var firstDay = new Date(currentYear, currentMonth, 1);
+    var lastDay = new Date(currentYear, currentMonth + 1, 0);
+    var startPad = firstDay.getDay();
+    var totalDays = lastDay.getDate();
+
+    for(var i=0; i<startPad; i++){
+      html += '<div class="cal-day-pill" style="visibility:hidden;"></div>';
+    }
+
+    var monthlyWorkouts = 0;
+
+    for(var day=1; day<=totalDays; day++){
+      var iso = currentYear + "-" + String(currentMonth+1).padStart(2,'0') + "-" + String(day).padStart(2,'0');
+      var isToday = (iso === todayISO);
+      var hasWorkout = (history[iso] && history[iso].length > 0);
+
+      if (hasWorkout) monthlyWorkouts++;
+
+      html += '<div class="cal-day-pill ' + (isToday ? 'active-today' : '') + ' ' + (hasWorkout ? 'has-workout' : '') + '" onclick="openCalendarDate(\'' + iso + '\')" style="padding: 6px 2px;">';
+      html += '<span class="cal-dnum">' + day + '</span>';
+      html += '</div>';
+    }
+    html += '</div>';
+
+    var msg = "";
+    if (monthlyWorkouts === 0) msg = "Every master was once a beginner. Start small today—just 15 minutes makes a difference!";
+    else if (monthlyWorkouts <= 5) msg = "You're getting started! Remember, consistency beats intensity. Keep building that momentum.";
+    else if (monthlyWorkouts <= 12) msg = "Great rhythm! You are building a solid foundation. Keep showing up for yourself.";
+    else if (monthlyWorkouts <= 20) msg = "Incredible consistency! The habits are locking in and your body is transforming.";
+    else msg = "Absolute machine! You are operating at an elite level of discipline. Keep dominating!";
+
+    html += '<div class="cal-stats-box">';
+    html += '<div class="cal-stats-count">' + monthlyWorkouts + ' Active Days This Month</div>';
+    html += '<div class="cal-stats-msg">' + msg + '</div>';
     html += '</div>';
   }
+  
   calStrip.innerHTML = html;
 }
 
