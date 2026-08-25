@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Lean & Strong — 27-Week Training App</title>
+<title>Belagutti Strong — 27-Week Training App</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 
@@ -774,7 +774,7 @@ h1 {
   <!-- TOP HEADER & SINGLE WEEK + PHASE TRACKER -->
   <div class="header-row">
     <div>
-      <h1>Lean & Strong</h1>
+      <h1>Belagutti Strong</h1>
       <p class="sub">27-Wk Periodization · TVA Corset · Pull-Up Goal</p>
     </div>
     <div class="top-week-picker">
@@ -937,6 +937,7 @@ h1 {
 <script>
 var S={get:function(k,d){try{var v=localStorage.getItem(k);return v!==null?JSON.parse(v):d;}catch(e){return d;}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
 var currentWeek=S.get("cw",1);
+var currentTabIdx = 0;
 
 /* WATERCOLOR SWATCH PALETTES — KEYED FROM THE USER'S REFERENCE COLOR CARD */
 var PALETTES = [
@@ -962,8 +963,10 @@ var PALETTES = [
   { tint: "#FAF6EE", wash1: "rgba(217, 203, 163, 0.60)", wash2: "rgba(196, 178, 130, 0.40)", accent: "#C7AD79", dark: "#8C7343", sub: "#6A5A40" }
 ];
 
-function applyTheme(idx){
-  var p = PALETTES[idx] || PALETTES[0];
+function applyTheme(tabIdx){
+  if(tabIdx !== undefined) currentTabIdx = tabIdx;
+  var paletteIdx = (currentTabIdx + (currentWeek - 1)) % PALETTES.length;
+  var p = PALETTES[paletteIdx];
   document.documentElement.style.setProperty('--bg-tint', p.tint);
   document.documentElement.style.setProperty('--wash-1', p.wash1);
   document.documentElement.style.setProperty('--wash-2', p.wash2);
@@ -1512,7 +1515,7 @@ function renderHabitGrids(){
     var ch = "";
     for(var c=1; c<=2; c++){
       var cDone = S.get("h_cardio_" + c + "_" + currentWeek, false);
-      ch += '<div class="habit-btn' + (cDone ? " done" : "") + '" onclick="toggleHabit(\'cardio\',' + c + ')">';
+      ch += '<div class="habit-btn' + (cDone ? " done" : "") + '" onclick="toggleHabit(\ mecardio\',' + c + ')">';
       ch += '<span>Cardio Session ' + c + ' (30m)</span><div class="h-chk">' + (cDone ? svgCheck() : "") + '</div></div>';
     }
     cGrid.innerHTML = ch;
@@ -1523,6 +1526,7 @@ function changeWeek(d){
   currentWeek=Math.max(1, Math.min(27, currentWeek+d));
   S.set("cw", currentWeek);
   updateTopWeekUI();
+  applyTheme(currentTabIdx);
   renderGymDays();
   renderHabitGrids();
   var sl=document.getElementById("wkSlider");
@@ -1565,6 +1569,7 @@ function updateJourney(){
   var w=parseInt(document.getElementById("wkSlider").value);
   currentWeek=w; S.set("cw",w);
   updateTopWeekUI();
+  applyTheme(currentTabIdx);
   document.getElementById("wkNum").textContent="Week "+w;
   var pInfo=getPhaseInfo(w);
   var badge=document.getElementById("blockBadge");
