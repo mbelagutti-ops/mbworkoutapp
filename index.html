@@ -10,8 +10,8 @@
   --theme-accent: #78C816;
   --theme-accent-dark: #4F880B;
   --theme-bg-1: #C5E898;
-  --theme-bg-2: #EFE1B4;
-  --theme-bg-3: #92C570;
+  --theme-bg-2: #F7F3CF;
+  --theme-bg-3: #8EB765;
   --theme-card-bg: rgba(255, 255, 255, 0.88);
   --theme-card-border: rgba(255, 255, 255, 0.95);
   --theme-sub: #5E6E4E;
@@ -24,29 +24,31 @@ body {
   line-height: 1.5;
   min-height: 100vh;
   position: relative;
-  background-color: #F4F7EE;
+  background-color: #EBF3DF;
   overflow-x: hidden;
 }
 
-/* DYNAMIC WATERCOLOR CANVAS BACKDROP */
+/* HIGH-ACCURACY WATERCOLOR BOKEH BACKDROP (MATCHING SCREENSHOT) */
 .watercolor-bg {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
+  background: linear-gradient(165deg, #F9FAF0 0%, #E3EFCB 30%, #C7E3A6 65%, #A2CE7B 100%);
   transition: all 1.2s ease;
 }
 .blob {
   position: absolute;
-  filter: blur(70px);
-  opacity: 0.65;
+  filter: blur(55px);
+  opacity: 0.75;
   border-radius: 50%;
   transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.blob-1 { width: 340px; height: 340px; top: -60px; left: -60px; background: var(--theme-bg-1); }
-.blob-2 { width: 380px; height: 380px; top: 250px; right: -80px; background: var(--theme-bg-2); }
-.blob-3 { width: 300px; height: 300px; bottom: -40px; left: 20%; background: var(--theme-bg-3); }
+.blob-1 { width: 380px; height: 380px; top: -90px; left: -70px; background: var(--theme-bg-1); }
+.blob-2 { width: 420px; height: 420px; top: 160px; right: -110px; background: var(--theme-bg-2); }
+.blob-3 { width: 360px; height: 360px; bottom: -50px; left: 5%; background: var(--theme-bg-3); }
+.blob-4 { width: 280px; height: 280px; top: 40%; left: -60px; background: rgba(255, 255, 230, 0.85); filter: blur(45px); }
 
 .wrap {
   max-width: 650px;
@@ -81,7 +83,7 @@ h1 {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.78);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--theme-card-border);
@@ -377,9 +379,10 @@ h1 {
 .habit-btn.done .h-chk {
   background: #FFFFFF;
   border-color: #FFFFFF;
+  color: var(--theme-accent-dark);
 }
 
-/* EXERCISE CARDS */
+/* EXERCISE CARDS & ENTIRE DISABLED TILE STYLING */
 .prow {
   display: flex;
   align-items: center;
@@ -420,7 +423,47 @@ h1 {
 }
 
 .exlist { display: flex; flex-direction: column; gap: 10px; }
-.exwrap { display: flex; flex-direction: column; }
+
+/* COMPLETE TILE WRAPPER WITH FULLY DISABLED STATE */
+.exwrap {
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+/* FULL TILE DISABLED STATE WHEN COMPLETED */
+.exwrap.done {
+  opacity: 0.38;
+  filter: grayscale(40%) contrast(0.9);
+  background: rgba(230, 235, 222, 0.4);
+}
+.exwrap.done .exrow {
+  background: rgba(240, 243, 233, 0.7);
+  border-color: rgba(220, 225, 210, 0.8);
+}
+.exwrap.done .exname,
+.exwrap.done .exnote,
+.exwrap.done .wli-lbl,
+.exwrap.done .wli-stat {
+  color: #7A8572 !important;
+}
+.exwrap.done .wlinline {
+  background: rgba(232, 237, 224, 0.6);
+  border-color: rgba(220, 225, 210, 0.8);
+}
+/* DISABLING WEIGHT INPUTS & BUTTONS INSIDE FINISHED TILE */
+.exwrap.done .wli-inp,
+.exwrap.done .wli-save {
+  pointer-events: none;
+  opacity: 0.45;
+  background: rgba(200, 210, 190, 0.3) !important;
+  color: #778870 !important;
+  border-color: rgba(0,0,0,0.08) !important;
+  box-shadow: none !important;
+}
+
 .exrow {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -436,8 +479,11 @@ h1 {
   box-shadow: 0 4px 15px rgba(0,0,0,0.02);
 }
 .exrow.tap { cursor: pointer; }
-.exrow.done { opacity: 0.5; }
-.exrow.done .chk { background: var(--theme-accent-dark); border-color: var(--theme-accent-dark); }
+.exwrap.done .chk { 
+  background: var(--theme-accent-dark); 
+  border-color: var(--theme-accent-dark); 
+  color: #FFFFFF;
+}
 .exname { font-size: 14.5px; font-weight: 800; margin: 0 0 2px; color: #1C2415; }
 .exnote { font-size: 12px; color: #526042; margin: 0 0 8px; line-height: 1.45; }
 .btnrow { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -467,6 +513,7 @@ h1 {
   justify-content: center;
   flex-shrink: 0;
   background: #FFFFFF;
+  color: var(--theme-accent-dark);
 }
 .exrow-s {
   display: grid;
@@ -609,11 +656,12 @@ h1 {
 </head>
 <body>
 
-<!-- DYNAMIC WATERCOLOR CANVAS -->
+<!-- DYNAMIC WATERCOLOR CANVAS BACKDROP -->
 <div class="watercolor-bg">
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
   <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
 </div>
 
 <div class="wrap">
@@ -781,17 +829,17 @@ h1 {
 var S={get:function(k,d){try{var v=localStorage.getItem(k);return v!==null?JSON.parse(v):d;}catch(e){return d;}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
 var currentWeek=S.get("cw",1);
 
-// DYNAMIC WATERCOLOR THEME PALETTES PER TAB
+/* DYNAMIC WATERCOLOR PALETTES MATCHING NATURE SCREENSHOT BOKEH */
 var PALETTES = [
-  { accent: "#78C816", dark: "#4F880B", bg1: "#C5E898", bg2: "#EFE1B4", bg3: "#92C570", sub: "#5E6E4E" }, // Day 1: Moss/Lime
-  { accent: "#3B82F6", dark: "#1D4ED8", bg1: "#BFDBFE", bg2: "#E0E7FF", bg3: "#93C5FD", sub: "#3B4A6B" }, // Day 2: Sky/Slate
-  { accent: "#D97706", dark: "#92400E", bg1: "#FDE68A", bg2: "#FEF3C7", bg3: "#F59E0B", sub: "#6E523A" }, // Day 3: Ochre/Amber
-  { accent: "#E05638", dark: "#A32D18", bg1: "#FCA5A5", bg2: "#FFEDD5", bg3: "#F87171", sub: "#6B3D3B" }, // Full Body: Terracotta
+  { accent: "#78C816", dark: "#4F880B", bg1: "#C5E898", bg2: "#F7F3CF", bg3: "#8EB765", sub: "#5E6E4E" }, // Day 1: Lush Moss/Lime
+  { accent: "#3B82F6", dark: "#1D4ED8", bg1: "#C3DDFF", bg2: "#F0F4FF", bg3: "#73A8FD", sub: "#3B4A6B" }, // Day 2: Sky/Cloud
+  { accent: "#D97706", dark: "#92400E", bg1: "#FDE68A", bg2: "#FFFBEB", bg3: "#E59819", sub: "#6E523A" }, // Day 3: Ochre/Sunrise
+  { accent: "#E05638", dark: "#A32D18", bg1: "#FCA5A5", bg2: "#FFF1F0", bg3: "#E86850", sub: "#6B3D3B" }, // Full Body: Soft Coral
   { accent: "#10B981", dark: "#047857", bg1: "#A7F3D0", bg2: "#ECFDF5", bg3: "#34D399", sub: "#385E4F" }, // Core: Emerald
-  { accent: "#8B5CF6", dark: "#6D28D9", bg1: "#DDD6FE", bg2: "#F3E8FF", bg3: "#A78BFA", sub: "#52446B" }, // Mobility: Amethyst
-  { accent: "#14B8A6", dark: "#0F766E", bg1: "#99F6E4", bg2: "#CCFBF1", bg3: "#2DD4BF", sub: "#3A5C58" }, // Cardio: Teal
-  { accent: "#64748B", dark: "#334155", bg1: "#CBD5E1", bg2: "#F1F5F9", bg3: "#94A3B8", sub: "#475569" }, // Travel
-  { accent: "#84CC16", dark: "#4D7C0F", bg1: "#D9F99D", bg2: "#FEF08A", bg3: "#A3E635", sub: "#4C6B2B" }, // Journey
+  { accent: "#8B5CF6", dark: "#6D28D9", bg1: "#DDD6FE", bg2: "#F8F5FF", bg3: "#A78BFA", sub: "#52446B" }, // Mobility: Soft Lavender
+  { accent: "#14B8A6", dark: "#0F766E", bg1: "#99F6E4", bg2: "#F0FDFA", bg3: "#2DD4BF", sub: "#3A5C58" }, // Cardio: Teal Water
+  { accent: "#64748B", dark: "#334155", bg1: "#CBD5E1", bg2: "#F8FAFC", bg3: "#94A3B8", sub: "#475569" }, // Travel
+  { accent: "#84CC16", dark: "#4D7C0F", bg1: "#D9F99D", bg2: "#FCFEE7", bg3: "#A3E635", sub: "#4C6B2B" }, // Journey
   { accent: "#F59E0B", dark: "#B45309", bg1: "#FDE68A", bg2: "#FEF3C7", bg3: "#FBBF24", sub: "#634D2A" }  // Macros
 ];
 
@@ -865,7 +913,7 @@ function renderCalendarStrip(){
   var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
   document.getElementById("calMonthDisplay").textContent = months[today.getMonth()] + " " + today.getFullYear();
   
-  var dayOfWeek = today.getDay(); // 0 is Sun
+  var dayOfWeek = today.getDay();
   var startOfWeek = new Date(today);
   startOfWeek.setDate(today.getDate() - dayOfWeek);
   
@@ -1108,12 +1156,15 @@ function updateMasterProgress(){
   evalBox.textContent = msg;
 }
 
+/* PERSISTENT CHECKBOX SYSTEM STORED PER WEEK - DISABLES ENTIRE TILE */
 function check(el, key){
   var chkKey = "chk_" + key + "_" + currentWeek;
   var isDone = !S.get(chkKey, false);
   S.set(chkKey, isDone);
 
-  el.classList.toggle("done", isDone);
+  var wrap = el.closest(".exwrap");
+  if(wrap) wrap.classList.toggle("done", isDone);
+
   var chkEl = el.querySelector(".chk");
   if(chkEl) chkEl.innerHTML = isDone ? svgCheck() : "";
 
@@ -1179,7 +1230,8 @@ function buildDayHTML(di){
     var key=di+"_"+pInfo.phaseIdx+"_"+ei;
     var isExDone = S.get("chk_" + key + "_" + currentWeek, false);
     
-    h+='<div class="exwrap"><div class="exrow tap' + (isExDone ? " done" : "") + '" onclick="check(this,\''+key+'\')">';
+    h+='<div class="exwrap' + (isExDone ? " done" : "") + '">';
+    h+='<div class="exrow tap" onclick="check(this,\''+key+'\')">';
     h+='<div><p class="exname">'+ex[0]+'</p><p class="exnote">'+ex[2]+'</p>';
     h+='<div class="btnrow"><a href="'+yt(ex[3])+'" target="_blank" class="vtag" onclick="event.stopPropagation()">▶ Video Tutorial</a></div></div>';
     h+='<div class="exright"><span class="exsets">'+ex[1]+'</span><div class="chk">' + (isExDone ? svgCheck() : "") + '</div></div></div>';
