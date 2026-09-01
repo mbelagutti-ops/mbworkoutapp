@@ -759,7 +759,6 @@ h1 {
 </head>
 <body>
 
-<!-- COMPLEX WATERCOLOR CANVAS BACKDROP -->
 <div class="watercolor-bg">
   <div class="wash-blob wash-1"></div>
   <div class="wash-blob wash-2"></div>
@@ -771,7 +770,6 @@ h1 {
 </div>
 
 <div class="wrap">
-  <!-- TOP HEADER & SINGLE WEEK + PHASE TRACKER -->
   <div class="header-row">
     <div>
       <h1>Belagutti Strong</h1>
@@ -787,7 +785,6 @@ h1 {
     </div>
   </div>
 
-  <!-- PERSISTENT AUTOMATIC CALENDAR STRIP & EXPANDABLE MONTH VIEW -->
   <div class="calendar-card">
     <div class="cal-title-row">
       <span class="cal-title">Activity Calendar</span>
@@ -799,7 +796,6 @@ h1 {
     <div id="calStrip"></div>
   </div>
 
-  <!-- MASTER PROGRESS & EVALUATION CARD -->
   <div class="master-card">
     <div class="mp-head">
       <span class="mp-title">Overall Program Progress</span>
@@ -811,7 +807,6 @@ h1 {
     <div id="evalBox" class="eval-box"></div>
   </div>
 
-  <!-- VISUALLY SEPARATED NAVIGATION MENU -->
   <div class="nav-section-card">
     <div class="nav-section-label">Weekly Routine & Workouts</div>
     <div class="nav">
@@ -834,12 +829,10 @@ h1 {
     </div>
   </div>
 
-  <!-- LIFTING DAYS 0, 1, 2 -->
   <div id="p0" class="panel on"></div>
   <div id="p1" class="panel"></div>
   <div id="p2" class="panel"></div>
 
-  <!-- FULL BODY DAY -->
   <div id="p3" class="panel">
     <div class="infobox">Full Body Day: Use this complete full-body session during travel or busy weeks when you can only hit 1 workout. Keeps your muscle mass, pull-up motor patterns, and TVA alignment fully locked in.</div>
     <div class="slabel">5 Core Compound Lifts + Dead Hang Finisher</div>
@@ -851,7 +844,6 @@ h1 {
     <button class="rstbtn" onclick="resetFullBody()">reset status</button>
   </div>
 
-  <!-- TVA CORE -->
   <div id="p4" class="panel">
     <div class="infobox">Targeted TVA & Pelvic Alignment Protocol: Complete 3× per week. Pulls abdomen inward, corrects Anterior Pelvic Tilt, and eliminates standing back pain.</div>
     <div class="slabel">Week <span class="curWkNum">1</span> Core Target (3x / Week)</div>
@@ -860,7 +852,6 @@ h1 {
     <div id="tvaList"></div>
   </div>
 
-  <!-- HIP MOBILITY -->
   <div id="p5" class="panel">
     <div class="infobox">Daily Hip Mobility & Glute-Unlocking Sequence: Complete 3× per week minimum. Unlocks rotation, opens tight hip flexors, and relieves sleeping hip pain.</div>
     <div class="slabel">Week <span class="curWkNum">1</span> Mobility Target (3x / Week)</div>
@@ -869,7 +860,6 @@ h1 {
     <div id="hipList"></div>
   </div>
 
-  <!-- CARDIO (2X A WEEK) -->
   <div id="p6" class="panel">
     <div class="infobox">Steady-State Zone 2 Cardio: 30 minutes, 2x per week on non-lifting days. Keeps energy high and body fat low without burning out heavy lifting recovery.</div>
     <div class="slabel">Week <span class="curWkNum">1</span> Cardio Target (2x / Week)</div>
@@ -881,14 +871,12 @@ h1 {
     <div class="exrow-s"><div><p class="exname">Rowing Machine</p><p class="exnote">Engages upper and lower body with zero joint impact.</p></div><div class="exright"><span class="exsets">30 min</span></div></div>
   </div>
 
-  <!-- TRAVEL -->
   <div id="p7" class="panel">
     <div class="infobox">Maintenance program for travel abroad without gym access. Uses loop bands + chair/bed.</div>
     <div class="slabel">No-Gym Band & Bodyweight Routine</div>
     <div id="travelContent"></div>
   </div>
 
-  <!-- JOURNEY & BACKUP -->
   <div id="p8" class="panel">
     <div class="slabel">27-Week Phase & Week Selector</div>
     <div class="weeksel">
@@ -908,7 +896,6 @@ h1 {
     </div>
   </div>
 
-  <!-- MACROS -->
   <div id="p9" class="panel">
     <div class="slabel">South Asian Recomposition Target (5'1", 109 lbs)</div>
     <div class="macgrid">
@@ -923,7 +910,6 @@ h1 {
   </div>
 </div>
 
-<!-- CALENDAR MODAL OVERLAY -->
 <div class="modal-overlay" id="calModal">
   <div class="modal-card">
     <div class="modal-head">
@@ -1515,7 +1501,7 @@ function renderHabitGrids(){
     var ch = "";
     for(var c=1; c<=2; c++){
       var cDone = S.get("h_cardio_" + c + "_" + currentWeek, false);
-      ch += '<div class="habit-btn' + (cDone ? " done" : "") + '" onclick="toggleHabit(\ mecardio\',' + c + ')">';
+      ch += '<div class="habit-btn' + (cDone ? " done" : "") + '" onclick="toggleHabit(\'cardio\',' + c + ')">';
       ch += '<span>Cardio Session ' + c + ' (30m)</span><div class="h-chk">' + (cDone ? svgCheck() : "") + '</div></div>';
     }
     cGrid.innerHTML = ch;
